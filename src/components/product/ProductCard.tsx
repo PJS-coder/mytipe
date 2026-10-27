@@ -5,15 +5,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, ShoppingBag, Eye } from "lucide-react";
 import { Product } from "@/types/store";
-import { formatPrice, calculateDiscount } from "@/lib/utils";
+import { formatPrice, calculateDiscount, getOptimizedImageUrl } from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
 
 interface ProductCardProps {
   product: Product;
   showQuickAdd?: boolean;
+  priority?: boolean;
 }
 
-export default function ProductCard({ product, showQuickAdd = true }: ProductCardProps) {
+export default function ProductCard({
+  product,
+  showQuickAdd = true,
+  priority = false,
+}: ProductCardProps) {
   const { addItem } = useCart();
   const [isHovered, setIsHovered] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -69,9 +74,12 @@ export default function ProductCard({ product, showQuickAdd = true }: ProductCar
         className="relative aspect-square w-full bg-slate-50 overflow-hidden block"
       >
         <Image
-          src={isHovered && hoverImage ? hoverImage.url : mainImage.url}
+          src={getOptimizedImageUrl(isHovered && hoverImage ? hoverImage.url : mainImage.url, 480)}
           alt={mainImage.altText || product.title}
           fill
+          unoptimized
+          priority={priority}
+          loading={priority ? "eager" : "lazy"}
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
         />

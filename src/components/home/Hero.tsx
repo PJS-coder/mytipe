@@ -14,7 +14,7 @@ export default function Hero() {
         aria-label="Shop Mytipe Foot Alignment Socks"
       >
         <Image
-          src="/heros.png"
+          src="/heros.webp"
           alt="Mytipe - Made To Matter. Foot Alignment Socks"
           fill
           priority

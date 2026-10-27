@@ -34,3 +34,39 @@ export function calculateDiscount(price: number, compareAtPrice: number): number
   if (!compareAtPrice || compareAtPrice <= price) return 0;
   return Math.round(((compareAtPrice - price) / compareAtPrice) * 100);
 }
+
+/**
+ * Optimizes image URLs for ultra-fast loading:
+ * 1. Automatically requests Shopify CDN images at the exact display width in WebP format
+ * 2. Swaps heavy local assets with lightweight WebP versions
+ */
+export function getOptimizedImageUrl(url: string | undefined | null, width: number = 600): string {
+  if (!url) return "/heros.webp";
+
+  // Check if it's one of our optimized local WebP assets
+  if (url.startsWith("/") && url.endsWith(".png")) {
+    const webpPath = url.replace(/\.png$/, ".webp");
+    if (
+      [
+        "/heros.webp",
+        "/brave.webp",
+        "/gym-sock.webp",
+        "/office-sock.webp",
+        "/pain-sock.webp",
+        "/foot&shoedeo.webp",
+        "/carecan-hero.webp",
+        "/hero-can.webp",
+      ].includes(webpPath)
+    ) {
+      return webpPath;
+    }
+  }
+
+  // Shopify CDN: append width & format=webp so Cloudflare serves small WebP directly
+  if (url.includes("cdn.shopify.com")) {
+    const cleanUrl = url.split("?")[0];
+    return `${cleanUrl}?width=${width}&format=webp`;
+  }
+
+  return url;
+}

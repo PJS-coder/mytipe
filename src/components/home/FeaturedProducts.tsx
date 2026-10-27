@@ -52,8 +52,8 @@ export default function FeaturedProducts({
 
         {/* Product Grid */}
         <div className="mt-10 sm:mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {displayProducts.slice(0, 8).map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {displayProducts.slice(0, 8).map((product, idx) => (
+            <ProductCard key={product.id} product={product} priority={idx < 4} />
           ))}
         </div>
       </div>

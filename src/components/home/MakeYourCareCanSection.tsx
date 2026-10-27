@@ -40,7 +40,7 @@ export default function MakeYourCareCanSection() {
             <div className="lg:col-span-5 flex items-center justify-center lg:justify-end">
               <div className="relative w-full aspect-[1274/1052] max-h-[300px] sm:max-h-[340px] lg:max-h-[380px] rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200/80 shadow-xs bg-slate-50">
                 <Image
-                  src="/carecan-hero.png"
+                  src="/carecan-hero.webp"
                   alt="Make Your Care Can - Fresh By Default with Plant"
                   fill
                   sizes="(max-width: 1024px) 100vw, 40vw"

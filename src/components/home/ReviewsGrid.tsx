@@ -29,9 +29,10 @@ export default function ReviewsGrid() {
           <div className="space-y-6">
             <div className="relative aspect-3/4 w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm bg-slate-100 border border-slate-200 group">
               <Image
-                src="https://cdn.shopify.com/s/files/1/0753/9100/8966/files/Black-Ankle-Socks-4.jpg?v=1786029931"
+                src="https://cdn.shopify.com/s/files/1/0753/9100/8966/files/Black-Ankle-Socks-4.jpg?width=600&format=webp"
                 alt="MYTIPE Black Ankle Socks on feet customer review photo"
                 fill
+                unoptimized
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -54,9 +55,10 @@ export default function ReviewsGrid() {
           <div className="space-y-6">
             <div className="relative aspect-4/3 w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm bg-slate-100 border border-slate-200 group">
               <Image
-                src="https://cdn.shopify.com/s/files/1/0753/9100/8966/files/Brave-4.jpg?v=1786282778"
+                src="https://cdn.shopify.com/s/files/1/0753/9100/8966/files/Brave-4.jpg?width=600&format=webp"
                 alt="MYTIPE Brave Mode Socks on feet customer review photo"
                 fill
+                unoptimized
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -91,9 +93,10 @@ export default function ReviewsGrid() {
 
             <div className="relative aspect-3/4 w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm bg-slate-100 border border-slate-200 group">
               <Image
-                src="https://cdn.shopify.com/s/files/1/0753/9100/8966/files/White-ankle-socks-5.jpg?v=1786545033"
+                src="https://cdn.shopify.com/s/files/1/0753/9100/8966/files/White-ankle-socks-5.jpg?width=600&format=webp"
                 alt="MYTIPE Legacy White Ankle Socks on feet customer photo"
                 fill
+                unoptimized
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -104,9 +107,10 @@ export default function ReviewsGrid() {
           <div className="space-y-6">
             <div className="relative aspect-4/5 w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm bg-slate-100 border border-slate-200 group">
               <Image
-                src="https://cdn.shopify.com/s/files/1/0753/9100/8966/files/Keep-Going-4.jpg?v=1786282462"
+                src="https://cdn.shopify.com/s/files/1/0753/9100/8966/files/Keep-Going-4.jpg?width=600&format=webp"
                 alt="MYTIPE Keep Going Socks on feet customer photo"
                 fill
+                unoptimized
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />

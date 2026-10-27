@@ -26,8 +26,8 @@ export default function ProductGrid({ products, columns = 4 }: ProductGridProps)
 
   return (
     <div className={`grid ${gridClass} gap-4 sm:gap-6 lg:gap-8`}>
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+      {products.map((product, idx) => (
+        <ProductCard key={product.id} product={product} priority={idx < 4} />
       ))}
     </div>
   );

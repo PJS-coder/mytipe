@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Product } from "@/types/store";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 interface ProductBannerSectionProps {
   product: Product;
@@ -39,11 +40,12 @@ export default function ProductBannerSection({ product, bannerUrl }: ProductBann
     <section className="w-full overflow-hidden block leading-none py-2 sm:py-6 bg-white">
       <div className="w-full relative">
         <Image
-          src={activeUrl}
+          src={getOptimizedImageUrl(activeUrl, 1800)}
           alt={product.banner?.altText || `${product.title} Full Banner`}
           width={product.banner?.width || 2560}
           height={product.banner?.height || 900}
           priority
+          unoptimized={activeUrl.includes("cdn.shopify.com")}
           sizes="100vw"
           className="w-full h-auto block object-cover"
           onError={() => setImageError(true)}
