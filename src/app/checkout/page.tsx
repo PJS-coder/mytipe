@@ -263,30 +263,30 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50/50 pb-20 pt-6">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-neutral-50/50 pb-20 pt-4 sm:pt-6 w-full max-w-full overflow-x-hidden">
+      <div className="w-full max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8">
         {/* Navigation Breadcrumb */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-200">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8 pb-4 border-b border-gray-200">
           <Link
             href="/cart"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-black transition"
+            className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-gray-600 hover:text-black transition shrink-0"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Cart
           </Link>
-          <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200/60">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            256-bit SSL Secure Checkout
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-emerald-200/60 shrink-0">
+            <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600" />
+            <span>256-bit SSL Secure Checkout</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12">
           {/* LEFT COLUMN: Shipping & Payment Form */}
-          <div className="lg:col-span-7 space-y-8">
-            <form onSubmit={handleSubmitOrder} className="space-y-8" id="checkout-form">
+          <div className="lg:col-span-7 space-y-6 sm:space-y-8 w-full min-w-0">
+            <form onSubmit={handleSubmitOrder} className="space-y-6 sm:space-y-8" id="checkout-form">
               {/* 1. Contact Information */}
-              <div className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200/80 shadow-xs">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-gray-900">1. Contact Information</h2>
+              <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200/80 shadow-xs">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+                  <h2 className="text-base sm:text-lg font-bold text-gray-900">1. Contact Information</h2>
                   {!user && (
                     <Link href="/account" className="text-xs text-red-600 hover:underline font-medium">
                       Already have an account? Sign In
@@ -353,8 +353,8 @@ export default function CheckoutPage() {
               </div>
 
               {/* 2. Shipping Address */}
-              <div className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200/80 shadow-xs">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">2. Shipping Address</h2>
+              <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200/80 shadow-xs">
+                <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-4">2. Shipping Address</h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="sm:col-span-2">
@@ -466,10 +466,10 @@ export default function CheckoutPage() {
               </div>
 
               {/* 3. Payment Method */}
-              <div className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200/80 shadow-xs">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-gray-900">3. Payment Method</h2>
-                  <span className="text-xs text-gray-500 flex items-center gap-1">
+              <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200/80 shadow-xs">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+                  <h2 className="text-base sm:text-lg font-bold text-gray-900">3. Payment Method</h2>
+                  <span className="text-xs text-gray-500 flex items-center gap-1 shrink-0">
                     <Lock className="w-3.5 h-3.5 text-gray-400" /> Encrypted & Safe
                   </span>
                 </div>
@@ -478,7 +478,7 @@ export default function CheckoutPage() {
                   {/* Razorpay Online */}
                   <label
                     onClick={() => setPaymentMethod("razorpay")}
-                    className={`flex items-start gap-3.5 p-4 rounded-xl border cursor-pointer transition ${
+                    className={`flex items-start gap-3 sm:gap-3.5 p-3.5 sm:p-4 rounded-xl border cursor-pointer transition ${
                       paymentMethod === "razorpay"
                         ? "border-red-600 bg-red-50/30 ring-1 ring-red-600/20"
                         : "border-gray-200 hover:border-gray-300 bg-white"
@@ -489,29 +489,29 @@ export default function CheckoutPage() {
                       name="paymentMethod"
                       checked={paymentMethod === "razorpay"}
                       onChange={() => setPaymentMethod("razorpay")}
-                      className="mt-1 text-red-600 focus:ring-red-500"
+                      className="mt-1 text-red-600 focus:ring-red-500 shrink-0 cursor-pointer"
                     />
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <CreditCard className="w-4 h-4 text-red-600" />
-                          <span className="text-sm font-bold text-gray-900">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap sm:flex-nowrap items-start sm:items-center justify-between gap-1.5 sm:gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <CreditCard className="w-4 h-4 text-red-600 shrink-0" />
+                          <span className="text-xs sm:text-sm font-bold text-gray-900 leading-snug">
                             Pay Online (Razorpay)
                           </span>
                         </div>
-                        <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md">
+                        <span className="text-[10px] sm:text-[11px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md shrink-0">
                           Fastest Delivery
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-relaxed break-words">
                         Instant UPI (GPay, PhonePe, Paytm, BHIM), Credit/Debit Cards, NetBanking & Wallets
                       </p>
-                      <div className="flex items-center gap-2 mt-3 pt-2 border-t border-gray-100 text-[11px] text-gray-500 font-medium">
-                        <span className="bg-neutral-100 px-2 py-0.5 rounded text-gray-700 font-semibold">UPI</span>
-                        <span className="bg-neutral-100 px-2 py-0.5 rounded text-gray-700 font-semibold">Google Pay</span>
-                        <span className="bg-neutral-100 px-2 py-0.5 rounded text-gray-700 font-semibold">PhonePe</span>
-                        <span className="bg-neutral-100 px-2 py-0.5 rounded text-gray-700 font-semibold">Cards</span>
-                        <span className="bg-neutral-100 px-2 py-0.5 rounded text-gray-700 font-semibold">NetBanking</span>
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-3 pt-2.5 border-t border-gray-100 text-[10px] sm:text-[11px] text-gray-500 font-medium">
+                        <span className="bg-neutral-100 px-2 py-0.5 rounded text-gray-700 font-semibold whitespace-nowrap">UPI</span>
+                        <span className="bg-neutral-100 px-2 py-0.5 rounded text-gray-700 font-semibold whitespace-nowrap">Google Pay</span>
+                        <span className="bg-neutral-100 px-2 py-0.5 rounded text-gray-700 font-semibold whitespace-nowrap">PhonePe</span>
+                        <span className="bg-neutral-100 px-2 py-0.5 rounded text-gray-700 font-semibold whitespace-nowrap">Cards</span>
+                        <span className="bg-neutral-100 px-2 py-0.5 rounded text-gray-700 font-semibold whitespace-nowrap">NetBanking</span>
                       </div>
                     </div>
                   </label>
@@ -519,7 +519,7 @@ export default function CheckoutPage() {
                   {/* Cash on Delivery */}
                   <label
                     onClick={() => setPaymentMethod("cod")}
-                    className={`flex items-start gap-3.5 p-4 rounded-xl border cursor-pointer transition ${
+                    className={`flex items-start gap-3 sm:gap-3.5 p-3.5 sm:p-4 rounded-xl border cursor-pointer transition ${
                       paymentMethod === "cod"
                         ? "border-red-600 bg-red-50/30 ring-1 ring-red-600/20"
                         : "border-gray-200 hover:border-gray-300 bg-white"
@@ -530,14 +530,14 @@ export default function CheckoutPage() {
                       name="paymentMethod"
                       checked={paymentMethod === "cod"}
                       onChange={() => setPaymentMethod("cod")}
-                      className="mt-1 text-red-600 focus:ring-red-500"
+                      className="mt-1 text-red-600 focus:ring-red-500 shrink-0 cursor-pointer"
                     />
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <Banknote className="w-4 h-4 text-neutral-700" />
-                        <span className="text-sm font-bold text-gray-900">Cash on Delivery (COD)</span>
+                        <Banknote className="w-4 h-4 text-neutral-700 shrink-0" />
+                        <span className="text-xs sm:text-sm font-bold text-gray-900 leading-snug">Cash on Delivery (COD)</span>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-relaxed break-words">
                         Pay with cash or UPI directly when your package arrives at your doorstep.
                       </p>
                     </div>
@@ -545,21 +545,21 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Submit CTA (Desktop & Tablet) */}
+              {/* Submit CTA */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white py-4 rounded-xl font-bold text-sm tracking-wider uppercase shadow-lg shadow-red-600/20 transition flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white py-3.5 sm:py-4 px-4 rounded-xl font-bold text-xs sm:text-sm tracking-wider uppercase shadow-lg shadow-red-600/20 transition flex items-center justify-center gap-2 cursor-pointer text-center"
               >
                 {isSubmitting ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                    <span>Processing Secure Checkout...</span>
+                    <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin shrink-0" />
+                    <span className="truncate">Processing Secure Checkout...</span>
                   </>
                 ) : (
                   <>
-                    <Lock className="w-4 h-4" />
-                    <span>
+                    <Lock className="w-4 h-4 shrink-0" />
+                    <span className="truncate">
                       {paymentMethod === "razorpay"
                         ? `Pay ${formatPrice(finalTotal)} via Razorpay`
                         : `Place COD Order (${formatPrice(finalTotal)})`}
@@ -568,22 +568,22 @@ export default function CheckoutPage() {
                 )}
               </button>
 
-              <div className="flex items-center justify-center gap-6 text-xs text-gray-500">
-                <span className="flex items-center gap-1.5">
-                  <Truck className="w-3.5 h-3.5 text-gray-400" /> Express Dispatch in 24 Hrs
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs text-gray-500 text-center">
+                <span className="flex items-center gap-1.5 shrink-0">
+                  <Truck className="w-3.5 h-3.5 text-gray-400 shrink-0" /> Express Dispatch in 24 Hrs
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> 7-Day Easy Exchange
+                <span className="flex items-center gap-1.5 shrink-0">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> 7-Day Easy Exchange
                 </span>
               </div>
             </form>
           </div>
 
-          {/* RIGHT COLUMN: Sticky Order Summary */}
-          <div className="lg:col-span-5">
-            <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs sticky top-24 space-y-6">
-              <h2 className="text-base font-bold text-gray-900 pb-3 border-b border-gray-100 flex items-center justify-between">
-                <span>Order Summary ({items.length} items)</span>
+          {/* RIGHT COLUMN: Order Summary */}
+          <div className="lg:col-span-5 w-full min-w-0">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-gray-200/80 shadow-xs lg:sticky lg:top-24 space-y-5 sm:space-y-6">
+              <h2 className="text-sm sm:text-base font-bold text-gray-900 pb-3 border-b border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                <span>Order Summary ({items.length} {items.length === 1 ? "item" : "items"})</span>
                 <span className="text-xs font-normal text-gray-500">Includes all taxes</span>
               </h2>
 
@@ -607,14 +607,14 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="text-xs font-semibold text-gray-900 truncate">{item.title}</h4>
-                      <p className="text-[11px] text-gray-500 mt-0.5">{item.variantTitle}</p>
+                      <p className="text-[11px] text-gray-500 mt-0.5 truncate">{item.variantTitle}</p>
                       {item.discountBadge && (
                         <span className="inline-block text-[10px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded mt-1">
                           {item.discountBadge}
                         </span>
                       )}
                     </div>
-                    <div className="text-right">
+                    <div className="text-right shrink-0">
                       <div className="text-xs font-bold text-gray-900">
                         {formatPrice(parseFloat(item.price.amount) * item.quantity)}
                       </div>
@@ -630,12 +630,12 @@ export default function CheckoutPage() {
 
               {/* Mytipe Coins Redemption */}
               {user && userCoins > 0 && (
-                <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3.5">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Coins className="w-4 h-4 text-amber-600" />
-                      <div>
-                        <div className="text-xs font-bold text-amber-950">
+                <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 sm:p-3.5">
+                  <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2.5">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Coins className="w-4 h-4 text-amber-600 shrink-0" />
+                      <div className="min-w-0">
+                        <div className="text-xs font-bold text-amber-950 truncate">
                           Redeem Mytipe Coins ({userCoins} Available)
                         </div>
                         <div className="text-[10px] text-amber-800">
@@ -646,7 +646,7 @@ export default function CheckoutPage() {
                     <button
                       type="button"
                       onClick={() => setApplyCoins((prev) => !prev)}
-                      className={`text-xs font-bold px-3 py-1.5 rounded-lg transition ${
+                      className={`text-xs font-bold px-3 py-1.5 rounded-lg transition shrink-0 self-end xs:self-auto ${
                         applyCoins
                           ? "bg-amber-600 text-white"
                           : "bg-white border border-amber-300 text-amber-900 hover:bg-amber-100"
@@ -666,23 +666,23 @@ export default function CheckoutPage() {
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
                     placeholder="Discount code (e.g. WELCOME10)"
-                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs text-gray-900 outline-none focus:border-black uppercase tracking-wider"
+                    className="flex-1 min-w-0 px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs text-gray-900 outline-none focus:border-black uppercase tracking-wider"
                   />
                   <button
                     type="submit"
-                    className="bg-neutral-900 hover:bg-black text-white px-4 py-2.5 rounded-xl text-xs font-bold transition"
+                    className="bg-neutral-900 hover:bg-black text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shrink-0"
                   >
                     Apply
                   </button>
                 </div>
                 {couponError && (
                   <p className="text-[11px] text-red-500 flex items-center gap-1">
-                    <AlertCircle className="w-3.5 h-3.5" /> {couponError}
+                    <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {couponError}
                   </p>
                 )}
                 {couponSuccess && (
                   <p className="text-[11px] text-emerald-600 flex items-center gap-1 font-medium">
-                    <Sparkles className="w-3.5 h-3.5" /> {couponSuccess}
+                    <Sparkles className="w-3.5 h-3.5 shrink-0" /> {couponSuccess}
                   </p>
                 )}
               </form>

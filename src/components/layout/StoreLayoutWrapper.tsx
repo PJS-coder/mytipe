@@ -29,7 +29,7 @@ export default function StoreLayoutWrapper({
       <InitialPageLoader />
       <AnnouncementBar />
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 w-full max-w-full overflow-x-hidden">{children}</main>
       <Footer />
       <CartDrawer />
       <SpinWheelModal />
