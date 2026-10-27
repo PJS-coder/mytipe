@@ -17,7 +17,7 @@ export default function ProductInfo({
   selectedVariant,
   onSelectVariant,
 }: ProductInfoProps) {
-  const { addItem } = useCart();
+  const { addItem, openCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
 
@@ -96,6 +96,7 @@ export default function ProductInfo({
   const handleBuyNow = () => {
     const effectiveQty = hasExplicitPackOption ? quantity : quantity * customPackChoice;
     addItem(product, selectedVariant, effectiveQty);
+    openCart();
   };
 
   // Filter out dummy default options
