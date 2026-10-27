@@ -1,0 +1,228 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
+import { X, ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+
+export default function AuthModal() {
+  const { isAuthModalOpen, closeAuthModal, loginWithPhone, quickTestLogin } = useAuth();
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [name, setName] = useState("");
+  const [otpStep, setOtpStep] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (!isAuthModalOpen) return null;
+
+  const handleSendOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanPhone = phoneNumber.replace(/[^0-9]/g, "");
+    if (cleanPhone.length < 10) {
+      setError("Please enter a valid 10-digit mobile number");
+      return;
+    }
+    setError("");
+    setIsSubmitting(true);
+    // Simulate SMS OTP delivery
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setOtpStep(true);
+      setOtp("7788"); // Auto-fill sample OTP for seamless frictionless UX
+    }, 500);
+  };
+
+  const handleVerifyOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (otp.length < 4) {
+      setError("Please enter the 4-digit OTP");
+      return;
+    }
+    setIsSubmitting(true);
+    setTimeout(() => {
+      loginWithPhone(phoneNumber, name);
+      setIsSubmitting(false);
+      setOtpStep(false);
+      setPhoneNumber("");
+      setOtp("");
+      setError("");
+      closeAuthModal();
+    }, 400);
+  };
+
+  const handleDirectLogin = () => {
+    const cleanPhone = phoneNumber.replace(/[^0-9]/g, "");
+    if (cleanPhone.length < 10) {
+      setError("Please enter a valid 10-digit mobile number");
+      return;
+    }
+    loginWithPhone(phoneNumber, name);
+    setPhoneNumber("");
+    setError("");
+    closeAuthModal();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-[420px] bg-white text-gray-900 rounded-3xl p-7 sm:p-9 shadow-2xl border border-slate-100 flex flex-col">
+        {/* Close Button */}
+        <button
+          onClick={closeAuthModal}
+          className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-700 rounded-full hover:bg-slate-100 transition cursor-pointer"
+          aria-label="Close"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        {/* Top Brand Header with Official Logo */}
+        <div className="flex flex-col items-center text-center space-y-3 mb-6">
+          <div className="relative w-14 h-14 p-2 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-xs flex items-center justify-center">
+            <Image
+              src="/logo.png"
+              alt="Mytipe Logo"
+              width={48}
+              height={48}
+              className="object-contain"
+              priority
+            />
+          </div>
+
+          <div className="space-y-1">
+            <h2 className="text-2xl font-black text-gray-950 uppercase tracking-tight">
+              {otpStep ? "Verify Mobile OTP" : "Mobile Sign In"}
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-500 font-normal max-w-xs mx-auto leading-relaxed">
+              {otpStep
+                ? `Enter OTP sent to +91 ${phoneNumber}`
+                : "Sign in with your phone to access wallet coins & member rewards"}
+            </p>
+          </div>
+        </div>
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl font-medium animate-in shake">
+            {error}
+          </div>
+        )}
+
+        {!otpStep ? (
+          <form onSubmit={handleSendOtp} className="space-y-4">
+            <div>
+              <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                Full Name <span className="text-gray-400 font-normal lowercase">(optional)</span>
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g. Rahul Sharma"
+                className="w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 rounded-xl text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#2b76a6] focus:ring-2 focus:ring-[#2b76a6]/20 transition"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                Mobile Number <span className="text-red-500">*</span>
+              </label>
+              <div className="relative flex items-center">
+                <div className="absolute left-3.5 flex items-center gap-1.5 text-sm font-bold text-gray-600 border-r border-slate-200 pr-2.5 pointer-events-none">
+                  <span>+91</span>
+                </div>
+                <input
+                  type="tel"
+                  maxLength={10}
+                  value={phoneNumber}
+                  onChange={(e) => {
+                    setPhoneNumber(e.target.value.replace(/[^0-9]/g, ""));
+                    if (error) setError("");
+                  }}
+                  placeholder="98765 43210"
+                  required
+                  autoFocus
+                  className="w-full pl-18 pr-4 py-3.5 bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 rounded-xl text-sm font-bold tracking-wider text-gray-900 placeholder:text-gray-400 placeholder:font-normal placeholder:tracking-normal focus:outline-none focus:border-[#2b76a6] focus:ring-2 focus:ring-[#2b76a6]/20 transition"
+                />
+              </div>
+            </div>
+
+            <div className="pt-2 space-y-2.5">
+              <button
+                type="submit"
+                disabled={isSubmitting || phoneNumber.length < 10}
+                className="w-full py-3.5 sm:py-4 bg-[#2b76a6] hover:bg-[#23638c] text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl transition shadow-md hover:shadow-lg active:scale-98 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+              >
+                <span>{isSubmitting ? "Sending OTP..." : "Get OTP & Sign In"}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={handleDirectLogin}
+                disabled={phoneNumber.length < 10}
+                className="w-full py-2 text-xs text-gray-500 hover:text-gray-900 font-bold transition text-center cursor-pointer disabled:opacity-40"
+              >
+                Instant 1-Click Phone Login &rarr;
+              </button>
+            </div>
+          </form>
+        ) : (
+          <form onSubmit={handleVerifyOtp} className="space-y-4">
+            <div>
+              <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5 text-center">
+                Enter 4-Digit OTP Code
+              </label>
+              <input
+                type="text"
+                maxLength={4}
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ""))}
+                placeholder="7788"
+                required
+                autoFocus
+                className="w-full px-4 py-3.5 text-center text-2xl tracking-[0.5em] font-black bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-[#2b76a6] focus:ring-2 focus:ring-[#2b76a6]/20 transition text-gray-950"
+              />
+              <p className="text-[11px] text-emerald-700 mt-2 font-medium flex items-center gap-1.5 justify-center">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Simulated OTP: 7788 (auto-filled for instant testing)</span>
+              </p>
+            </div>
+
+            <div className="pt-2 space-y-2">
+              <button
+                type="submit"
+                disabled={isSubmitting || otp.length < 4}
+                className="w-full py-3.5 bg-[#2b76a6] hover:bg-[#23638c] text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl transition shadow-md hover:shadow-lg active:scale-98 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+              >
+                <span>{isSubmitting ? "Verifying..." : "Verify & Sign In"}</span>
+                <ShieldCheck className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setOtpStep(false)}
+                className="w-full py-2 text-xs text-gray-500 hover:text-gray-800 font-bold transition text-center cursor-pointer"
+              >
+                &larr; Change Phone Number
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Quick Demo Login Option */}
+        <div className="mt-6 pt-4 border-t border-slate-100 text-center">
+          <button
+            type="button"
+            onClick={() => {
+              quickTestLogin();
+              closeAuthModal();
+            }}
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-full transition cursor-pointer"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[#2b76a6]" />
+            <span>Quick 1-Click Demo Login</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
