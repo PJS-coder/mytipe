@@ -248,7 +248,7 @@ export default function AccountPage() {
 
         {/* ================= LOGGED OUT: MOBILE PHONE SIGN IN ================= */}
         {activeTab === "account" && !isAuthenticated && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-200 max-w-sm mx-auto space-y-4">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-sm border border-gray-200 max-w-[340px] sm:max-w-sm mx-auto space-y-4">
             <div className="text-center space-y-1">
               <h3 className="font-bold text-gray-900 text-xl tracking-tight">
                 Mobile Sign In

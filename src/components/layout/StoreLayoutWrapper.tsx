@@ -9,6 +9,7 @@ import CartDrawer from "@/components/cart/CartDrawer";
 import SpinWheelModal from "@/components/rewards/SpinWheelModal";
 import CoinFloatingWidget from "@/components/rewards/CoinFloatingWidget";
 import AuthModal from "@/components/auth/AuthModal";
+import InitialPageLoader from "@/components/common/InitialPageLoader";
 
 export default function StoreLayoutWrapper({
   children,
@@ -25,6 +26,7 @@ export default function StoreLayoutWrapper({
 
   return (
     <>
+      <InitialPageLoader />
       <AnnouncementBar />
       <Navbar />
       <main className="flex-1">{children}</main>
