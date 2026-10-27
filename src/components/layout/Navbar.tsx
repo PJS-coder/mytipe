@@ -253,6 +253,16 @@ export default function Navbar() {
                           </button>
                         )}
 
+                        {/* Account Link */}
+                        <Link
+                          href="/account"
+                          onClick={() => setUserDropdownOpen(false)}
+                          className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-gray-700 hover:bg-slate-50 transition text-left mb-1"
+                        >
+                          <UserIcon className="w-4 h-4 text-gray-500" />
+                          <span>My Account &amp; Orders</span>
+                        </Link>
+
                         {/* Sign Out */}
                         <button
                           type="button"

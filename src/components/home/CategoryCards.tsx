@@ -14,25 +14,25 @@ interface CategoryItem {
 const CATEGORIES: CategoryItem[] = [
   {
     title: "Foot & Shoe Deo",
-    href: "/collections/all-socks",
+    href: "/products/foot-shoe-deo",
     image: "/foot&shoedeo.webp",
     alt: "Mytipe Foot & Shoe Freshener Deo",
   },
   {
     title: "Pain Relief Socks",
-    href: "/products/black-foot-alignment-socks",
+    href: "/products/pain-relief-socks",
     image: "/pain-sock.webp",
     alt: "Mytipe Pain Relief Toe Alignment Socks",
   },
   {
     title: "Gym socks",
-    href: "/collections/all-socks",
+    href: "/collections/gym-socks",
     image: "/gym-sock.webp",
     alt: "Mytipe Athletic Gym Socks",
   },
   {
     title: "Office Socks",
-    href: "/collections/all-socks",
+    href: "/collections/office-socks",
     image: "/office-sock.webp",
     alt: "Mytipe Everyday Office Formal Socks",
   },

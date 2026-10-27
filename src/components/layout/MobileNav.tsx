@@ -1,21 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   X,
-  ChevronRight,
+  ChevronDown,
   Phone,
-  ShieldCheck,
-  Truck,
-  Sparkles,
-  Coins,
-  Gift,
   User as UserIcon,
   LogOut,
+  Search,
+  ShoppingBag,
+  Coins,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -23,250 +23,284 @@ interface MobileNavProps {
 }
 
 export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
-  const { user, isAuthenticated, logout, openAuthModal, openSpinWheel, hasClaimedWelcomeSpin } = useAuth();
+  const router = useRouter();
+  const { user, isAuthenticated, logout, openAuthModal } = useAuth();
+  const { totalQuantity, openCart } = useCart();
+  const [shopOpen, setShopOpen] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Prevent background scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      onClose();
+      setSearchQuery("");
+    }
+  };
+
+  const handleOpenCart = () => {
+    onClose();
+    openCart();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
         onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Drawer */}
-      <div className="relative w-full max-w-xs bg-white text-gray-900 shadow-2xl z-10 flex flex-col h-full animate-in slide-in-from-left duration-300">
-        <div className="p-4 border-b flex items-center justify-between bg-slate-50">
-          <Link href="/" onClick={onClose} className="flex items-center">
-            <div className="relative w-10 h-10 shrink-0">
+      <div className="relative w-full max-w-[300px] sm:max-w-xs bg-white text-gray-900 shadow-xl z-10 flex flex-col h-full animate-in slide-in-from-left duration-200">
+        {/* Header */}
+        <div className="h-14 px-4 border-b border-gray-100 flex items-center justify-between shrink-0">
+          <Link href="/" onClick={onClose} className="flex items-center gap-2">
+            <div className="relative w-8 h-8 shrink-0">
               <Image
                 src="/logo.png"
                 alt="Mytipe Logo"
                 fill
-                sizes="40px"
+                sizes="32px"
                 className="object-contain"
+                priority
               />
             </div>
+            <span className="font-bold text-base text-gray-900 tracking-tight">MYTIPE</span>
           </Link>
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-slate-200 transition cursor-pointer"
+            className="p-1.5 rounded-lg text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition cursor-pointer"
             aria-label="Close menu"
           >
-            <X className="w-5 h-5 text-gray-700" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* User Account / Login Header Card */}
-        <div className="p-4 bg-gradient-to-br from-[#0f1c3f] to-[#1e3a8a] text-white">
+        {/* Minimal Search Bar */}
+        <div className="px-4 py-2.5 border-b border-gray-100 shrink-0">
+          <form onSubmit={handleSearchSubmit} className="relative">
+            <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search..."
+              className="w-full pl-9 pr-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-800 placeholder-gray-400 focus:outline-hidden focus:bg-white focus:border-gray-400 transition"
+            />
+          </form>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="flex-1 overflow-y-auto px-3 py-3 space-y-0.5 text-sm font-medium text-gray-800">
+          {/* 1. Mytipe club */}
+          <Link
+            href="/mytipe-club"
+            onClick={onClose}
+            className="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-50 transition"
+          >
+            <span>Mytipe club</span>
+          </Link>
+
+          {/* 2. Make your care can */}
+          <Link
+            href="/make-your-care-can"
+            onClick={onClose}
+            className="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-50 transition"
+          >
+            <span>Make your care can</span>
+          </Link>
+
+          {/* 3. Our super hero */}
+          <Link
+            href="/products/foot-shoe-deo"
+            onClick={onClose}
+            className="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-50 transition"
+          >
+            <span>Our super hero</span>
+          </Link>
+
+          {/* 4. Shop Section with collapsible submenu */}
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={() => setShopOpen(!shopOpen)}
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-50 transition text-left cursor-pointer font-medium"
+            >
+              <span>Shop</span>
+              <ChevronDown
+                className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
+                  shopOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {shopOpen && (
+              <div className="ml-3 pl-3 border-l border-gray-200 my-1 space-y-0.5 text-[13px] text-gray-600">
+                <Link
+                  href="/collections/all-socks"
+                  onClick={onClose}
+                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition font-semibold text-gray-900"
+                >
+                  Shop All
+                </Link>
+                <Link
+                  href="/collections/rakhi-gift-for-brothers"
+                  onClick={onClose}
+                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
+                >
+                  Rakhi Gift For Brothers
+                </Link>
+                <Link
+                  href="/collections/mytipe-foot-care-kits"
+                  onClick={onClose}
+                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
+                >
+                  Mytipe Foot Care Kits
+                </Link>
+                <Link
+                  href="/collections/gym-socks"
+                  onClick={onClose}
+                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
+                >
+                  Gym Socks
+                </Link>
+                <Link
+                  href="/products/pain-relief-socks"
+                  onClick={onClose}
+                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
+                >
+                  Pain Relief Socks
+                </Link>
+                <Link
+                  href="/collections/diabetic-socks"
+                  onClick={onClose}
+                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
+                >
+                  Diabetic Socks
+                </Link>
+                <Link
+                  href="/collections/office-socks"
+                  onClick={onClose}
+                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
+                >
+                  Office Socks
+                </Link>
+                <Link
+                  href="/collections/designer-socks"
+                  onClick={onClose}
+                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
+                >
+                  Designer Socks
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <div className="pt-2 border-t border-gray-100 my-2 space-y-0.5">
+            {/* Account / Track orders */}
+            <Link
+              href="/account"
+              onClick={onClose}
+              className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-700 transition"
+            >
+              <span>Account &amp; Orders</span>
+            </Link>
+
+            {/* Cart trigger */}
+            <button
+              type="button"
+              onClick={handleOpenCart}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-gray-50 text-gray-700 transition cursor-pointer text-left"
+            >
+              <div className="flex items-center gap-2">
+                <ShoppingBag className="w-4 h-4 text-gray-500" />
+                <span>Cart</span>
+              </div>
+              {totalQuantity > 0 && (
+                <span className="text-xs bg-gray-900 text-white font-semibold px-2 py-0.5 rounded-full">
+                  {totalQuantity}
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Minimal User & Footer Strip */}
+        <div className="p-3 border-t border-gray-100 bg-gray-50/50 shrink-0 text-xs">
           {isAuthenticated && user ? (
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-amber-400 text-gray-950 font-black text-sm flex items-center justify-center uppercase shadow-md">
-                  {user.name.charAt(0)}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-gray-900 truncate">{user.name}</p>
+                  <p className="text-[11px] text-gray-500">{user.phone ? `+91 ${user.phone}` : user.email}</p>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-bold text-sm truncate">{user.name}</p>
-                  <p className="text-xs text-blue-200 truncate">{user.email}</p>
+                <div className="flex items-center gap-1 text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                  <Coins className="w-3.5 h-3.5 text-amber-600" />
+                  <span>{user.coins}</span>
                 </div>
               </div>
-
-              {/* Coin Status and Spin Trigger */}
-              <div className="flex items-center justify-between p-2.5 bg-white/10 backdrop-blur-md rounded-xl border border-white/10">
-                <div className="flex items-center gap-1.5 text-xs text-amber-300 font-bold">
-                  <Coins className="w-4 h-4 text-amber-400" />
-                  <span>{user.coins} Coins</span>
-                </div>
-                {!hasClaimedWelcomeSpin ? (
-                  <button
-                    onClick={() => {
-                      onClose();
-                      openSpinWheel();
-                    }}
-                    className="px-3 py-1 bg-gradient-to-r from-amber-400 to-amber-500 text-gray-950 text-[11px] font-black uppercase rounded-lg shadow-xs hover:scale-105 active:scale-95 transition flex items-center gap-1 cursor-pointer"
-                  >
-                    <Gift className="w-3 h-3" />
-                    <span>Claim Gift</span>
-                  </button>
-                ) : (
-                  <span className="text-[10px] text-blue-200 font-bold uppercase">Member</span>
-                )}
+              <div className="flex items-center justify-between pt-1 border-t border-gray-200/60 text-gray-500">
+                <a href="tel:7310585356" className="flex items-center gap-1 hover:text-gray-800">
+                  <Phone className="w-3 h-3" />
+                  <span>+91 7310585356</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    logout();
+                  }}
+                  className="flex items-center gap-1 text-red-600 hover:text-red-700 font-medium cursor-pointer"
+                >
+                  <LogOut className="w-3 h-3" />
+                  <span>Sign out</span>
+                </button>
               </div>
             </div>
           ) : (
-            <div className="space-y-2.5 text-center">
-              <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[10px] font-black uppercase tracking-wider">
-                <Gift className="w-3 h-3" />
-                <span>Spin &amp; Win Welcome Gift</span>
-              </div>
-              <p className="text-xs text-blue-100">
-                Sign in with your mobile number to unlock rewards &amp; discounts
-              </p>
+            <div className="space-y-2">
               <button
+                type="button"
                 onClick={() => {
                   onClose();
                   openAuthModal();
                 }}
-                className="w-full py-2.5 bg-white text-[#0f1c3f] hover:bg-slate-100 font-black text-xs uppercase tracking-wider rounded-xl transition shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-2 bg-[#0f1c3f] hover:bg-[#1a2e66] text-white text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <UserIcon className="w-4 h-4" />
-                <span>Sign in with Mobile</span>
+                <UserIcon className="w-3.5 h-3.5" />
+                <span>Sign In / Login</span>
               </button>
+              <div className="flex items-center justify-between text-gray-500 pt-0.5">
+                <a href="tel:7310585356" className="flex items-center gap-1 hover:text-gray-700">
+                  <Phone className="w-3 h-3" />
+                  <span>+91 7310585356</span>
+                </a>
+                <Link href="/account" onClick={onClose} className="hover:text-gray-900 font-medium">
+                  Track Order
+                </Link>
+              </div>
             </div>
-          )}
-        </div>
-
-        <div className="flex-1 overflow-y-auto p-4 space-y-6">
-          {/* Main Links */}
-          <div className="space-y-1">
-            {!hasClaimedWelcomeSpin && (
-              <button
-                onClick={() => {
-                  onClose();
-                  openSpinWheel();
-                }}
-                className="w-full flex items-center justify-between p-3 rounded-xl font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 transition text-left cursor-pointer"
-              >
-                <div className="flex items-center gap-2">
-                  <Gift className="w-4 h-4 text-amber-600" />
-                  <span>Spin the Wheel Gift</span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-amber-500" />
-              </button>
-            )}
-
-            <Link
-              href="/mytipe-club"
-              onClick={onClose}
-              className="flex items-center justify-between p-3 rounded-xl font-bold text-gray-800 hover:bg-slate-100 transition"
-            >
-              <span>Our super hero</span>
-              <ChevronRight className="w-4 h-4 text-gray-400" />
-            </Link>
-
-            <Link
-              href="/collections/all-socks"
-              onClick={onClose}
-              className="flex items-center justify-between p-3 rounded-xl font-bold text-gray-800 hover:bg-slate-100 transition"
-            >
-              <span>Shop All</span>
-              <ChevronRight className="w-4 h-4 text-gray-400" />
-            </Link>
-          </div>
-
-          {/* Shop Categories */}
-          <div className="pt-2 border-t">
-            <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-              Shop Categories
-            </h3>
-            <div className="space-y-1">
-              <Link
-                href="/collections/rakhi-gift-for-brothers"
-                onClick={onClose}
-                className="flex items-center justify-between p-2.5 px-3 rounded-lg text-sm text-gray-700 hover:bg-slate-100 transition"
-              >
-                <span>Rakhi Gift For Brothers</span>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-              </Link>
-              <Link
-                href="/collections/mytipe-foot-care-kits"
-                onClick={onClose}
-                className="flex items-center justify-between p-2.5 px-3 rounded-lg text-sm text-gray-700 hover:bg-slate-100 transition"
-              >
-                <span>Mytipe Foot Care Kits</span>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-              </Link>
-              <Link
-                href="/collections/gym-socks"
-                onClick={onClose}
-                className="flex items-center justify-between p-2.5 px-3 rounded-lg text-sm text-gray-700 hover:bg-slate-100 transition"
-              >
-                <span>Gym Socks</span>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-              </Link>
-              <Link
-                href="/products/pain-relief-socks"
-                onClick={onClose}
-                className="flex items-center justify-between p-2.5 px-3 rounded-lg text-sm text-gray-700 hover:bg-slate-100 transition"
-              >
-                <span>Pain Relief Socks</span>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-              </Link>
-              <Link
-                href="/collections/diabetic-socks"
-                onClick={onClose}
-                className="flex items-center justify-between p-2.5 px-3 rounded-lg text-sm text-gray-700 hover:bg-slate-100 transition"
-              >
-                <span>Diabetic Socks</span>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-              </Link>
-              <Link
-                href="/collections/office-socks"
-                onClick={onClose}
-                className="flex items-center justify-between p-2.5 px-3 rounded-lg text-sm text-gray-700 hover:bg-slate-100 transition"
-              >
-                <span>Office Socks</span>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-              </Link>
-              <Link
-                href="/collections/designer-socks"
-                onClick={onClose}
-                className="flex items-center justify-between p-2.5 px-3 rounded-lg text-sm text-gray-700 hover:bg-slate-100 transition"
-              >
-                <span>Designer Socks</span>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Quick Perks */}
-          <div className="p-4 bg-slate-50 rounded-xl space-y-3 text-xs text-gray-600">
-            <div className="flex items-center gap-2.5">
-              <Truck className="w-4 h-4 text-blue-600 shrink-0" />
-              <span>Free Delivery Above ₹449</span>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
-              <span>Over 300,000+ Happy Customers</span>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>30-Day Pain Relief Guarantee</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Footer Actions */}
-        <div className="p-4 border-t bg-slate-50 text-xs text-gray-500 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Phone className="w-4 h-4 text-gray-600" />
-            <span>+91-7310585356</span>
-          </div>
-          {isAuthenticated ? (
-            <button
-              onClick={() => {
-                onClose();
-                logout();
-              }}
-              className="font-semibold text-red-600 hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Logout</span>
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                onClose();
-                openAuthModal();
-              }}
-              className="font-semibold text-[#0f1c3f] hover:underline cursor-pointer"
-            >
-              Sign In
-            </button>
           )}
         </div>
       </div>
     </div>
   );
 }
+
+

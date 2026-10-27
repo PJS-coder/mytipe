@@ -98,7 +98,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/products/grey-foot-alignment-socks" className="hover:text-white transition">
+                <Link href="/products/foot-shoe-deo" className="hover:text-white transition">
                   Our Super Hero
                 </Link>
               </li>
@@ -125,17 +125,17 @@ export default function Footer() {
             <h3 className="text-base sm:text-lg font-medium text-white">Categories</h3>
             <ul className="space-y-3 text-sm text-zinc-300">
               <li>
-                <Link href="/collections/all-socks" className="hover:text-white transition">
+                <Link href="/collections/designer-socks" className="hover:text-white transition">
                   Designer Socks
                 </Link>
               </li>
               <li>
-                <Link href="/collections/all-socks" className="hover:text-white transition">
+                <Link href="/collections/gym-socks" className="hover:text-white transition">
                   Gym Socks
                 </Link>
               </li>
               <li>
-                <Link href="/collections/all-socks" className="hover:text-white transition">
+                <Link href="/collections/office-socks" className="hover:text-white transition">
                   Office Socks
                 </Link>
               </li>

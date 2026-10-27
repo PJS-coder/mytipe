@@ -51,13 +51,30 @@ export default async function CollectionPage({ params }: Props) {
   const collectionProducts =
     handle === "all-socks"
       ? allProducts
-      : allProducts.filter(
-          (p) =>
-            p.collections?.includes(handle) ||
-            p.tags.includes(handle) ||
-            p.handle.includes(handle.replace("-pain", "")) ||
-            p.title.toLowerCase().includes(handle.replace("-pain", ""))
-        );
+      : allProducts.filter((p) => {
+          if (p.collections?.includes(handle) || p.tags.includes(handle)) return true;
+          const title = p.title.toLowerCase();
+          const pHandle = p.handle.toLowerCase();
+          if (handle === "rakhi-gift-for-brothers") {
+            return p.tags.includes("rakhi") || title.includes("rakhi") || pHandle.includes("kit") || pHandle.includes("duo");
+          }
+          if (handle === "mytipe-foot-care-kits") {
+            return pHandle.includes("kit") || pHandle.includes("duo") || title.includes("kit") || title.includes("duo");
+          }
+          if (handle === "gym-socks") {
+            return p.tags.includes("gym") || pHandle.includes("gym") || pHandle.includes("gripfit") || pHandle.includes("streetfit") || pHandle.includes("poweredge");
+          }
+          if (handle === "diabetic-socks") {
+            return pHandle.includes("diabetic") || pHandle.includes("health") || title.includes("diabetic") || title.includes("health");
+          }
+          if (handle === "office-socks") {
+            return pHandle.includes("legacy") || pHandle.includes("office") || pHandle.includes("metrodot") || pHandle.includes("urbandot");
+          }
+          if (handle === "designer-socks") {
+            return pHandle.includes("popcorn") || pHandle.includes("mango-grove") || pHandle.includes("mountain-vibe") || pHandle.includes("playdot") || pHandle.includes("bravemode") || pHandle.includes("keep-going");
+          }
+          return p.handle.includes(handle.replace("-pain", "")) || title.includes(handle.replace("-pain", ""));
+        });
 
   return (
     <CollectionClient

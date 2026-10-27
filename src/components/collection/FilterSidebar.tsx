@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { X, Filter, RotateCcw } from "lucide-react";
 
 interface FilterState {
@@ -10,6 +11,17 @@ interface FilterState {
   concern: string;
 }
 
+const CATEGORY_ITEMS = [
+  { label: "All Categories", handle: "all-socks", href: "/collections/all-socks" },
+  { label: "Rakhi Gift For Brothers", handle: "rakhi-gift-for-brothers", href: "/collections/rakhi-gift-for-brothers" },
+  { label: "Mytipe Foot Care Kits", handle: "mytipe-foot-care-kits", href: "/collections/mytipe-foot-care-kits" },
+  { label: "Gym Socks", handle: "gym-socks", href: "/collections/gym-socks" },
+  { label: "Pain Relief Socks", handle: "pain-relief-socks", href: "/products/pain-relief-socks" },
+  { label: "Diabetic Socks", handle: "diabetic-socks", href: "/collections/diabetic-socks" },
+  { label: "Office Socks", handle: "office-socks", href: "/collections/office-socks" },
+  { label: "Designer Socks", handle: "designer-socks", href: "/collections/designer-socks" },
+];
+
 interface FilterSidebarProps {
   filters: FilterState;
   onFilterChange: (newFilters: FilterState) => void;
@@ -17,6 +29,7 @@ interface FilterSidebarProps {
   onReset: () => void;
   isMobileDrawerOpen?: boolean;
   onCloseMobileDrawer?: () => void;
+  currentHandle?: string;
 }
 
 export default function FilterSidebar({
@@ -26,6 +39,7 @@ export default function FilterSidebar({
   onReset,
   isMobileDrawerOpen = false,
   onCloseMobileDrawer,
+  currentHandle = "",
 }: FilterSidebarProps) {
   const toggleColor = (color: string) => {
     const updated = filters.colors.includes(color)
@@ -36,20 +50,6 @@ export default function FilterSidebar({
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onFilterChange({ ...filters, maxPrice: parseInt(e.target.value, 10) });
-  };
-
-  const handleCategoryChange = (category: string) => {
-    onFilterChange({
-      ...filters,
-      category: filters.category === category ? "" : category,
-    });
-  };
-
-  const handleConcernChange = (concern: string) => {
-    onFilterChange({
-      ...filters,
-      concern: filters.concern === concern ? "" : concern,
-    });
   };
 
   const content = (
@@ -77,29 +77,29 @@ export default function FilterSidebar({
           Category
         </label>
         <div className="space-y-1">
-          {[
-            { label: "All Categories", value: "" },
-            { label: "Rakhi Gift For Brothers", value: "rakhi-gift-for-brothers" },
-            { label: "Mytipe Foot Care Kits", value: "mytipe-foot-care-kits" },
-            { label: "Gym Socks", value: "gym-socks" },
-            { label: "Pain Relief Socks", value: "pain-relief-socks" },
-            { label: "Diabetic Socks", value: "diabetic-socks" },
-            { label: "Office Socks", value: "office-socks" },
-            { label: "Designer Socks", value: "designer-socks" },
-          ].map((item) => (
-            <button
-              key={item.value}
-              onClick={() => handleCategoryChange(item.value)}
-              className={`w-full text-left text-xs px-3 py-2 rounded-lg transition flex items-center justify-between cursor-pointer ${
-                filters.category === item.value
-                  ? "bg-[#0f1c3f] text-white font-bold"
-                  : "text-gray-700 hover:bg-slate-100"
-              }`}
-            >
-              <span>{item.label}</span>
-              {filters.category === item.value && <span>&bull;</span>}
-            </button>
-          ))}
+          {CATEGORY_ITEMS.map((item) => {
+            const isActive =
+              currentHandle === item.handle ||
+              (item.handle === "all-socks" &&
+                (!currentHandle || currentHandle === "all-socks" || currentHandle === "frontpage")) ||
+              filters.category === item.handle;
+
+            return (
+              <Link
+                key={item.handle}
+                href={item.href}
+                onClick={onCloseMobileDrawer}
+                className={`w-full text-left text-xs px-3 py-2 rounded-lg transition flex items-center justify-between block ${
+                  isActive
+                    ? "bg-[#0f1c3f] text-white font-bold"
+                    : "text-gray-700 hover:bg-slate-100"
+                }`}
+              >
+                <span>{item.label}</span>
+                {isActive && <span>&bull;</span>}
+              </Link>
+            );
+          })}
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { ChevronRight, Filter, SlidersHorizontal } from "lucide-react";
 import { Collection, Product } from "@/types/store";
@@ -52,6 +52,24 @@ export default function CollectionClient({
       : "",
     concern: collection.handle.includes("-pain") ? collection.handle : "",
   });
+
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      category: [
+        "rakhi-gift-for-brothers",
+        "mytipe-foot-care-kits",
+        "gym-socks",
+        "pain-relief-socks",
+        "diabetic-socks",
+        "office-socks",
+        "designer-socks",
+      ].includes(collection.handle)
+        ? collection.handle
+        : "",
+      concern: collection.handle.includes("-pain") ? collection.handle : "",
+    }));
+  }, [collection.handle]);
 
   const handleResetFilters = () => {
     setFilters({
@@ -223,6 +241,7 @@ export default function CollectionClient({
             onReset={handleResetFilters}
             isMobileDrawerOpen={mobileFilterOpen}
             onCloseMobileDrawer={() => setMobileFilterOpen(false)}
+            currentHandle={collection.handle}
           />
 
           {/* Products Grid Area */}
