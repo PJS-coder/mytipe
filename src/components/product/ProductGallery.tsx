@@ -231,8 +231,8 @@ export default function ProductGallery({ images, title, badge }: ProductGalleryP
 
           {/* Discount / Special Badge */}
           {badge && (
-            <div className="absolute top-4 left-4 z-10 pointer-events-none">
-              <span className="bg-[#ffe4e6] text-[#e11d48] text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 pointer-events-none">
+              <span className="bg-emerald-50/95 text-emerald-800 border border-emerald-300/80 text-[10px] sm:text-xs font-extrabold px-2 py-0.5 sm:px-3.5 sm:py-1.5 rounded-full uppercase tracking-wide sm:tracking-wider shadow-xs backdrop-blur-xs">
                 {badge}
               </span>
             </div>

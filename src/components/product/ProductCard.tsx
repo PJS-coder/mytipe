@@ -56,13 +56,14 @@ export default function ProductCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Top Discount Badge */}
-      <div className="absolute top-3 left-3 z-20">
+      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-20 pointer-events-none">
         {discount && discount > 0 ? (
-          <span className="bg-[#ffe4e6] text-[#e11d48] text-[11px] font-bold tracking-wider px-2.5 py-1 rounded-full uppercase shadow-xs">
-            Save up to {discount}%
+          <span className="bg-emerald-50/95 text-emerald-800 border border-emerald-300/80 text-[9px] sm:text-[10px] md:text-[11px] font-extrabold tracking-wide sm:tracking-wider px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full uppercase shadow-xs backdrop-blur-xs inline-flex items-center">
+            <span className="hidden sm:inline">Save up to {discount}%</span>
+            <span className="sm:hidden">{discount}% OFF</span>
           </span>
         ) : (
-          <span className="bg-slate-100 text-slate-800 text-[11px] font-semibold px-2.5 py-1 rounded-full uppercase">
+          <span className="bg-white/95 text-slate-900 border border-slate-200/90 text-[9px] sm:text-[10px] md:text-[11px] font-bold tracking-wide sm:tracking-wider px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full uppercase shadow-xs backdrop-blur-xs inline-flex items-center">
             Best Seller
           </span>
         )}
@@ -114,7 +115,7 @@ export default function ProductCard({
 
           {/* Pricing */}
           <div className="mt-1.5 flex items-center justify-center gap-2">
-            <span className="text-sm sm:text-base font-black text-[#e11d48]">
+            <span className="text-sm sm:text-base font-black text-[#0f1c3f]">
               From {formatPrice(price, product.priceRange.minVariantPrice.currencyCode)}
             </span>
             {comparePrice && comparePrice > price && (

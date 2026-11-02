@@ -22,7 +22,7 @@ export default function BundleSelector({
         <label className="text-sm font-bold uppercase tracking-wider text-gray-900">
           SELECT QUANTITY &amp; SAVE:
         </label>
-        <span className="text-xs font-semibold text-[#e11d48] bg-rose-50 px-2 py-0.5 rounded-md">
+        <span className="text-xs font-semibold text-[#0f1c3f] bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">
           ⚡ Free Shipping On All Bundles
         </span>
       </div>
@@ -63,7 +63,7 @@ export default function BundleSelector({
                         className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full tracking-wider ${
                           bundle.isPopular
                             ? "bg-amber-100 text-amber-900 border border-amber-300"
-                            : "bg-[#ffe4e6] text-[#e11d48]"
+                            : "bg-blue-50 text-[#0f1c3f] border border-blue-200"
                         }`}
                       >
                         {bundle.badge}

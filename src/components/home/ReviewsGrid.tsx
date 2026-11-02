@@ -9,16 +9,31 @@ export default function ReviewsGrid() {
     <section className="py-16 sm:py-24 bg-[#faf7f2] border-t border-slate-200/80">
       <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16">
         {/* Section Header */}
-        <div className="text-center space-y-2 mb-12 sm:mb-16">
-          <div className="flex items-center justify-center gap-1.5 text-amber-500">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 fill-current text-amber-500" />
-            ))}
+        <div className="text-center space-y-3 mb-10 sm:mb-16">
+          <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-amber-200/80 shadow-xs">
+            <div className="flex items-center gap-0.5">
+              {[...Array(4)].map((_, i) => (
+                <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-500 text-amber-500" />
+              ))}
+              {/* Half Star for 4.5 */}
+              <div className="relative w-3.5 h-3.5 sm:w-4 sm:h-4">
+                <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-200 fill-gray-200" />
+                <div className="absolute inset-0 overflow-hidden w-1/2">
+                  <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-500 text-amber-500" />
+                </div>
+              </div>
+            </div>
+            <span className="text-xs sm:text-sm font-black text-gray-950">4.5 / 5.0</span>
+            <span className="text-gray-300 font-light">&bull;</span>
+            <span className="text-xs sm:text-sm text-gray-600 font-semibold">
+              25,000+ Reviews
+            </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-950 uppercase tracking-tight">
+
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-950 uppercase tracking-tight">
             OVER 300,000+ PAIRS SOLD
           </h2>
-          <p className="text-sm text-gray-600 font-medium">
+          <p className="text-xs sm:text-sm text-gray-600 font-medium max-w-lg mx-auto">
             Real customer stories and reviews from daily wearers across India
           </p>
         </div>

@@ -160,26 +160,26 @@ export default function ProductInfo({
 
       {/* Title & Subtitle */}
       <div>
-        <h1 className="text-2xl sm:text-3xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-black text-gray-950 tracking-tight leading-tight">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-gray-950 tracking-tight leading-tight">
           {product.title}
         </h1>
         {product.subtitle && (
-          <p className="text-sm sm:text-base xl:text-lg text-gray-500 mt-1.5 font-medium">{product.subtitle}</p>
+          <p className="text-xs sm:text-sm text-gray-500 mt-1 font-medium">{product.subtitle}</p>
         )}
       </div>
 
       {/* Dynamic Price Display */}
-      <div className="flex items-baseline gap-3.5 pb-2 border-b border-gray-100">
-        <span className="text-3xl sm:text-4xl xl:text-5xl font-black text-[#e11d48]">
+      <div className="flex items-baseline gap-3 pb-2 border-b border-gray-100">
+        <span className="text-2xl sm:text-3xl font-black text-[#0f1c3f]">
           {formatPrice(currentPrice, selectedVariant.price.currencyCode)}
         </span>
         {comparePrice && comparePrice > currentPrice && (
-          <span className="text-base sm:text-lg xl:text-2xl text-gray-400 line-through font-medium">
+          <span className="text-sm sm:text-base text-gray-400 line-through font-medium">
             {formatPrice(comparePrice, selectedVariant.price.currencyCode)}
           </span>
         )}
         {discountPercent > 0 && (
-          <span className="text-xs sm:text-sm xl:text-base font-bold text-emerald-700 bg-emerald-50 px-3 py-1 xl:px-4 xl:py-1.5 rounded-full border border-emerald-200">
+          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
             Save {discountPercent}%
           </span>
         )}
@@ -187,7 +187,7 @@ export default function ProductInfo({
 
       {/* Product Description directly under Price */}
       {product.description && (
-        <div className="text-sm sm:text-base xl:text-lg text-gray-600 leading-relaxed font-normal pt-1">
+        <div className="text-xs sm:text-sm text-gray-600 leading-relaxed font-normal pt-1">
           <p>{product.description}</p>
         </div>
       )}
@@ -462,14 +462,14 @@ export default function ProductInfo({
       </div>
 
       {/* Action Buttons: Single row (BUY NOW first, ADD TO CART second) */}
-      <div className="grid grid-cols-2 gap-3.5 pt-2">
+      <div className="grid grid-cols-2 gap-3 pt-1">
         <button
           type="button"
           onClick={handleBuyNow}
           disabled={!selectedVariant.availableForSale}
-          className="w-full py-4 xl:py-5 px-4 xl:px-6 bg-[#0f1c3f] hover:bg-[#1a2e66] active:scale-[0.99] text-white font-black text-xs sm:text-sm xl:text-base uppercase tracking-wider rounded-xl xl:rounded-2xl transition shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3 sm:py-3.5 px-4 bg-[#0f1c3f] hover:bg-[#1a2e66] active:scale-[0.99] text-white font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Lock className="w-4 h-4 xl:w-5 xl:h-5 shrink-0" />
+          <Lock className="w-4 h-4 shrink-0" />
           <span>BUY NOW</span>
         </button>
 
@@ -477,9 +477,9 @@ export default function ProductInfo({
           type="button"
           onClick={handleAddToCart}
           disabled={isAdding || !selectedVariant.availableForSale}
-          className="w-full py-4 xl:py-5 px-4 xl:px-6 bg-slate-900 hover:bg-black active:scale-[0.99] text-white font-bold text-xs sm:text-sm xl:text-base uppercase tracking-wider rounded-xl xl:rounded-2xl transition shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border border-slate-700"
+          className="w-full py-3 sm:py-3.5 px-4 bg-slate-900 hover:bg-black active:scale-[0.99] text-white font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition shadow-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border border-slate-700"
         >
-          <ShoppingBag className="w-4 h-4 xl:w-5 xl:h-5 shrink-0" />
+          <ShoppingBag className="w-4 h-4 shrink-0" />
           <span>
             {!selectedVariant.availableForSale
               ? "SOLD OUT"
@@ -491,13 +491,13 @@ export default function ProductInfo({
       </div>
 
       {/* Urgency & Shipping Notice Box (Under the buttons) */}
-      <div className="p-4 bg-amber-50/70 border border-amber-200/80 rounded-2xl space-y-2 text-xs xl:text-sm">
+      <div className="p-3 sm:p-3.5 bg-amber-50/70 border border-amber-200/80 rounded-xl space-y-1.5 text-xs">
         <div className="flex items-center gap-2 text-amber-900 font-bold">
-          <Zap className="w-4 h-4 xl:w-5 xl:h-5 text-amber-600 fill-amber-500 shrink-0" />
+          <Zap className="w-4 h-4 text-amber-600 fill-amber-500 shrink-0" />
           <span>Order in the next 2 hrs 15 mins for Same Day Dispatch</span>
         </div>
         <div className="flex items-center gap-2 text-gray-700">
-          <Truck className="w-4 h-4 xl:w-5 xl:h-5 text-blue-600 shrink-0" />
+          <Truck className="w-4 h-4 text-blue-600 shrink-0" />
           <span>Free Express Delivery Above ₹449 &bull; Cash on Delivery Available</span>
         </div>
       </div>

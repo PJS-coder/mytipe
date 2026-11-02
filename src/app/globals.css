@@ -50,20 +50,29 @@
   animation: soft-pulse 2s infinite ease-in-out;
 }
 
-/* Custom marquee */
+/* Custom marquee (Desktop only) */
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
 }
 
-.animate-marquee {
-  display: flex;
-  width: 200%;
-  animation: marquee 25s linear infinite;
+@media (min-width: 1024px) {
+  .animate-marquee {
+    display: flex;
+    width: 200%;
+    animation: marquee 25s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
 }
 
-.animate-marquee:hover {
-  animation-play-state: paused;
+@media (max-width: 1023px) {
+  .animate-marquee {
+    display: none !important;
+    animation: none !important;
+  }
 }
 
 /* Custom scrollbars */

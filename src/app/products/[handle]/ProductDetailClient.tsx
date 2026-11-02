@@ -14,6 +14,7 @@ import ProductFAQSection from "@/components/product/ProductFAQSection";
 import CustomerReviewsSection from "@/components/product/CustomerReviewsSection";
 import StickyAddToCart from "@/components/product/StickyAddToCart";
 import ProductCard from "@/components/product/ProductCard";
+import { getProductFaqs } from "@/lib/product-faqs";
 
 interface ProductDetailClientProps {
   product: Product;
@@ -98,7 +99,7 @@ export default function ProductDetailClient({
       <ClinicalStats />
 
       {/* Dedicated Styled Product FAQ Section */}
-      <ProductFAQSection faqs={product.faq} productTitle={product.title} />
+      <ProductFAQSection faqs={getProductFaqs(product)} productTitle={product.title} />
 
       {/* Customer Reviews Section (Isolated per product) */}
       <CustomerReviewsSection
