@@ -6014,7 +6014,7 @@
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "1999.00",
+        "amount": "999.00",
         "currencyCode": "INR"
       }
     },
@@ -6024,30 +6024,18 @@
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "4947.00",
+        "amount": "1649.00",
         "currencyCode": "INR"
       }
     },
     "featuredImage": {
-      "url": "https://images.unsplash.com/photo-1582965372486-6644f772e38c?w=800&auto=format&fit=crop&q=80",
-      "altText": "Mytipe Grey Foot Alignment Socks"
+      "url": "/uploads/1793615233363-ChatGPT_Image_Jul_31__2026__06_05_29_PM.png",
+      "altText": "Grey Foot Alignment Socks - Image 1"
     },
     "images": [
       {
-        "url": "https://images.unsplash.com/photo-1582965372486-6644f772e38c?w=800&auto=format&fit=crop&q=80",
-        "altText": "Grey Foot Alignment Socks on feet"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop&q=80",
-        "altText": "Grey Alignment Socks toe separator close-up"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&auto=format&fit=crop&q=80",
-        "altText": "Lifestyle relaxing at home with Mytipe socks"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&auto=format&fit=crop&q=80",
-        "altText": "Comfortable toe stretch demonstration"
+        "url": "/uploads/1793615233363-ChatGPT_Image_Jul_31__2026__06_05_29_PM.png",
+        "altText": "Grey Foot Alignment Socks - Image 1"
       }
     ],
     "options": [
@@ -6190,9 +6178,7 @@
     ],
     "collections": [
       "best-sellers",
-      "foot-pain",
-      "all-socks",
-      "home"
+      "all-socks"
     ],
     "rating": {
       "average": 4.9,
@@ -6204,128 +6190,6 @@
       "Increases micro-circulation & reduces fluid retention swelling",
       "Plush 90% combed cotton blend with breathable stretch",
       "Wear while resting, watching TV, reading, or sleeping"
-    ],
-    "faq": [
-      {
-        "question": "How long should I wear Mytipe Alignment Socks each day?",
-        "answer": "Start with 15–30 minutes per day while resting or sitting. As your toes and foot muscles naturally adjust, gradually increase wear time to 1–2 hours or overnight while sleeping."
-      },
-      {
-        "question": "Can I wear these alignment socks inside regular shoes?",
-        "answer": "No. These therapeutic toe-separator socks are designed with padded toe dividers to gently stretch and realign your toes. They are intended for barefoot use at home while resting, relaxing on the couch, sleeping, or during yoga."
-      },
-      {
-        "question": "How do these socks help relieve bunions, plantar fasciitis, and foot pain?",
-        "answer": "The soft cushioned dividers gently separate overlapping toes, decompressing joint stress, stretching tight tendons, and restoring natural arch alignment to relieve heel, arch, and ball-of-foot pressure."
-      },
-      {
-        "question": "Will it feel uncomfortable when I first start wearing them?",
-        "answer": "It is normal to feel a gentle stretching sensation initially as compressed toes adjust. If it feels too tight, wear them for just 10–15 minutes at first and build up duration gradually."
-      },
-      {
-        "question": "How should I wash and care for my alignment socks?",
-        "answer": "Hand wash or machine wash in cold water on a delicate cycle using mild detergent. Air dry flat in shade to keep the plush toe separators in optimal shape."
-      }
-    ]
-  },
-  {
-    "id": "prod-1002",
-    "handle": "black-foot-alignment-socks",
-    "title": "Black Foot Alignment Socks",
-    "subtitle": "Everyday Relaxing Toe Spacing Therapy",
-    "description": "Deep jet-black therapeutic toe separator socks. Designed with soft, pillowy dividers that comfortably space each toe, reducing tension across the foot arch and plantar fascia.",
-    "availableForSale": true,
-    "priceRange": {
-      "minVariantPrice": {
-        "amount": "999.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "1999.00",
-        "currencyCode": "INR"
-      }
-    },
-    "compareAtPriceRange": {
-      "minVariantPrice": {
-        "amount": "1649.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "4947.00",
-        "currencyCode": "INR"
-      }
-    },
-    "featuredImage": {
-      "url": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80",
-      "altText": "Black Foot Alignment Socks"
-    },
-    "images": [
-      {
-        "url": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80",
-        "altText": "Black Foot Alignment Socks"
-      }
-    ],
-    "options": [
-      {
-        "id": "opt-color",
-        "name": "Color",
-        "values": [
-          "Midnight Black"
-        ]
-      },
-      {
-        "id": "opt-size",
-        "name": "Size",
-        "values": [
-          "Free Size (Fits All)"
-        ]
-      }
-    ],
-    "variants": [
-      {
-        "id": "var-2005",
-        "title": "Midnight Black / Free Size",
-        "availableForSale": true,
-        "selectedOptions": [
-          {
-            "name": "Color",
-            "value": "Midnight Black"
-          },
-          {
-            "name": "Size",
-            "value": "Free Size (Fits All)"
-          }
-        ],
-        "price": {
-          "amount": "999.00",
-          "currencyCode": "INR"
-        },
-        "compareAtPrice": {
-          "amount": "1649.00",
-          "currencyCode": "INR"
-        }
-      }
-    ],
-    "tags": [
-      "best-seller",
-      "ankle-pain",
-      "toe-alignment",
-      "socks"
-    ],
-    "collections": [
-      "best-sellers",
-      "ankle-pain",
-      "all-socks",
-      "home"
-    ],
-    "rating": {
-      "average": 4.8,
-      "count": 1840
-    },
-    "highlights": [
-      "Sleek Midnight Black tone",
-      "Targeted toe realignment",
-      "Cushioned arch compression"
     ],
     "faq": [
       {
@@ -6363,7 +6227,7 @@
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "1999.00",
+        "amount": "999.00",
         "currencyCode": "INR"
       }
     },
@@ -6373,18 +6237,18 @@
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "4947.00",
+        "amount": "1649.00",
         "currencyCode": "INR"
       }
     },
     "featuredImage": {
-      "url": "https://images.unsplash.com/photo-1582965372486-6644f772e38c?w=800&auto=format&fit=crop&q=80",
-      "altText": "Blue Alignment Socks"
+      "url": "/uploads/1793615216478-ChatGPT_Image_Jul_31__2026__06_08_47_PM.png",
+      "altText": "Blue Foot Alignment Socks - Image 1"
     },
     "images": [
       {
-        "url": "https://images.unsplash.com/photo-1582965372486-6644f772e38c?w=800&auto=format&fit=crop&q=80",
-        "altText": "Blue Alignment Socks"
+        "url": "/uploads/1793615216478-ChatGPT_Image_Jul_31__2026__06_08_47_PM.png",
+        "altText": "Blue Foot Alignment Socks - Image 1"
       }
     ],
     "options": [
@@ -6435,8 +6299,7 @@
     ],
     "collections": [
       "knee-pain",
-      "all-socks",
-      "home"
+      "all-socks"
     ],
     "rating": {
       "average": 4.9,
@@ -6446,369 +6309,6 @@
       "Refreshing Sky Blue aesthetic",
       "Restores balance from foot to knee",
       "Soft anti-chafing knit"
-    ],
-    "faq": [
-      {
-        "question": "How long should I wear Mytipe Alignment Socks each day?",
-        "answer": "Start with 15–30 minutes per day while resting or sitting. As your toes and foot muscles naturally adjust, gradually increase wear time to 1–2 hours or overnight while sleeping."
-      },
-      {
-        "question": "Can I wear these alignment socks inside regular shoes?",
-        "answer": "No. These therapeutic toe-separator socks are designed with padded toe dividers to gently stretch and realign your toes. They are intended for barefoot use at home while resting, relaxing on the couch, sleeping, or during yoga."
-      },
-      {
-        "question": "How do these socks help relieve bunions, plantar fasciitis, and foot pain?",
-        "answer": "The soft cushioned dividers gently separate overlapping toes, decompressing joint stress, stretching tight tendons, and restoring natural arch alignment to relieve heel, arch, and ball-of-foot pressure."
-      },
-      {
-        "question": "Will it feel uncomfortable when I first start wearing them?",
-        "answer": "It is normal to feel a gentle stretching sensation initially as compressed toes adjust. If it feels too tight, wear them for just 10–15 minutes at first and build up duration gradually."
-      },
-      {
-        "question": "How should I wash and care for my alignment socks?",
-        "answer": "Hand wash or machine wash in cold water on a delicate cycle using mild detergent. Air dry flat in shade to keep the plush toe separators in optimal shape."
-      }
-    ]
-  },
-  {
-    "id": "prod-1004",
-    "handle": "multi-colour-foot-alignment-socks",
-    "title": "Multi Colour Foot Alignment Socks",
-    "subtitle": "Vibrant Happy Toes Therapy Collection",
-    "description": "Brighten your evening recovery with our signature multi-color toe alignment design. Each toe separator features an invigorating color.",
-    "availableForSale": true,
-    "priceRange": {
-      "minVariantPrice": {
-        "amount": "999.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "1999.00",
-        "currencyCode": "INR"
-      }
-    },
-    "compareAtPriceRange": {
-      "minVariantPrice": {
-        "amount": "1649.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "4947.00",
-        "currencyCode": "INR"
-      }
-    },
-    "featuredImage": {
-      "url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&auto=format&fit=crop&q=80",
-      "altText": "Multi Colour Socks"
-    },
-    "images": [
-      {
-        "url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&auto=format&fit=crop&q=80",
-        "altText": "Multi Colour Socks"
-      }
-    ],
-    "options": [
-      {
-        "id": "opt-color",
-        "name": "Color",
-        "values": [
-          "Multi Colour"
-        ]
-      },
-      {
-        "id": "opt-size",
-        "name": "Size",
-        "values": [
-          "Free Size (Fits All)"
-        ]
-      }
-    ],
-    "variants": [
-      {
-        "id": "var-2007",
-        "title": "Multi Colour / Free Size",
-        "availableForSale": true,
-        "selectedOptions": [
-          {
-            "name": "Color",
-            "value": "Multi Colour"
-          },
-          {
-            "name": "Size",
-            "value": "Free Size (Fits All)"
-          }
-        ],
-        "price": {
-          "amount": "999.00",
-          "currencyCode": "INR"
-        },
-        "compareAtPrice": {
-          "amount": "1649.00",
-          "currencyCode": "INR"
-        }
-      }
-    ],
-    "tags": [
-      "best-seller",
-      "foot-pain",
-      "toe-alignment",
-      "socks"
-    ],
-    "collections": [
-      "best-sellers",
-      "foot-pain",
-      "all-socks",
-      "home"
-    ],
-    "rating": {
-      "average": 5,
-      "count": 1220
-    },
-    "highlights": [
-      "Colorful mood-lifting toe dividers",
-      "Non-constricting elastic band",
-      "Breathable natural yarn"
-    ],
-    "faq": [
-      {
-        "question": "How long should I wear Mytipe Alignment Socks each day?",
-        "answer": "Start with 15–30 minutes per day while resting or sitting. As your toes and foot muscles naturally adjust, gradually increase wear time to 1–2 hours or overnight while sleeping."
-      },
-      {
-        "question": "Can I wear these alignment socks inside regular shoes?",
-        "answer": "No. These therapeutic toe-separator socks are designed with padded toe dividers to gently stretch and realign your toes. They are intended for barefoot use at home while resting, relaxing on the couch, sleeping, or during yoga."
-      },
-      {
-        "question": "How do these socks help relieve bunions, plantar fasciitis, and foot pain?",
-        "answer": "The soft cushioned dividers gently separate overlapping toes, decompressing joint stress, stretching tight tendons, and restoring natural arch alignment to relieve heel, arch, and ball-of-foot pressure."
-      },
-      {
-        "question": "Will it feel uncomfortable when I first start wearing them?",
-        "answer": "It is normal to feel a gentle stretching sensation initially as compressed toes adjust. If it feels too tight, wear them for just 10–15 minutes at first and build up duration gradually."
-      },
-      {
-        "question": "How should I wash and care for my alignment socks?",
-        "answer": "Hand wash or machine wash in cold water on a delicate cycle using mild detergent. Air dry flat in shade to keep the plush toe separators in optimal shape."
-      }
-    ]
-  },
-  {
-    "id": "prod-1005",
-    "handle": "olive-green-foot-alignment-socks",
-    "title": "Olive Green Foot Alignment Socks",
-    "subtitle": "Earth Tone Natural Alignment Socks",
-    "description": "Earthy, minimalist Olive Green alignment socks. Provides gentle spacing to counteract cramped toe boxes found in modern sneakers and dress shoes.",
-    "availableForSale": true,
-    "priceRange": {
-      "minVariantPrice": {
-        "amount": "999.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "1999.00",
-        "currencyCode": "INR"
-      }
-    },
-    "compareAtPriceRange": {
-      "minVariantPrice": {
-        "amount": "1649.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "4947.00",
-        "currencyCode": "INR"
-      }
-    },
-    "featuredImage": {
-      "url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&auto=format&fit=crop&q=80",
-      "altText": "Olive Green Alignment Socks"
-    },
-    "images": [
-      {
-        "url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&auto=format&fit=crop&q=80",
-        "altText": "Olive Green Alignment Socks"
-      }
-    ],
-    "options": [
-      {
-        "id": "opt-color",
-        "name": "Color",
-        "values": [
-          "Olive Green"
-        ]
-      },
-      {
-        "id": "opt-size",
-        "name": "Size",
-        "values": [
-          "Free Size (Fits All)"
-        ]
-      }
-    ],
-    "variants": [
-      {
-        "id": "var-2008",
-        "title": "Olive Green / Free Size",
-        "availableForSale": true,
-        "selectedOptions": [
-          {
-            "name": "Color",
-            "value": "Olive Green"
-          },
-          {
-            "name": "Size",
-            "value": "Free Size (Fits All)"
-          }
-        ],
-        "price": {
-          "amount": "999.00",
-          "currencyCode": "INR"
-        },
-        "compareAtPrice": {
-          "amount": "1649.00",
-          "currencyCode": "INR"
-        }
-      }
-    ],
-    "tags": [
-      "ankle-pain",
-      "toe-alignment",
-      "socks"
-    ],
-    "collections": [
-      "ankle-pain",
-      "all-socks",
-      "home"
-    ],
-    "rating": {
-      "average": 4.8,
-      "count": 680
-    },
-    "highlights": [
-      "Organic dyed olive tone",
-      "Improves posture & gait symmetry",
-      "Super soft combed cotton"
-    ],
-    "faq": [
-      {
-        "question": "How long should I wear Mytipe Alignment Socks each day?",
-        "answer": "Start with 15–30 minutes per day while resting or sitting. As your toes and foot muscles naturally adjust, gradually increase wear time to 1–2 hours or overnight while sleeping."
-      },
-      {
-        "question": "Can I wear these alignment socks inside regular shoes?",
-        "answer": "No. These therapeutic toe-separator socks are designed with padded toe dividers to gently stretch and realign your toes. They are intended for barefoot use at home while resting, relaxing on the couch, sleeping, or during yoga."
-      },
-      {
-        "question": "How do these socks help relieve bunions, plantar fasciitis, and foot pain?",
-        "answer": "The soft cushioned dividers gently separate overlapping toes, decompressing joint stress, stretching tight tendons, and restoring natural arch alignment to relieve heel, arch, and ball-of-foot pressure."
-      },
-      {
-        "question": "Will it feel uncomfortable when I first start wearing them?",
-        "answer": "It is normal to feel a gentle stretching sensation initially as compressed toes adjust. If it feels too tight, wear them for just 10–15 minutes at first and build up duration gradually."
-      },
-      {
-        "question": "How should I wash and care for my alignment socks?",
-        "answer": "Hand wash or machine wash in cold water on a delicate cycle using mild detergent. Air dry flat in shade to keep the plush toe separators in optimal shape."
-      }
-    ]
-  },
-  {
-    "id": "prod-1006",
-    "handle": "rose-pink-foot-alignment-socks",
-    "title": "Rose Pink Foot Alignment Socks",
-    "subtitle": "Gentle Touch Cozy Alignment Therapy",
-    "description": "A soft, blush Rose Pink pair engineered with extra gentle toe cushions for sensitive feet, bunion recovery, and evening relaxation rituals.",
-    "availableForSale": true,
-    "priceRange": {
-      "minVariantPrice": {
-        "amount": "999.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "1999.00",
-        "currencyCode": "INR"
-      }
-    },
-    "compareAtPriceRange": {
-      "minVariantPrice": {
-        "amount": "1649.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "4947.00",
-        "currencyCode": "INR"
-      }
-    },
-    "featuredImage": {
-      "url": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&auto=format&fit=crop&q=80",
-      "altText": "Rose Pink Alignment Socks"
-    },
-    "images": [
-      {
-        "url": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&auto=format&fit=crop&q=80",
-        "altText": "Rose Pink Alignment Socks"
-      }
-    ],
-    "options": [
-      {
-        "id": "opt-color",
-        "name": "Color",
-        "values": [
-          "Rose Pink"
-        ]
-      },
-      {
-        "id": "opt-size",
-        "name": "Size",
-        "values": [
-          "Free Size (Fits All)"
-        ]
-      }
-    ],
-    "variants": [
-      {
-        "id": "var-2009",
-        "title": "Rose Pink / Free Size",
-        "availableForSale": true,
-        "selectedOptions": [
-          {
-            "name": "Color",
-            "value": "Rose Pink"
-          },
-          {
-            "name": "Size",
-            "value": "Free Size (Fits All)"
-          }
-        ],
-        "price": {
-          "amount": "999.00",
-          "currencyCode": "INR"
-        },
-        "compareAtPrice": {
-          "amount": "1649.00",
-          "currencyCode": "INR"
-        }
-      }
-    ],
-    "tags": [
-      "foot-pain",
-      "toe-alignment",
-      "socks",
-      "featured"
-    ],
-    "collections": [
-      "foot-pain",
-      "all-socks",
-      "home"
-    ],
-    "rating": {
-      "average": 4.9,
-      "count": 1410
-    },
-    "highlights": [
-      "Ultra-soft plush knit",
-      "Hypoallergenic toe separators",
-      "Instant soothing for tired feet"
     ],
     "faq": [
       {
