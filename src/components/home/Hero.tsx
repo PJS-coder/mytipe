@@ -39,7 +39,7 @@ const HERO_SLIDES: HeroSlide[] = [
   },
 ];
 
-const AUTOPLAY_INTERVAL_MS = 4500;
+const AUTOPLAY_INTERVAL_MS = 3500;
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
