@@ -174,11 +174,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -228,11 +228,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -367,11 +367,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "599.00",
+        "amount": "299.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "599.00",
+        "amount": "299.00",
         "currencyCode": "INR"
       }
     },
@@ -425,11 +425,11 @@
           }
         ],
         "price": {
-          "amount": "599.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "599.0",
+          "amount": "599.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -564,11 +564,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -622,11 +622,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -757,11 +757,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -815,11 +815,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -954,7 +954,7 @@
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "499.00",
+        "amount": "899.00",
         "currencyCode": "INR"
       }
     },
@@ -1015,10 +1015,13 @@
           }
         ],
         "price": {
-          "amount": "499.0",
+          "amount": "499.00",
           "currencyCode": "INR"
         },
-        "compareAtPrice": null,
+        "compareAtPrice": {
+          "amount": "799.00",
+          "currencyCode": "INR"
+        },
         "image": {
           "url": "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/ChatGPT-Image-Jun-21-2026-02_45_13-AM-1.webp?v=1785136645",
           "altText": "Pain Relief Socks",
@@ -1038,10 +1041,13 @@
           }
         ],
         "price": {
-          "amount": "899.0",
+          "amount": "899.00",
           "currencyCode": "INR"
         },
-        "compareAtPrice": null,
+        "compareAtPrice": {
+          "amount": "1499.00",
+          "currencyCode": "INR"
+        },
         "image": {
           "url": "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/ChatGPT-Image-Jun-21-2026-02_45_13-AM-1.webp?v=1785136645",
           "altText": "Pain Relief Socks",
@@ -1162,6 +1168,16 @@
     "banner": {
       "url": "/uploads/1793123839049-ChatGPT_Image_Oct_27__2026__11_26_50_PM.png",
       "altText": "Pain Relief Socks Full Promotional Banner"
+    },
+    "compareAtPriceRange": {
+      "minVariantPrice": {
+        "amount": "799.00",
+        "currencyCode": "INR"
+      },
+      "maxVariantPrice": {
+        "amount": "1499.00",
+        "currencyCode": "INR"
+      }
     }
   },
   {
@@ -1174,21 +1190,21 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "169.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "169.00",
         "currencyCode": "INR"
       }
     },
     "compareAtPriceRange": {
       "minVariantPrice": {
-        "amount": "299.00",
+        "amount": "249.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "299.00",
+        "amount": "249.00",
         "currencyCode": "INR"
       }
     },
@@ -1216,11 +1232,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "169.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "249.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -1351,11 +1367,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "399.00",
+        "amount": "299.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "399.00",
+        "amount": "299.00",
         "currencyCode": "INR"
       }
     },
@@ -1405,11 +1421,11 @@
           }
         ],
         "price": {
-          "amount": "399.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "599.0",
+          "amount": "599.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -1540,11 +1556,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -1598,11 +1614,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -1733,11 +1749,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -1787,11 +1803,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -1922,11 +1938,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -1980,11 +1996,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -2115,11 +2131,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -2173,11 +2189,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -2308,11 +2324,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -2366,11 +2382,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -2501,11 +2517,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -2559,11 +2575,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -2694,11 +2710,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -2752,11 +2768,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -2887,11 +2903,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -2941,11 +2957,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -5817,11 +5833,11 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "239.00",
+        "amount": "189.00",
         "currencyCode": "INR"
       }
     },
@@ -5875,11 +5891,11 @@
           }
         ],
         "price": {
-          "amount": "239.0",
+          "amount": "189.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "299.0",
+          "amount": "299.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -6010,21 +6026,21 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "999.00",
+        "amount": "499.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "999.00",
+        "amount": "499.00",
         "currencyCode": "INR"
       }
     },
     "compareAtPriceRange": {
       "minVariantPrice": {
-        "amount": "1649.00",
+        "amount": "999.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "1649.00",
+        "amount": "999.00",
         "currencyCode": "INR"
       }
     },
@@ -6075,11 +6091,11 @@
           }
         ],
         "price": {
-          "amount": "999.00",
+          "amount": "499.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "1649.00",
+          "amount": "999.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -6102,11 +6118,11 @@
           }
         ],
         "price": {
-          "amount": "999.00",
+          "amount": "499.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "1649.00",
+          "amount": "999.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -6129,11 +6145,11 @@
           }
         ],
         "price": {
-          "amount": "999.00",
+          "amount": "499.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "1649.00",
+          "amount": "999.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -6156,11 +6172,11 @@
           }
         ],
         "price": {
-          "amount": "999.00",
+          "amount": "499.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "1649.00",
+          "amount": "999.00",
           "currencyCode": "INR"
         },
         "image": {
@@ -6223,21 +6239,21 @@
     "availableForSale": true,
     "priceRange": {
       "minVariantPrice": {
-        "amount": "999.00",
+        "amount": "499.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "999.00",
+        "amount": "499.00",
         "currencyCode": "INR"
       }
     },
     "compareAtPriceRange": {
       "minVariantPrice": {
-        "amount": "1649.00",
+        "amount": "999.00",
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "1649.00",
+        "amount": "999.00",
         "currencyCode": "INR"
       }
     },
@@ -6283,11 +6299,11 @@
           }
         ],
         "price": {
-          "amount": "999.00",
+          "amount": "499.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "1649.00",
+          "amount": "999.00",
           "currencyCode": "INR"
         }
       }

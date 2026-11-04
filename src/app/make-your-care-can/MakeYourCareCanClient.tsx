@@ -55,7 +55,7 @@ export default function MakeYourCareCanClient({ products }: MakeYourCareCanClien
   };
 
   const totalPrice = selectedProducts.reduce((sum, p) => {
-    const price = parseFloat(p.priceRange.minVariantPrice.amount) || 239;
+    const price = parseFloat(p.priceRange.minVariantPrice.amount) || 189;
     return sum + price;
   }, 0);
 
