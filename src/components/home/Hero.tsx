@@ -14,6 +14,12 @@ interface HeroSlide {
 
 const HERO_SLIDES: HeroSlide[] = [
   {
+    id: 3,
+    image: "/hero3.png",
+    alt: "Mytipe Everyday Foot Health & Comfort",
+    href: "/collections/all-socks",
+  },
+  {
     id: 1,
     image: "/heros.webp",
     alt: "Mytipe - Made To Matter. Foot Alignment Socks",
@@ -23,12 +29,6 @@ const HERO_SLIDES: HeroSlide[] = [
     id: 2,
     image: "/hero2.png",
     alt: "Mytipe Premium Socks Collection",
-    href: "/collections/all-socks",
-  },
-  {
-    id: 3,
-    image: "/hero3.png",
-    alt: "Mytipe Everyday Foot Health & Comfort",
     href: "/collections/all-socks",
   },
   {
@@ -42,45 +42,98 @@ const HERO_SLIDES: HeroSlide[] = [
 const AUTOPLAY_INTERVAL_MS = 3500;
 
 export default function Hero() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  // Cloned slides for seamless infinite circular looping
+  const extendedSlides = [
+    { ...HERO_SLIDES[HERO_SLIDES.length - 1], key: "clone-last" },
+    ...HERO_SLIDES.map((slide) => ({ ...slide, key: `real-${slide.id}` })),
+    { ...HERO_SLIDES[0], key: "clone-first" },
+  ];
 
-  // Touch / Swipe support
+  // Start at index 1 (the first real slide: /hero3.png)
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [withTransition, setWithTransition] = useState(true);
+
+  const isAnimatingRef = useRef(false);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
   const isSwipingRef = useRef(false);
 
-  const totalSlides = HERO_SLIDES.length;
-
   const goToNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % totalSlides);
-  }, [totalSlides]);
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setWithTransition(true);
+    setCurrentIndex((prev) => prev + 1);
+
+    // Failsafe unlock in case onTransitionEnd doesn't fire
+    setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 800);
+  }, []);
 
   const goToPrev = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
-  }, [totalSlides]);
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setWithTransition(true);
+    setCurrentIndex((prev) => prev - 1);
 
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
+    // Failsafe unlock in case onTransitionEnd doesn't fire
+    setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 800);
+  }, []);
+
+  const goToSlide = (slideIndex: number) => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setWithTransition(true);
+    setCurrentIndex(slideIndex + 1);
+
+    setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 800);
   };
 
-  // Autoplay timer
-  useEffect(() => {
-    if (isPaused) return;
+  // Seamless infinite loop transition reset
+  const handleTransitionEnd = () => {
+    if (currentIndex >= extendedSlides.length - 1) {
+      // Reached the end clone -> instantly jump to index 1 (first real slide)
+      setWithTransition(false);
+      setCurrentIndex(1);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setWithTransition(true);
+          isAnimatingRef.current = false;
+        });
+      });
+    } else if (currentIndex <= 0) {
+      // Reached the start clone -> instantly jump to last real slide
+      setWithTransition(false);
+      setCurrentIndex(extendedSlides.length - 2);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setWithTransition(true);
+          isAnimatingRef.current = false;
+        });
+      });
+    } else {
+      isAnimatingRef.current = false;
+    }
+  };
 
+  // Continuous infinite autoplay (does not get stuck or stop on hover)
+  useEffect(() => {
     const timer = setInterval(() => {
       goToNext();
     }, AUTOPLAY_INTERVAL_MS);
 
     return () => clearInterval(timer);
-  }, [isPaused, goToNext]);
+  }, [goToNext]);
 
-  // Touch swipe handlers
+  // Touch / Swipe handlers for mobile
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartXRef.current = e.touches[0].clientX;
     touchStartYRef.current = e.touches[0].clientY;
     isSwipingRef.current = false;
-    setIsPaused(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -88,7 +141,6 @@ export default function Hero() {
     const diffX = touchStartXRef.current - e.touches[0].clientX;
     const diffY = touchStartYRef.current - e.touches[0].clientY;
 
-    // Check if horizontal swipe dominates vertical scroll
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
       isSwipingRef.current = true;
     }
@@ -98,24 +150,29 @@ export default function Hero() {
     if (touchStartXRef.current !== null && isSwipingRef.current) {
       const diffX = touchStartXRef.current - e.changedTouches[0].clientX;
       if (diffX > 45) {
-        // Swiped left -> next
         goToNext();
       } else if (diffX < -45) {
-        // Swiped right -> prev
         goToPrev();
       }
     }
     touchStartXRef.current = null;
     touchStartYRef.current = null;
-    isSwipingRef.current = false;
-    setIsPaused(false);
+    setTimeout(() => {
+      isSwipingRef.current = false;
+    }, 50);
   };
+
+  // Calculate active indicator dot (0 to 3)
+  const activeDotIndex =
+    currentIndex === 0
+      ? HERO_SLIDES.length - 1
+      : currentIndex === extendedSlides.length - 1
+      ? 0
+      : currentIndex - 1;
 
   return (
     <section
       className="relative w-full bg-[#1b1c20] -mt-2 sm:-mt-4 lg:-mt-6 group overflow-hidden select-none"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -124,37 +181,45 @@ export default function Hero() {
       {/* Carousel Track Container */}
       <div className="relative w-full aspect-[16/8.8] sm:aspect-[16/8.8] lg:aspect-[1.92/1] overflow-hidden">
         <div
-          className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
+          className={`flex h-full w-full ${
+            withTransition
+              ? "transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
+              : "transition-none"
+          }`}
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          onTransitionEnd={handleTransitionEnd}
         >
-          {HERO_SLIDES.map((slide, index) => (
-            <div
-              key={slide.id}
-              className="relative min-w-full w-full h-full shrink-0 overflow-hidden"
-              aria-hidden={index !== currentIndex}
-            >
-              <Link
-                href={slide.href}
-                className="relative block w-full h-full cursor-pointer"
-                tabIndex={index === currentIndex ? 0 : -1}
-                aria-label={slide.alt}
-                onClick={(e) => {
-                  if (isSwipingRef.current) {
-                    e.preventDefault();
-                  }
-                }}
+          {extendedSlides.map((slide, index) => {
+            const isInitialSlide = index === 1;
+            return (
+              <div
+                key={slide.key}
+                className="relative min-w-full w-full h-full shrink-0 overflow-hidden"
+                aria-hidden={index !== currentIndex}
               >
-                <Image
-                  src={slide.image}
-                  alt={slide.alt}
-                  fill
-                  priority={index === 0}
-                  sizes="100vw"
-                  className="object-cover object-[center_top] transition-transform duration-700 ease-out"
-                />
-              </Link>
-            </div>
-          ))}
+                <Link
+                  href={slide.href}
+                  className="relative block w-full h-full cursor-pointer"
+                  tabIndex={index === currentIndex ? 0 : -1}
+                  aria-label={slide.alt}
+                  onClick={(e) => {
+                    if (isSwipingRef.current) {
+                      e.preventDefault();
+                    }
+                  }}
+                >
+                  <Image
+                    src={slide.image}
+                    alt={slide.alt}
+                    fill
+                    priority={isInitialSlide}
+                    sizes="100vw"
+                    className="object-cover object-[center_top] transition-transform duration-700 ease-out"
+                  />
+                </Link>
+              </div>
+            );
+          })}
         </div>
 
         {/* Previous Button */}
@@ -188,7 +253,7 @@ export default function Hero() {
         {/* Indicator Dots */}
         <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-black/35 backdrop-blur-sm border border-white/10">
           {HERO_SLIDES.map((slide, index) => {
-            const isActive = index === currentIndex;
+            const isActive = index === activeDotIndex;
             return (
               <button
                 key={slide.id}
