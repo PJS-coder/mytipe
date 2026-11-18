@@ -7,6 +7,7 @@ import StoreLayoutWrapper from "@/components/layout/StoreLayoutWrapper";
 
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://mytipe.com"),
   title: {
     default: "Mytipe™ | Relax & Realign Your Feet with Foot Alignment Socks",
     template: "%s | Mytipe",

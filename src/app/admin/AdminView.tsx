@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, useSearchParams } from "next/navigation";
@@ -41,7 +41,7 @@ import {
   LogOut,
 } from "lucide-react";
 
-export default function AdminView({ hasSecret = false }: { hasSecret?: boolean }) {
+function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
   const searchParams = useSearchParams();
   const querySecret = searchParams?.get("key") || searchParams?.get("secret");
 
@@ -1699,5 +1699,20 @@ export default function AdminView({ hasSecret = false }: { hasSecret?: boolean }
         </div>
       )}
     </div>
+  );
+}
+
+export default function AdminView({ hasSecret = false }: { hasSecret?: boolean }) {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white space-y-3">
+          <div className="w-8 h-8 border-3 border-slate-700 border-t-amber-500 rounded-full animate-spin" />
+          <p className="text-xs text-slate-400 font-medium">Loading Admin Panel...</p>
+        </div>
+      }
+    >
+      <AdminViewContent hasSecret={hasSecret} />
+    </Suspense>
   );
 }
