@@ -123,6 +123,14 @@ export default function Navbar() {
             <div className="flex-1 flex items-center justify-end gap-3 sm:gap-5 xl:gap-7">
               {/* Desktop Right Nav Items */}
               <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-base xl:text-lg font-bold tracking-wide text-gray-800">
+                {/* About us */}
+                <Link
+                  href="/about"
+                  className="hover:text-blue-600 transition whitespace-nowrap hover:scale-105 transform duration-150"
+                >
+                  About us
+                </Link>
+
                 {/* Our super hero */}
                 <Link
                   href="/products/foot-shoe-deo"

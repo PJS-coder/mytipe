@@ -135,6 +135,24 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
             <span>Our super hero</span>
           </Link>
 
+          {/* 4. About Us */}
+          <Link
+            href="/about"
+            onClick={onClose}
+            className="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-50 transition"
+          >
+            <span>About Us</span>
+          </Link>
+
+          {/* 5. Contact Us */}
+          <Link
+            href="/contact"
+            onClick={onClose}
+            className="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-50 transition"
+          >
+            <span>Contact Us</span>
+          </Link>
+
           {/* 4. Shop Section with collapsible submenu */}
           <div className="pt-1">
             <button
