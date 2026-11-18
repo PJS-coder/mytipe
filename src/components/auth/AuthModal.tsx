@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
-import { X, ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+import { X, ArrowRight, ShieldCheck, Sparkles, Lock } from "lucide-react";
 
 export default function AuthModal() {
-  const { isAuthModalOpen, closeAuthModal, loginWithPhone, quickTestLogin } = useAuth();
+  const { isAuthModalOpen, closeAuthModal, loginWithPhone, quickTestLogin, authModalPrompt } = useAuth();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [name, setName] = useState("");
   const [otpStep, setOtpStep] = useState(false);
@@ -64,7 +64,7 @@ export default function AuthModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="relative w-full max-w-[340px] sm:max-w-[390px] bg-white text-gray-900 rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-2xl border border-slate-100 flex flex-col mx-auto">
         {/* Close Button */}
         <button
@@ -88,14 +88,19 @@ export default function AuthModal() {
             />
           </div>
 
-          <div className="space-y-0.5">
+          <div className="space-y-1">
+            {authModalPrompt && !otpStep && (
+              <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-800 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-full mb-0.5">
+                <Lock className="w-2.5 h-2.5 text-amber-600" /> Checkout Sign In
+              </span>
+            )}
             <h2 className="text-lg sm:text-2xl font-black text-gray-950 uppercase tracking-tight">
               {otpStep ? "Verify Mobile OTP" : "Mobile Sign In"}
             </h2>
             <p className="text-[11px] sm:text-xs text-gray-500 font-normal max-w-xs mx-auto leading-relaxed">
               {otpStep
                 ? `Enter OTP sent to +91 ${phoneNumber}`
-                : "Sign in with your phone to access wallet coins & rewards"}
+                : authModalPrompt || "Sign in with your phone to access wallet coins & rewards"}
             </p>
           </div>
         </div>

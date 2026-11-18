@@ -281,7 +281,7 @@ export default function Navbar() {
                 ) : (
                   <button
                     type="button"
-                    onClick={openAuthModal}
+                    onClick={() => openAuthModal()}
                     className="flex items-center gap-1.5 px-4 py-2 bg-[#0f1c3f] hover:bg-[#1a2e66] text-white text-xs font-bold uppercase tracking-wider rounded-full transition shadow-xs cursor-pointer hover:scale-105"
                     aria-label="Sign in"
                   >

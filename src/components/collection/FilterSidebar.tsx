@@ -53,9 +53,9 @@ export default function FilterSidebar({
   };
 
   const content = (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-gray-200">
+      <div className="flex items-center justify-between pb-2.5 border-b border-gray-200">
         <div className="flex items-center gap-2">
           <Filter className="w-4 h-4 text-gray-700" />
           <h3 className="font-bold text-gray-900 text-sm uppercase tracking-wider">Filters</h3>
@@ -72,11 +72,16 @@ export default function FilterSidebar({
       </div>
 
       {/* Category / Types Filter */}
-      <div className="space-y-2.5">
-        <label className="text-xs font-bold text-gray-800 uppercase tracking-wider block">
-          Category
-        </label>
-        <div className="space-y-1">
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-bold text-gray-800 uppercase tracking-wider block">
+            Category
+          </label>
+          <span className="text-[10px] text-gray-400 font-medium">
+            {CATEGORY_ITEMS.length} types
+          </span>
+        </div>
+        <div className="space-y-0.5 max-h-48 overflow-y-auto pr-1 overscroll-contain [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full">
           {CATEGORY_ITEMS.map((item) => {
             const isActive =
               currentHandle === item.handle ||
@@ -89,14 +94,14 @@ export default function FilterSidebar({
                 key={item.handle}
                 href={item.href}
                 onClick={onCloseMobileDrawer}
-                className={`w-full text-left text-xs px-3 py-2 rounded-lg transition flex items-center justify-between block ${
+                className={`w-full text-left text-xs px-2.5 py-1.5 rounded-lg transition flex items-center justify-between block ${
                   isActive
                     ? "bg-[#0f1c3f] text-white font-bold"
                     : "text-gray-700 hover:bg-slate-100"
                 }`}
               >
-                <span>{item.label}</span>
-                {isActive && <span>&bull;</span>}
+                <span className="truncate pr-1">{item.label}</span>
+                {isActive && <span className="shrink-0">&bull;</span>}
               </Link>
             );
           })}
@@ -104,11 +109,11 @@ export default function FilterSidebar({
       </div>
 
       {/* Color Filter */}
-      <div className="space-y-2.5 pt-2 border-t border-gray-100">
+      <div className="space-y-2 pt-2 border-t border-gray-100">
         <label className="text-xs font-bold text-gray-800 uppercase tracking-wider block">
           Color
         </label>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
           {availableColors.map((color) => {
             const isSelected = filters.colors.includes(color);
             return (
@@ -116,9 +121,9 @@ export default function FilterSidebar({
                 key={color}
                 type="button"
                 onClick={() => toggleColor(color)}
-                className={`text-xs px-3 py-1.5 rounded-full border transition ${
+                className={`text-[11px] px-2.5 py-1 rounded-full border transition cursor-pointer ${
                   isSelected
-                    ? "bg-[#0f1c3f] text-white border-[#0f1c3f] font-semibold"
+                    ? "bg-[#0f1c3f] text-white border-[#0f1c3f] font-semibold shadow-2xs"
                     : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
                 }`}
               >
@@ -130,14 +135,14 @@ export default function FilterSidebar({
       </div>
 
       {/* Price Slider */}
-      <div className="space-y-2.5 pt-2 border-t border-gray-100">
+      <div className="space-y-2 pt-2 border-t border-gray-100">
         <div className="flex justify-between items-center text-xs">
           <label className="font-bold text-gray-800 uppercase tracking-wider">Max Price</label>
           <span className="font-bold text-blue-700">₹{filters.maxPrice}</span>
         </div>
         <input
           type="range"
-          min="600"
+          min="160"
           max="2500"
           step="50"
           value={filters.maxPrice}
@@ -145,7 +150,7 @@ export default function FilterSidebar({
           className="w-full accent-[#0f1c3f] cursor-pointer"
         />
         <div className="flex justify-between text-[10px] text-gray-400">
-          <span>₹600</span>
+          <span>₹160</span>
           <span>₹2,500</span>
         </div>
       </div>
@@ -155,7 +160,7 @@ export default function FilterSidebar({
   // Desktop Sidebar
   return (
     <>
-      <div className="hidden lg:block w-64 shrink-0 pr-6 sticky top-24 self-start max-h-[calc(100vh-7rem)] overflow-y-auto custom-scrollbar">
+      <div className="hidden lg:block w-64 shrink-0 pr-6 sticky top-20 xl:top-24 self-start max-h-[calc(100vh-6rem)] overflow-y-auto overscroll-contain pb-6 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
         {content}
       </div>
 

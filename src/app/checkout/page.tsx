@@ -8,6 +8,7 @@ import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { openRazorpayCheckout } from "@/lib/razorpay/client";
 import { formatPrice } from "@/lib/utils";
+import { calculateCartMilestones, CART_MILESTONES } from "@/lib/constants/cart";
 import {
   ShieldCheck,
   Lock,
@@ -19,12 +20,13 @@ import {
   CreditCard,
   Banknote,
   Sparkles,
+  Loader2,
 } from "lucide-react";
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, subtotal, totalSavings, clearCart } = useCart();
-  const { user, spendCoins } = useAuth();
+  const { user, isAuthenticated, isLoading, openAuthModal, spendCoins } = useAuth();
 
   // Form State
   const [formData, setFormData] = useState({
@@ -54,18 +56,26 @@ export default function CheckoutPage() {
       setFormData((prev) => ({
         ...prev,
         fullName: prev.fullName || user.name || "",
-        email: prev.email || user.email || "",
+        email: prev.email || (user.email?.endsWith("@mytipe.user") ? "" : user.email) || "",
         phone: prev.phone || user.phone || "",
       }));
     }
   }, [user]);
 
-  // Calculations
-  const shippingFee = subtotal >= 449 ? 0 : 50;
+  // Auto open auth modal if visited directly while not logged in
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      openAuthModal({ prompt: "Please sign in with your phone to complete your order" });
+    }
+  }, [isLoading, isAuthenticated, openAuthModal]);
+
+  // Milestone Calculations
+  const { tierDiscount, isCheckoutUnlocked } = calculateCartMilestones(subtotal);
+  const shippingFee = isCheckoutUnlocked ? 0 : 50;
   const userCoins = user?.coins || 0;
-  const maxUsableCoins = Math.min(userCoins, Math.floor(subtotal));
+  const maxUsableCoins = Math.min(userCoins, Math.floor(Math.max(0, subtotal - tierDiscount)));
   const coinsDiscountAmount = applyCoins ? maxUsableCoins : 0;
-  const finalTotal = Math.max(0, subtotal - couponDiscount - coinsDiscountAmount + shippingFee);
+  const finalTotal = Math.max(0, subtotal - tierDiscount - couponDiscount - coinsDiscountAmount + shippingFee);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -108,6 +118,10 @@ export default function CheckoutPage() {
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      openAuthModal({ prompt: "Please sign in with your phone to complete your order" });
+      return;
+    }
     if (!validateForm()) return;
     if (items.length === 0) {
       alert("Your cart is empty!");
@@ -126,6 +140,7 @@ export default function CheckoutPage() {
           body: JSON.stringify({
             customer: formData,
             items,
+            tierDiscount,
             coinDiscount: coinsDiscountAmount + couponDiscount,
           }),
         });
@@ -221,6 +236,7 @@ export default function CheckoutPage() {
           body: JSON.stringify({
             customer: formData,
             items,
+            tierDiscount,
             coinDiscount: coinsDiscountAmount + couponDiscount,
           }),
         });
@@ -245,6 +261,15 @@ export default function CheckoutPage() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#2b76a6]" />
+        <p className="text-xs text-gray-500 mt-2 font-medium">Loading checkout...</p>
+      </div>
+    );
+  }
+
   if (items.length === 0) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 text-center">
@@ -258,6 +283,42 @@ export default function CheckoutPage() {
         >
           Explore All Products
         </Link>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 py-12 text-center bg-neutral-50/50">
+        <div className="max-w-md w-full bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-xl space-y-5">
+          <div className="w-14 h-14 bg-blue-50 text-[#2b76a6] rounded-2xl flex items-center justify-center mx-auto border border-blue-100 shadow-2xs">
+            <Lock className="w-7 h-7" />
+          </div>
+          <div className="space-y-1.5">
+            <h1 className="text-xl sm:text-2xl font-black text-gray-950 uppercase tracking-tight">
+              Sign In to Complete Purchase
+            </h1>
+            <p className="text-xs sm:text-sm text-gray-600">
+              Please sign in with your mobile number to access secure checkout, redeem wallet coins, and track your order.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => openAuthModal({ prompt: "Please sign in with your phone to complete your order" })}
+            className="w-full py-3.5 px-4 bg-[#0f1c3f] hover:bg-[#1a2e66] active:scale-[0.99] text-white font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition shadow-md flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <Lock className="w-4 h-4" />
+            <span>Sign In with Mobile</span>
+          </button>
+          <div className="pt-2">
+            <Link
+              href="/cart"
+              className="text-xs text-gray-500 hover:text-gray-900 font-medium underline underline-offset-4"
+            >
+              &larr; Back to Cart
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }
@@ -694,6 +755,16 @@ export default function CheckoutPage() {
                   <span className="font-semibold text-gray-900">{formatPrice(subtotal)}</span>
                 </div>
 
+                {tierDiscount > 0 && (
+                  <div className="flex justify-between text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-100">
+                    <span className="flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Milestone Order Discount ({tierDiscount === 200 ? "₹200 OFF" : "₹100 OFF"})</span>
+                    </span>
+                    <span className="font-bold">-{formatPrice(tierDiscount)}</span>
+                  </div>
+                )}
+
                 {totalSavings > 0 && (
                   <div className="flex justify-between text-emerald-600">
                     <span>Bundle & MRP Savings</span>
@@ -733,9 +804,9 @@ export default function CheckoutPage() {
               </div>
 
               {/* Free shipping banner if remaining */}
-              {subtotal < 449 && (
+              {!isCheckoutUnlocked && (
                 <div className="p-2.5 rounded-lg bg-orange-50 text-[11px] text-orange-800 text-center font-medium">
-                  Add {formatPrice(449 - subtotal)} more to qualify for <strong>FREE Delivery</strong>!
+                  Add {formatPrice(CART_MILESTONES.UNLOCK_CHECKOUT - subtotal)} more to qualify for <strong>FREE Delivery</strong>!
                 </div>
               )}
             </div>

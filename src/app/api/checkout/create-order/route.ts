@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createRazorpayOrder, getPublicRazorpayKey, isRazorpayConfigured } from "@/server/razorpay";
 import { createOrder } from "@/server/db/orders";
 import { CartLineItem, ShippingAddress } from "@/types/store";
+import { calculateCartMilestones } from "@/lib/constants/cart";
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,12 +24,13 @@ export async function POST(request: NextRequest) {
     // Calculate subtotal
     const subtotal = items.reduce((sum, item) => sum + parseFloat(item.price.amount) * item.quantity, 0);
 
-    // Free shipping above ₹449
-    const shippingFee = subtotal >= 449 ? 0 : 50;
+    // Calculate verified milestone discounts and shipping
+    const { tierDiscount, isCheckoutUnlocked } = calculateCartMilestones(subtotal);
+    const shippingFee = isCheckoutUnlocked ? 0 : 50;
 
     // Apply coin discount
-    const validCoinDiscount = Math.min(Math.max(0, coinDiscount), subtotal);
-    const total = Math.max(0, subtotal - validCoinDiscount + shippingFee);
+    const validCoinDiscount = Math.min(Math.max(0, coinDiscount), Math.max(0, subtotal - tierDiscount));
+    const total = Math.max(0, subtotal - tierDiscount - validCoinDiscount + shippingFee);
 
     // 1. Create Razorpay Order
     const receipt = `rcpt_${Date.now().toString().slice(-8)}`;
@@ -39,6 +41,7 @@ export async function POST(request: NextRequest) {
         customerName: customer.fullName,
         customerPhone: customer.phone,
         itemsCount: items.length.toString(),
+        tierDiscount: tierDiscount.toString(),
       },
     });
 
@@ -48,7 +51,7 @@ export async function POST(request: NextRequest) {
       items,
       pricing: {
         subtotal: Math.round(subtotal),
-        discount: 0,
+        discount: tierDiscount,
         coinDiscount: validCoinDiscount,
         shippingFee,
         tax: 0,

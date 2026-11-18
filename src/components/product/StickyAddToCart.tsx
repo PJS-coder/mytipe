@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ShoppingBag, Lock, Check } from "lucide-react";
 import { Product, ProductVariant, ProductBundleTier } from "@/types/store";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 interface StickyAddToCartProps {
   product: Product;
@@ -17,7 +19,9 @@ export default function StickyAddToCart({
   selectedVariant,
   selectedBundle,
 }: StickyAddToCartProps) {
+  const router = useRouter();
   const { addItem, openCart } = useCart();
+  const { isAuthenticated, openAuthModal } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
 
@@ -53,7 +57,16 @@ export default function StickyAddToCart({
 
   const handleBuyNow = () => {
     addItem(product, selectedVariant, 1, selectedBundle);
-    openCart();
+    if (!isAuthenticated) {
+      openAuthModal({
+        prompt: "Please sign in with your phone to complete your purchase",
+        onSuccess: () => {
+          router.push("/checkout");
+        },
+      });
+      return;
+    }
+    router.push("/checkout");
   };
 
   return (

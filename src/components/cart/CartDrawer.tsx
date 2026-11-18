@@ -2,14 +2,17 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { X, ShoppingBag, ArrowRight, ShieldCheck, Truck, Lock, Loader2, Coins, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { X, ShoppingBag, ArrowRight, ShieldCheck, Lock, Loader2, Coins, Sparkles, BadgePercent } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import CartItem from "./CartItem";
+import CartMilestoneBar from "./CartMilestoneBar";
 import { formatPrice } from "@/lib/utils";
 
 
 export default function CartDrawer() {
+  const router = useRouter();
   const {
     items,
     isOpen,
@@ -18,9 +21,9 @@ export default function CartDrawer() {
     removeItem,
     totalQuantity,
     subtotal,
+    tierDiscount,
+    isCheckoutUnlocked,
     totalSavings,
-    freeShippingRemaining,
-    freeShippingProgress,
   } = useCart();
 
   const { user, isAuthenticated, openAuthModal, openSpinWheel } = useAuth();
@@ -28,7 +31,7 @@ export default function CartDrawer() {
   const [applyCoins, setApplyCoins] = useState(false);
 
   // Maximum redeemable coins (e.g. up to user coins or 50% of subtotal)
-  const maxCoinsToUse = user ? Math.min(user.coins, Math.floor(subtotal * 0.5)) : 0;
+  const maxCoinsToUse = user ? Math.min(user.coins, Math.floor(Math.max(0, subtotal - tierDiscount) * 0.5)) : 0;
   const coinDiscount = applyCoins ? maxCoinsToUse : 0;
   
   // Also check active winning coupon from Fortune Wheel
@@ -38,7 +41,7 @@ export default function CartDrawer() {
       : user.activeCoupon.discountValue
     : 0;
 
-  const finalTotal = Math.max(0, subtotal - coinDiscount - couponDiscount);
+  const finalTotal = Math.max(0, subtotal - tierDiscount - coinDiscount - couponDiscount);
 
   // Prevent background scrolling when cart drawer is open
   useEffect(() => {
@@ -53,8 +56,19 @@ export default function CartDrawer() {
   }, [isOpen]);
 
   const handleProceedCheckout = () => {
+    if (!isAuthenticated) {
+      openAuthModal({
+        prompt: "Please sign in with your phone to proceed to checkout",
+        onSuccess: () => {
+          closeCart();
+          router.push("/checkout");
+        },
+      });
+      return;
+    }
+    setIsCheckingOut(true);
     closeCart();
-    window.location.href = "/checkout";
+    router.push("/checkout");
   };
 
 
@@ -70,46 +84,22 @@ export default function CartDrawer() {
 
       {/* Slide-out Drawer */}
       <div className="relative w-full max-w-md bg-white text-gray-900 shadow-2xl z-10 flex flex-col h-full animate-in slide-in-from-right duration-300">
-        {/* Drawer Header */}
-        <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-slate-50">
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-[#0f1c3f]" />
-            <h2 className="font-bold text-gray-900 text-lg">Your Cart</h2>
-            <span className="text-xs font-semibold bg-[#0f1c3f] text-white px-2 py-0.5 rounded-full">
-              {totalQuantity}
-            </span>
-          </div>
+        {/* Drawer Header (Exact match to screenshot) */}
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between bg-white">
+          <h2 className="font-bold text-gray-950 text-xl sm:text-2xl tracking-tight">
+            Your cart ({totalQuantity})
+          </h2>
           <button
             onClick={closeCart}
-            className="p-1.5 rounded-full hover:bg-slate-200 text-gray-500 hover:text-gray-800 transition cursor-pointer"
+            className="p-1.5 -mr-1.5 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-950 transition cursor-pointer"
             aria-label="Close cart"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
           </button>
         </div>
 
-        {/* Free Shipping Progress Bar */}
-        <div className="bg-slate-100 p-3 border-b border-slate-200">
-          <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
-            <span className="flex items-center gap-1.5 text-gray-700">
-              <Truck className="w-3.5 h-3.5 text-blue-600" />
-              {freeShippingRemaining > 0 ? (
-                <>Add <span className="text-blue-700 font-bold">{formatPrice(freeShippingRemaining)}</span> more for FREE Express Shipping!</>
-              ) : (
-                <span className="text-emerald-700 font-bold">🎉 Congratulations! You unlocked FREE Delivery!</span>
-              )}
-            </span>
-            <span className="text-gray-500 font-bold">{freeShippingProgress}%</span>
-          </div>
-          <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-            <div
-              className={`h-full transition-all duration-500 rounded-full ${
-                freeShippingProgress >= 100 ? "bg-emerald-500" : "bg-[#0f1c3f]"
-              }`}
-              style={{ width: `${freeShippingProgress}%` }}
-            />
-          </div>
-        </div>
+        {/* Milestone Progress Bar Section */}
+        <CartMilestoneBar subtotal={subtotal} />
 
         {/* Cart Item List */}
         <div className="flex-1 overflow-y-auto p-4 divide-y divide-gray-100">
@@ -217,6 +207,28 @@ export default function CartDrawer() {
               </div>
             ) : null}
 
+            {/* Milestone Order Discount Notification */}
+            {tierDiscount > 0 && (
+              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-black text-xs">
+                    <BadgePercent className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-bold text-emerald-950 block">
+                      Milestone Discount Unlocked!
+                    </span>
+                    <span className="text-[10px] text-emerald-700 font-semibold">
+                      {tierDiscount === 200 ? "₹200 OFF auto-applied 🤑" : "₹100 OFF auto-applied 🤩"}
+                    </span>
+                  </div>
+                </div>
+                <span className="font-black text-emerald-800 text-sm">
+                  -₹{tierDiscount}
+                </span>
+              </div>
+            )}
+
             {totalSavings > 0 && (
               <div className="bg-emerald-50 text-emerald-800 text-xs font-semibold px-3 py-2 rounded-lg flex items-center justify-between border border-emerald-200">
                 <span>Total Instant Savings</span>
@@ -227,11 +239,11 @@ export default function CartDrawer() {
             <div className="flex justify-between items-center text-sm font-semibold text-gray-600">
               <span>Subtotal</span>
               <div className="text-right">
-                {applyCoins && coinDiscount > 0 ? (
-                  <>
-                    <span className="text-xs text-gray-400 line-through mr-1.5">{formatPrice(subtotal)}</span>
+                {tierDiscount > 0 || (applyCoins && coinDiscount > 0) || couponDiscount > 0 ? (
+                  <div className="flex items-baseline gap-1.5 justify-end">
+                    <span className="text-xs text-gray-400 line-through">{formatPrice(subtotal)}</span>
                     <span className="text-lg font-bold text-gray-900">{formatPrice(finalTotal)}</span>
-                  </>
+                  </div>
                 ) : (
                   <span className="text-lg font-bold text-gray-900">{formatPrice(subtotal)}</span>
                 )}
@@ -239,7 +251,11 @@ export default function CartDrawer() {
             </div>
 
             <p className="text-[11px] text-gray-500 text-center">
-              Taxes and shipping calculated at checkout. Free COD available.
+              {isCheckoutUnlocked ? (
+                <span className="text-emerald-700 font-semibold">✓ FREE Express Delivery & Checkout Unlocked</span>
+              ) : (
+                <span>Taxes & shipping calculated at checkout. Free COD available.</span>
+              )}
             </p>
 
             <div className="space-y-2">

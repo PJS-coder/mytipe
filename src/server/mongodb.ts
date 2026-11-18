@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI || "";
+const rawUri = process.env.MONGODB_URI || "";
+export const MONGODB_URI = rawUri.endsWith(".mongodb.net/") || rawUri.endsWith(".mongodb.net")
+  ? rawUri.replace(/\.mongodb\.net\/?$/, ".mongodb.net/mytipe?retryWrites=true&w=majority")
+  : rawUri;
 
 export const isMongoConfigured = Boolean(MONGODB_URI && MONGODB_URI.trim().length > 0);
 

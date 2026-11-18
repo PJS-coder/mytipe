@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateProduct, deleteProduct, getProductById } from "@/server/db/products";
+import { isRequestAuthorized } from "@/server/auth/admin";
 
 interface RouteProps {
   params: Promise<{ id: string }>;
 }
 
 export async function GET(request: NextRequest, { params }: RouteProps) {
+  if (!isRequestAuthorized(request)) {
+    return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+  }
+
   try {
     const { id } = await params;
     const product = getProductById(id);
@@ -22,6 +27,10 @@ export async function GET(request: NextRequest, { params }: RouteProps) {
 }
 
 export async function PUT(request: NextRequest, { params }: RouteProps) {
+  if (!isRequestAuthorized(request)) {
+    return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+  }
+
   try {
     const { id } = await params;
     const body = await request.json();
@@ -43,6 +52,10 @@ export async function PUT(request: NextRequest, { params }: RouteProps) {
 }
 
 export async function DELETE(request: NextRequest, { params }: RouteProps) {
+  if (!isRequestAuthorized(request)) {
+    return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+  }
+
   try {
     const { id } = await params;
     const success = deleteProduct(id);

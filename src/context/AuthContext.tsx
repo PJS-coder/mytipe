@@ -1,7 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
 import { User, CoinTransaction, WheelSlice, WonCoupon } from "@/types/auth";
+
+export interface OpenAuthModalOptions {
+  prompt?: string;
+  onSuccess?: () => void;
+}
 
 export const WHEEL_SLICES: WheelSlice[] = [
   {
@@ -91,7 +96,8 @@ interface AuthContextType {
   
   // Auth Modal Controls
   isAuthModalOpen: boolean;
-  openAuthModal: () => void;
+  authModalPrompt?: string;
+  openAuthModal: (options?: OpenAuthModalOptions | unknown) => void;
   closeAuthModal: () => void;
 
   // Coins Management
@@ -116,6 +122,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isSpinWheelOpen, setIsSpinWheelOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalPrompt, setAuthModalPrompt] = useState<string | undefined>(undefined);
+  const authSuccessCallbackRef = useRef<(() => void) | null>(null);
 
   const normalizePhone = (phone: string) => {
     const cleaned = phone.replace(/[^0-9]/g, "");
@@ -168,6 +176,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     setUser(activeUser);
     setIsAuthModalOpen(false);
+    setAuthModalPrompt(undefined);
+
+    // Execute post-login callback if registered
+    const cb = authSuccessCallbackRef.current;
+    authSuccessCallbackRef.current = null;
+    if (cb) {
+      try {
+        cb();
+      } catch (err) {
+        console.error("Error executing auth success callback:", err);
+      }
+    }
+
     return activeUser;
   }, []);
 
@@ -184,12 +205,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loginWithPhone(mockPhone, `Shopper ${mockPhone.slice(-4)}`);
   }, [loginWithPhone]);
 
-  const openAuthModal = useCallback(() => {
+  const openAuthModal = useCallback((options?: OpenAuthModalOptions | unknown) => {
+    // If called directly as onClick={openAuthModal}, ignore the synthetic event object
+    const isSyntheticEvent =
+      options &&
+      typeof options === "object" &&
+      ("nativeEvent" in options || "preventDefault" in options);
+
+    const opts = isSyntheticEvent ? undefined : (options as OpenAuthModalOptions | undefined);
+    setAuthModalPrompt(opts?.prompt);
+    authSuccessCallbackRef.current = opts?.onSuccess || null;
     setIsAuthModalOpen(true);
   }, []);
 
   const closeAuthModal = useCallback(() => {
     setIsAuthModalOpen(false);
+    setAuthModalPrompt(undefined);
+    authSuccessCallbackRef.current = null;
   }, []);
 
   // Check auth state from localStorage on mount
@@ -364,6 +396,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         quickTestLogin,
         logout,
         isAuthModalOpen,
+        authModalPrompt,
         openAuthModal,
         closeAuthModal,
         addCoins,

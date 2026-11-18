@@ -305,7 +305,7 @@ export default function AccountPage() {
             <div className="pt-2 text-center border-t border-gray-100">
               <button
                 type="button"
-                onClick={openAuthModal}
+                onClick={() => openAuthModal()}
                 className="text-xs text-blue-700 font-bold hover:underline cursor-pointer"
               >
                 Or Open OTP Login Modal &rarr;

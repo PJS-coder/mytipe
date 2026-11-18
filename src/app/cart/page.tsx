@@ -3,29 +3,44 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Trash2, Plus, Minus, ArrowRight, ShieldCheck, Truck, ShoppingBag, ArrowLeft, Lock, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Trash2, Plus, Minus, ArrowRight, ShieldCheck, Truck, ShoppingBag, ArrowLeft, Lock, Loader2, BadgePercent } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
+import CartMilestoneBar from "@/components/cart/CartMilestoneBar";
 import { formatPrice } from "@/lib/utils";
 
 
 export default function CartPage() {
+  const router = useRouter();
   const {
     items,
     updateQuantity,
     removeItem,
     clearCart,
     subtotal,
+    tierDiscount,
+    finalSubtotal,
     totalSavings,
     totalQuantity,
-    freeShippingRemaining,
-    freeShippingProgress,
   } = useCart();
 
+  const { isAuthenticated, openAuthModal } = useAuth();
   const [orderNote, setOrderNote] = useState("");
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const handleProceedCheckout = () => {
-    window.location.href = "/checkout";
+    if (!isAuthenticated) {
+      openAuthModal({
+        prompt: "Please sign in with your phone to proceed to checkout",
+        onSuccess: () => {
+          router.push("/checkout");
+        },
+      });
+      return;
+    }
+    setIsCheckingOut(true);
+    router.push("/checkout");
   };
 
 
@@ -75,28 +90,8 @@ export default function CartPage() {
           </Link>
         </div>
 
-        {/* Free Shipping Notice */}
-        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-8">
-          <div className="flex items-center justify-between text-xs font-semibold mb-2">
-            <span className="flex items-center gap-2 text-gray-700">
-              <Truck className="w-4 h-4 text-blue-600" />
-              {freeShippingRemaining > 0 ? (
-                <>Add <strong className="text-blue-700">{formatPrice(freeShippingRemaining)}</strong> more to get FREE Express Delivery!</>
-              ) : (
-                <span className="text-emerald-700 font-bold">🎉 You have qualified for FREE Shipping!</span>
-              )}
-            </span>
-            <span className="text-gray-500 font-bold">{freeShippingProgress}%</span>
-          </div>
-          <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
-            <div
-              className={`h-full transition-all duration-500 rounded-full ${
-                freeShippingProgress >= 100 ? "bg-emerald-500" : "bg-[#0f1c3f]"
-              }`}
-              style={{ width: `${freeShippingProgress}%` }}
-            />
-          </div>
-        </div>
+        {/* Cart Milestone Progress Bar */}
+        <CartMilestoneBar subtotal={subtotal} className="rounded-2xl border border-gray-200 mb-8 shadow-xs" />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16 items-start">
           {/* Cart Table List */}
@@ -215,26 +210,43 @@ export default function CartPage() {
                 <span className="font-bold text-gray-900">{formatPrice(subtotal)}</span>
               </div>
 
+              {tierDiscount > 0 && (
+                <div className="flex justify-between text-emerald-700 font-bold bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-200 text-xs">
+                  <span className="flex items-center gap-1.5">
+                    <BadgePercent className="w-4 h-4 text-emerald-600" />
+                    <span>Milestone Discount ({tierDiscount === 200 ? "₹200 OFF" : "₹100 OFF"})</span>
+                  </span>
+                  <span>-{formatPrice(tierDiscount)}</span>
+                </div>
+              )}
+
               {totalSavings > 0 && (
-                <div className="flex justify-between text-emerald-700 font-semibold">
+                <div className="flex justify-between text-gray-600 text-xs font-semibold">
                   <span>Special Discount Savings</span>
-                  <span>-{formatPrice(totalSavings)}</span>
+                  <span className="text-emerald-700">-{formatPrice(totalSavings)}</span>
                 </div>
               )}
 
               <div className="flex justify-between text-gray-600">
                 <span>Standard Shipping</span>
                 <span className="text-emerald-700 font-bold uppercase text-xs">
-                  {freeShippingRemaining === 0 ? "FREE" : "FREE COD"}
+                  {subtotal >= 399 ? "FREE" : "₹50 (FREE at ₹399)"}
                 </span>
               </div>
 
               <div className="pt-3 border-t border-gray-200 flex justify-between items-baseline">
                 <span className="text-base font-bold text-gray-900">Total</span>
                 <div className="text-right">
-                  <span className="text-2xl font-black text-gray-950">
-                    {formatPrice(subtotal)}
-                  </span>
+                  <div className="flex items-baseline justify-end gap-2">
+                    {tierDiscount > 0 && (
+                      <span className="text-sm text-gray-400 line-through">
+                        {formatPrice(subtotal + (subtotal >= 399 ? 0 : 50))}
+                      </span>
+                    )}
+                    <span className="text-2xl font-black text-gray-950">
+                      {formatPrice(finalSubtotal + (subtotal >= 399 ? 0 : 50))}
+                    </span>
+                  </div>
                   <p className="text-[11px] text-gray-400">Including all taxes</p>
                 </div>
               </div>
@@ -242,11 +254,21 @@ export default function CartPage() {
 
             <button
               onClick={handleProceedCheckout}
-              className="w-full py-4 bg-[#0f1c3f] hover:bg-[#1a2e66] text-white font-bold text-sm uppercase tracking-wider rounded-xl transition shadow-xl flex items-center justify-center gap-2 cursor-pointer"
+              disabled={isCheckingOut}
+              className="w-full py-4 bg-[#0f1c3f] hover:bg-[#1a2e66] text-white font-bold text-sm uppercase tracking-wider rounded-xl transition shadow-xl flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75"
             >
-              <Lock className="w-4 h-4" />
-              <span>PROCEED TO SECURE CHECKOUT</span>
-              <ArrowRight className="w-4 h-4" />
+              {isCheckingOut ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Redirecting to Checkout...</span>
+                </>
+              ) : (
+                <>
+                  <Lock className="w-4 h-4" />
+                  <span>PROCEED TO SECURE CHECKOUT</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
 
             <div className="space-y-2 pt-2 text-xs text-gray-500">

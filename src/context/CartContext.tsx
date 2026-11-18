@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { CartLineItem, Product, ProductVariant, ProductBundleTier } from "@/types/store";
+import { calculateCartMilestones, CART_MILESTONES } from "@/lib/constants/cart";
 
 interface CartContextType {
   items: CartLineItem[];
@@ -20,6 +21,9 @@ interface CartContextType {
   clearCart: () => void;
   totalQuantity: number;
   subtotal: number;
+  tierDiscount: number;
+  finalSubtotal: number;
+  isCheckoutUnlocked: boolean;
   totalSavings: number;
   freeShippingThreshold: number;
   freeShippingRemaining: number;
@@ -29,7 +33,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const STORAGE_KEY = "mytipe_cart_items_v1";
-const FREE_SHIPPING_THRESHOLD = 449; // Free shipping above ₹449
+const FREE_SHIPPING_THRESHOLD = CART_MILESTONES.UNLOCK_CHECKOUT;
 
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
@@ -163,6 +167,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, 0);
   }, [items]);
 
+  const milestones = useMemo(() => calculateCartMilestones(subtotal), [subtotal]);
+  const tierDiscount = milestones.tierDiscount;
+  const isCheckoutUnlocked = milestones.isCheckoutUnlocked;
+  const finalSubtotal = Math.max(0, subtotal - tierDiscount);
+
   const freeShippingRemaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
   const freeShippingProgress = Math.min(
     100,
@@ -183,6 +192,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         clearCart,
         totalQuantity,
         subtotal,
+        tierDiscount,
+        finalSubtotal,
+        isCheckoutUnlocked,
         totalSavings,
         freeShippingThreshold: FREE_SHIPPING_THRESHOLD,
         freeShippingRemaining,

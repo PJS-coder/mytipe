@@ -25,7 +25,7 @@ export default function StorySection() {
 
             <div className="pt-2">
               <Link
-                href="/products/black-foot-alignment-socks"
+                href="/products/pain-relief-socks"
                 className="inline-flex items-center justify-center px-7 py-3.5 bg-[#1e384c] hover:bg-[#152a3a] text-white font-bold text-xs uppercase tracking-widest rounded-md shadow-md hover:shadow-lg transition-all"
               >
                 <span>SHOP NOW</span>
@@ -34,16 +34,19 @@ export default function StorySection() {
             </div>
           </div>
 
-          {/* Right Image Showcase with /pain-sock.png adjusted to show full bottom content */}
-          <div className="relative aspect-square sm:aspect-4/3 rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg bg-slate-50 border border-slate-100">
+          {/* Right Image Showcase with /pain-sock.png */}
+          <Link
+            href="/products/pain-relief-socks"
+            className="relative aspect-square sm:aspect-4/3 rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg bg-slate-50 border border-slate-100 group block cursor-pointer"
+          >
             <Image
               src="/pain-sock.webp"
               alt="Mytipe Pain Relief Foot Alignment Socks"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-[center_75%] hover:scale-[1.02] transition-transform duration-500"
+              className="object-cover object-[center_75%] group-hover:scale-[1.02] transition-transform duration-500"
             />
-          </div>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Star, Truck, ShieldCheck, Zap, Lock, ShoppingBag, Plus, Minus, Check } from "lucide-react";
 import { Product, ProductVariant } from "@/types/store";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 interface ProductInfoProps {
   product: Product;
@@ -17,7 +19,9 @@ export default function ProductInfo({
   selectedVariant,
   onSelectVariant,
 }: ProductInfoProps) {
+  const router = useRouter();
   const { addItem, openCart } = useCart();
+  const { isAuthenticated, openAuthModal } = useAuth();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
 
@@ -96,7 +100,18 @@ export default function ProductInfo({
   const handleBuyNow = () => {
     const effectiveQty = hasExplicitPackOption ? quantity : quantity * customPackChoice;
     addItem(product, selectedVariant, effectiveQty);
-    openCart();
+
+    if (!isAuthenticated) {
+      openAuthModal({
+        prompt: "Please sign in with your phone to complete your purchase",
+        onSuccess: () => {
+          router.push("/checkout");
+        },
+      });
+      return;
+    }
+
+    router.push("/checkout");
   };
 
   // Filter out dummy default options

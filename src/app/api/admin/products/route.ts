@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllProducts, createProduct } from "@/server/db/products";
+import { isRequestAuthorized } from "@/server/auth/admin";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  if (!isRequestAuthorized(request)) {
+    return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+  }
+
   try {
     const products = getAllProducts();
     return NextResponse.json({
@@ -19,6 +24,10 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  if (!isRequestAuthorized(request)) {
+    return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     if (!body?.title?.trim()) {

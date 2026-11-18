@@ -1,9 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getAllProducts } from "@/server/db/products";
 import { getAllCollections } from "@/server/db/collections";
 import { getAllOrders } from "@/server/db/orders";
+import { isRequestAuthorized } from "@/server/auth/admin";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  if (!isRequestAuthorized(request)) {
+    return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+  }
+
   try {
     const products = getAllProducts();
     const collections = getAllCollections();

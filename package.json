@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrate": "node scripts/migrate-production.mjs"
   },
   "dependencies": {
     "cloudinary": "^2.11.0",
