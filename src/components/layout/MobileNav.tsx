@@ -162,9 +162,8 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
             >
               <span>Shop</span>
               <ChevronDown
-                className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
-                  shopOpen ? "rotate-180" : ""
-                }`}
+                className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${shopOpen ? "rotate-180" : ""
+                  }`}
               />
             </button>
 
@@ -178,18 +177,11 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
                   Shop All
                 </Link>
                 <Link
-                  href="/collections/rakhi-gift-for-brothers"
+                  href="/collections/combos"
                   onClick={onClose}
-                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
+                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition text-gray-700"
                 >
-                  Rakhi Gift For Brothers
-                </Link>
-                <Link
-                  href="/collections/mytipe-foot-care-kits"
-                  onClick={onClose}
-                  className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
-                >
-                  Mytipe Foot Care Kits
+                  Combos
                 </Link>
                 <Link
                   href="/collections/gym-socks"

@@ -29,11 +29,48 @@ export default function MakeYourCareCanClient({ products }: MakeYourCareCanClien
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [isAddingAll, setIsAddingAll] = useState(false);
 
-  // Filter socks for the builder (exclude deodorants or non-sock items if any, but keep all socks)
+  // Filter for single socks only (strictly exclude deodorants, combos, kits, multi-pair bundles)
   const availableSocks = useMemo(() => {
-    return products.filter(
-      (p) => !p.handle.includes("deo") && !p.title.toLowerCase().includes("deo")
-    );
+    const seenTitles = new Set<string>();
+    return products.filter((p) => {
+      const h = p.handle.toLowerCase();
+      const t = p.title.toLowerCase();
+      const desc = (p.description || "").toLowerCase();
+      const price = parseFloat(p.priceRange.minVariantPrice.amount) || 0;
+
+      // Exclude deodorants
+      if (h.includes("deo") || t.includes("deo")) return false;
+
+      // Exclude combos, kits, multi-pair sets, bundles
+      if (
+        price >= 600 ||
+        h.includes("kit") ||
+        h.includes("duo") ||
+        h.includes("trio") ||
+        h.includes("box") ||
+        h.includes("combo") ||
+        h.includes("pack") ||
+        t.includes("kit") ||
+        t.includes("duo") ||
+        t.includes("trio") ||
+        t.includes("box") ||
+        t.includes("combo") ||
+        t.includes("pack") ||
+        desc.includes("two ") ||
+        desc.includes("three ") ||
+        desc.includes("pairs of") ||
+        desc.includes("sock pairs")
+      ) {
+        return false;
+      }
+
+      // Deduplicate identical sock titles if any
+      const titleClean = p.title.replace(/’/g, "'").trim().toLowerCase();
+      if (seenTitles.has(titleClean)) return false;
+      seenTitles.add(titleClean);
+
+      return true;
+    });
   }, [products]);
 
   const handleToggleProduct = (product: Product) => {

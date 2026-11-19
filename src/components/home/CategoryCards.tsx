@@ -13,6 +13,12 @@ interface CategoryItem {
 
 const CATEGORIES: CategoryItem[] = [
   {
+    title: "Combos",
+    href: "/collections/combos",
+    image: "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/ChatGPT-Image-Jun-27-2026-02_42_41-AM-1.webp?v=1785136660",
+    alt: "Mytipe Value Combos",
+  },
+  {
     title: "Foot & Shoe Deo",
     href: "/products/foot-shoe-deo",
     image: "/foot&shoedeo.webp",
@@ -42,13 +48,15 @@ export default function CategoryCards() {
   return (
     <section className="py-8 sm:py-14 bg-[#faf7f2]">
       <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16">
-        {/* 4 Category Cards in a Row using official assets */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+        {/* Category Cards Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-5 lg:gap-6">
           {CATEGORIES.map((cat, idx) => (
             <Link
               key={idx}
               href={cat.href}
-              className="group relative aspect-3/4 sm:aspect-4/5 rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block bg-slate-200"
+              className={`group relative aspect-3/4 sm:aspect-4/5 rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block bg-slate-200 ${
+                idx === 0 ? "col-span-2 md:col-span-1 aspect-[16/9] md:aspect-4/5" : ""
+              }`}
             >
               {/* Official Category Image */}
               <Image

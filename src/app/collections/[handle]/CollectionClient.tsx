@@ -40,8 +40,7 @@ export default function CollectionClient({
     colors: [],
     maxPrice: 2500,
     category: [
-      "rakhi-gift-for-brothers",
-      "mytipe-foot-care-kits",
+      "combos",
       "gym-socks",
       "pain-relief-socks",
       "diabetic-socks",
@@ -57,8 +56,7 @@ export default function CollectionClient({
     setFilters((prev) => ({
       ...prev,
       category: [
-        "rakhi-gift-for-brothers",
-        "mytipe-foot-care-kits",
+        "combos",
         "gym-socks",
         "pain-relief-socks",
         "diabetic-socks",
@@ -105,12 +103,8 @@ export default function CollectionClient({
           const tags = p.tags.map((t) => t.toLowerCase());
 
           let matches = false;
-          if (cat === "rakhi-gift-for-brothers") {
-            matches =
-              tags.includes("rakhi") ||
-              title.includes("rakhi") ||
-              handle.includes("kit") ||
-              handle.includes("duo");
+          if (cat === "combos") {
+            matches = price === 699 || tags.includes("combos") || handle.includes("kit") || handle.includes("duo");
           } else if (cat === "mytipe-foot-care-kits") {
             matches =
               handle.includes("kit") ||

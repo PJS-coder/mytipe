@@ -705,7 +705,7 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
                     <option value="diabetic-socks">Diabetic Socks</option>
                     <option value="office-socks">Office Socks</option>
                     <option value="designer-socks">Designer Socks</option>
-                    <option value="mytipe-foot-care-kits">Mytipe Foot Care Kits</option>
+                    <option value="combos">Combos</option>
                     <option value="all-socks">All Alignment Socks</option>
                     <option value="best-sellers">Best Sellers</option>
                   </select>
@@ -977,7 +977,7 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
                 { name: "Diabetic Socks", handle: "diabetic-socks", desc: "Non-binding gentle circulation socks" },
                 { name: "Office Socks", handle: "office-socks", desc: "Breathable jacquard all-day formal socks" },
                 { name: "Designer Socks", handle: "designer-socks", desc: "Expressive patterns for modern lifestyle" },
-                { name: "Mytipe Foot Care Kits", handle: "mytipe-foot-care-kits", desc: "Everyday foot comfort & deo combos" },
+                { name: "Combos", handle: "combos", desc: "Everyday foot comfort & deo combos" },
                 { name: "All Alignment Socks", handle: "all-socks", desc: "Original anatomical toe spacing socks" },
               ].map((c) => {
                 const count = products.filter(
@@ -1626,7 +1626,7 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
                     <option value="diabetic-socks">Diabetic Socks</option>
                     <option value="office-socks">Office Socks</option>
                     <option value="designer-socks">Designer Socks</option>
-                    <option value="mytipe-foot-care-kits">Mytipe Foot Care Kits</option>
+                    <option value="combos">Combos</option>
                     <option value="all-socks">All Alignment Socks</option>
                     <option value="best-sellers">Best Sellers</option>
                   </select>

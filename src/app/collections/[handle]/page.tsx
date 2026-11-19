@@ -1,9 +1,7 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getCollectionByHandle, getAllCollections } from "@/server/db/collections";
 import { fetchLiveProducts } from "@/lib/store/fetcher";
-
-
 
 import CollectionClient from "./CollectionClient";
 
@@ -40,6 +38,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CollectionPage({ params }: Props) {
   const { handle } = await params;
+
+  if (handle === "rakhi-gift-for-brothers") {
+    redirect("/collections/all-socks");
+  }
+
+  if (handle === "mytipe-foot-care-kits") {
+    redirect("/collections/combos");
+  }
+
+  if (handle === "make-your-care-can") {
+    redirect("/make-your-care-can");
+  }
+
   const collection = getCollectionByHandle(handle) || {
     id: `gid://shopify/Collection/${handle}`,
     handle,
@@ -55,8 +66,8 @@ export default async function CollectionPage({ params }: Props) {
           if (p.collections?.includes(handle) || p.tags.includes(handle)) return true;
           const title = p.title.toLowerCase();
           const pHandle = p.handle.toLowerCase();
-          if (handle === "rakhi-gift-for-brothers") {
-            return p.tags.includes("rakhi") || title.includes("rakhi") || pHandle.includes("kit") || pHandle.includes("duo");
+          if (handle === "combos") {
+            return parseFloat(p.priceRange.minVariantPrice.amount) === 699 || p.tags.includes("combos") || p.collections?.includes("combos");
           }
           if (handle === "mytipe-foot-care-kits") {
             return pHandle.includes("kit") || pHandle.includes("duo") || title.includes("kit") || title.includes("duo");

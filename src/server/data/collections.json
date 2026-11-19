@@ -8,39 +8,43 @@
     "productHandles": []
   },
   {
+    "id": "col-combos",
+    "handle": "combos",
+    "title": "Combos",
+    "description": "Exclusive Mytipe combo packs and value bundles.",
+    "productsCount": 18,
+    "productHandles": [
+      "the-everyday-essentials-kit",
+      "everyday-strength-kit",
+      "your-daily-footcare-duo",
+      "gentle-comfort-complete-care",
+      "comfort-you-can-count-on",
+      "everyday-care-thoughtfully-designed",
+      "align-refresh-repeat",
+      "adventure-starts-from-the-ground-up",
+      "keep-moving-keep-fresh",
+      "fresh-looks-smarter-footcare",
+      "more-personality-more-freshness",
+      "wear-confidence-walk-fresh",
+      "built-for-every-move",
+      "style-that-stays-fresh",
+      "everyday-upgraded",
+      "fresh-feet-fresh-shoes-every-day",
+      "start-right-stay-light",
+      "better-balance-better-days"
+    ],
+    "seo": {
+      "title": "Combos - Mytipe",
+      "description": "Exclusive Mytipe combo packs and value bundles."
+    }
+  },
+  {
     "id": "col-348944466118",
     "handle": "make-your-care-can",
     "title": "Make Your Care Can",
     "description": "Explore our high quality Make Your Care Can range designed for foot health and everyday comfort.",
     "productsCount": 0,
     "productHandles": []
-  },
-  {
-    "id": "col-349008789702",
-    "handle": "mytipe-foot-care-kits",
-    "title": "Mytipe Foot Care Kits",
-    "description": "Explore our high quality Mytipe Foot Care Kits range designed for foot health and everyday comfort.",
-    "productsCount": 18,
-    "productHandles": [
-      "better-balance-better-days",
-      "start-right-stay-light",
-      "everyday-strength-kit",
-      "fresh-feet-fresh-shoes-every-day",
-      "your-daily-footcare-duo",
-      "the-everyday-essentials-kit",
-      "everyday-upgraded",
-      "style-that-stays-fresh",
-      "built-for-every-move",
-      "wear-confidence-walk-fresh",
-      "more-personality-more-freshness",
-      "fresh-looks-smarter-footcare",
-      "keep-moving-keep-fresh",
-      "adventure-starts-from-the-ground-up",
-      "align-refresh-repeat",
-      "everyday-care-thoughtfully-designed",
-      "comfort-you-can-count-on",
-      "gentle-comfort-complete-care"
-    ]
   },
   {
     "id": "col-349008855238",
@@ -145,7 +149,6 @@
       "better-balance-better-days",
       "foot-shoe-deo",
       "pain-relief-socks",
-      "mytipe-raksha-bandhan-gift-box-for-brother",
       "men-s-legacy-ankle-socks"
     ]
   },
@@ -173,31 +176,6 @@
       "unisex-metrodot-ankle-socks",
       "health-black-socks",
       "foot-shoe-deo"
-    ]
-  },
-  {
-    "id": "col-350166122694",
-    "handle": "mytipe-foot-care-kits-1",
-    "title": "mytipe-foot-care-kits",
-    "description": "Explore our high quality mytipe-foot-care-kits range designed for foot health and everyday comfort.",
-    "productsCount": 16,
-    "productHandles": [
-      "men-s-legacy-ankle-socks",
-      "unisex-urbandot-ankle-socks",
-      "unisex-streetfit-ankle-socks",
-      "unisex-playdot-ankle-socks",
-      "unisex-poweredge-ankle-socks",
-      "unisex-popcorn-ankle-socks",
-      "unisex-mountain-vibe-ankle-socks",
-      "unisex-mango-grove-ankle-socks",
-      "unisex-keep-going-ankle-socks",
-      "health-skin-socks",
-      "mens-gripfit-low-cut-socks",
-      "pain-relief-socks",
-      "unisex-bravemode-ankle-socks",
-      "unisex-metrodot-ankle-socks",
-      "health-black-socks",
-      "mens-legacy-ankle-socks"
     ]
   },
   {
@@ -303,14 +281,6 @@
       "olive-green-foot-alignment-socks",
       "mens-legacy-ankle-socks"
     ]
-  },
-  {
-    "id": "col-rakhi-gift-for-brothers",
-    "handle": "rakhi-gift-for-brothers",
-    "title": "Rakhi Gift For Brothers",
-    "description": "Thoughtful foot wellness gift kits for your brothers.",
-    "productsCount": 6,
-    "productHandles": []
   },
   {
     "id": "col-body-pain",

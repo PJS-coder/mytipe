@@ -7,33 +7,31 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface HeroSlide {
   id: number;
-  image: string;
+  desktopImage: string;
+  mobileImage: string;
   alt: string;
   href: string;
 }
 
 const HERO_SLIDES: HeroSlide[] = [
   {
-    id: 3,
-    image: "/hero3.png",
+    id: 1,
+    desktopImage: "/hero3.png",
+    mobileImage: "/mobile-hero1.png",
     alt: "Mytipe Everyday Foot Health & Comfort",
     href: "/collections/all-socks",
   },
   {
-    id: 1,
-    image: "/heros.webp",
-    alt: "Mytipe - Made To Matter. Foot Alignment Socks",
-    href: "/collections/all-socks",
-  },
-  {
     id: 2,
-    image: "/hero2.png",
+    desktopImage: "/hero2.png",
+    mobileImage: "/mobile-hero2.png",
     alt: "Mytipe Premium Socks Collection",
     href: "/collections/all-socks",
   },
   {
-    id: 4,
-    image: "/hero4.png",
+    id: 3,
+    desktopImage: "/hero4.png",
+    mobileImage: "/mobile-hero3.png",
     alt: "Mytipe Ergonomic Support & Performance Socks",
     href: "/collections/all-socks",
   },
@@ -167,25 +165,24 @@ export default function Hero() {
     currentIndex === 0
       ? HERO_SLIDES.length - 1
       : currentIndex === extendedSlides.length - 1
-      ? 0
-      : currentIndex - 1;
+        ? 0
+        : currentIndex - 1;
 
   return (
     <section
-      className="relative w-full bg-[#1b1c20] -mt-2 sm:-mt-4 lg:-mt-6 group overflow-hidden select-none"
+      className="relative w-full bg-[#0b2545] group overflow-hidden select-none"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       aria-label="Featured promotions carousel"
     >
-      {/* Carousel Track Container */}
-      <div className="relative w-full aspect-[16/8.8] sm:aspect-[16/8.8] lg:aspect-[1.92/1] overflow-hidden">
+      {/* Carousel Track Container - Full-width on mobile & aspect-ratio fitted on desktop */}
+      <div className="relative w-full aspect-[941/1672] max-h-[82vh] sm:max-h-[calc(100vh-102px)] sm:aspect-[1672/941] overflow-hidden">
         <div
-          className={`flex h-full w-full ${
-            withTransition
-              ? "transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
-              : "transition-none"
-          }`}
+          className={`flex h-full w-full ${withTransition
+            ? "transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
+            : "transition-none"
+            }`}
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           onTransitionEnd={handleTransitionEnd}
         >
@@ -208,14 +205,29 @@ export default function Hero() {
                     }
                   }}
                 >
-                  <Image
-                    src={slide.image}
-                    alt={slide.alt}
-                    fill
-                    priority={isInitialSlide}
-                    sizes="100vw"
-                    className="object-cover object-[center_top] transition-transform duration-700 ease-out"
-                  />
+                  {/* Mobile View Hero Banner - 100% Full Width */}
+                  <div className="block sm:hidden relative w-full h-full">
+                    <Image
+                      src={slide.mobileImage}
+                      alt={slide.alt}
+                      fill
+                      priority={isInitialSlide}
+                      sizes="100vw"
+                      className="object-cover object-center"
+                    />
+                  </div>
+
+                  {/* Desktop / Tablet View Hero Banner */}
+                  <div className="hidden sm:block relative w-full h-full">
+                    <Image
+                      src={slide.desktopImage}
+                      alt={slide.alt}
+                      fill
+                      priority={isInitialSlide}
+                      sizes="100vw"
+                      className="object-cover object-center transition-transform duration-700 ease-out"
+                    />
+                  </div>
                 </Link>
               </div>
             );
@@ -263,11 +275,10 @@ export default function Hero() {
                   e.stopPropagation();
                   goToSlide(index);
                 }}
-                className={`transition-all duration-300 rounded-full cursor-pointer ${
-                  isActive
-                    ? "w-6 sm:w-8 h-1.5 sm:h-2 bg-white shadow-sm"
-                    : "w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white/50 hover:bg-white/80"
-                }`}
+                className={`transition-all duration-300 rounded-full cursor-pointer ${isActive
+                  ? "w-6 sm:w-8 h-1.5 sm:h-2 bg-white shadow-sm"
+                  : "w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white/50 hover:bg-white/80"
+                  }`}
                 aria-label={`Go to slide ${index + 1}`}
                 aria-current={isActive ? "true" : undefined}
               />

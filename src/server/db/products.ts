@@ -13,17 +13,34 @@ declare global {
   var __mongo_seeded__: boolean | undefined;
 }
 
-if (!global.__mytipe_products__) {
-  global.__mytipe_products__ = [...(productsData as unknown as Product[])];
+// Clean initial product list (strictly excluding any Rakhi / gift box products)
+const cleanInitialProducts = (productsData as unknown as Product[]).filter(
+  (p) =>
+    !p.handle.toLowerCase().includes("rakhi") &&
+    !p.handle.toLowerCase().includes("raksha") &&
+    !p.title.toLowerCase().includes("rakhi") &&
+    !p.title.toLowerCase().includes("raksha")
+);
+
+if (!global.__mytipe_products__ || global.__mytipe_products__.some(p => p.handle.includes("rakhi") || p.handle.includes("raksha"))) {
+  global.__mytipe_products__ = [...cleanInitialProducts];
 }
 
 const products = global.__mytipe_products__;
 
-// Auto-seed MongoDB on first connection if database is empty
+// Auto-seed MongoDB on first connection & clean up obsolete Rakhi products
 async function ensureMongoSeeded() {
-  if (!isMongoConfigured || global.__mongo_seeded__) return;
+  if (!isMongoConfigured) return;
   try {
     await connectToMongoDB();
+    // Clean up any Rakhi products in MongoDB
+    await ProductModel.deleteMany({
+      $or: [
+        { handle: { $regex: /rakhi|raksha/i } },
+        { title: { $regex: /rakhi|raksha/i } },
+      ],
+    });
+
     const count = await ProductModel.countDocuments();
     if (count === 0 && products.length > 0) {
       console.log(`Auto-seeding MongoDB with ${products.length} products...`);
@@ -32,7 +49,7 @@ async function ensureMongoSeeded() {
     }
     global.__mongo_seeded__ = true;
   } catch (err) {
-    console.warn("MongoDB auto-seed notice:", err);
+    console.warn("MongoDB sync notice:", err);
   }
 }
 
@@ -61,7 +78,13 @@ export interface GetProductsOptions {
 }
 
 export function getAllProducts(options?: GetProductsOptions): Product[] {
-  let result = [...products];
+  let result = products.filter(
+    (p) =>
+      !p.handle.toLowerCase().includes("rakhi") &&
+      !p.handle.toLowerCase().includes("raksha") &&
+      !p.title.toLowerCase().includes("rakhi") &&
+      !p.title.toLowerCase().includes("raksha")
+  );
 
   if (options?.collection) {
     const col = options.collection.toLowerCase();

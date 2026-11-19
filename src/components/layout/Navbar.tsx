@@ -157,16 +157,10 @@ export default function Navbar() {
                     <div className="absolute right-0 top-full pt-2 w-64 animate-in fade-in zoom-in-95 duration-150 z-50">
                       <div className="bg-white rounded-2xl shadow-xl border border-gray-100 py-3 px-2 space-y-0.5">
                         <Link
-                          href="/collections/rakhi-gift-for-brothers"
+                          href="/collections/combos"
                           className="block px-4 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:text-gray-950 hover:bg-slate-50 transition"
                         >
-                          Rakhi Gift For Brothers
-                        </Link>
-                        <Link
-                          href="/collections/mytipe-foot-care-kits"
-                          className="block px-4 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:text-gray-950 hover:bg-slate-50 transition"
-                        >
-                          Mytipe Foot Care Kits
+                          Combos
                         </Link>
                         <Link
                           href="/collections/gym-socks"

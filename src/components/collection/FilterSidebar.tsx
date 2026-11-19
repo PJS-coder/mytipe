@@ -13,8 +13,7 @@ interface FilterState {
 
 const CATEGORY_ITEMS = [
   { label: "All Categories", handle: "all-socks", href: "/collections/all-socks" },
-  { label: "Rakhi Gift For Brothers", handle: "rakhi-gift-for-brothers", href: "/collections/rakhi-gift-for-brothers" },
-  { label: "Mytipe Foot Care Kits", handle: "mytipe-foot-care-kits", href: "/collections/mytipe-foot-care-kits" },
+  { label: "Combos", handle: "combos", href: "/collections/combos" },
   { label: "Gym Socks", handle: "gym-socks", href: "/collections/gym-socks" },
   { label: "Pain Relief Socks", handle: "pain-relief-socks", href: "/products/pain-relief-socks" },
   { label: "Diabetic Socks", handle: "diabetic-socks", href: "/collections/diabetic-socks" },
@@ -81,7 +80,7 @@ export default function FilterSidebar({
             {CATEGORY_ITEMS.length} types
           </span>
         </div>
-        <div className="space-y-0.5 max-h-48 overflow-y-auto pr-1 overscroll-contain [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+        <div className="space-y-0.5">
           {CATEGORY_ITEMS.map((item) => {
             const isActive =
               currentHandle === item.handle ||
@@ -94,11 +93,10 @@ export default function FilterSidebar({
                 key={item.handle}
                 href={item.href}
                 onClick={onCloseMobileDrawer}
-                className={`w-full text-left text-xs px-2.5 py-1.5 rounded-lg transition flex items-center justify-between block ${
-                  isActive
-                    ? "bg-[#0f1c3f] text-white font-bold"
-                    : "text-gray-700 hover:bg-slate-100"
-                }`}
+                className={`w-full text-left text-xs px-2.5 py-1.5 rounded-lg transition flex items-center justify-between block ${isActive
+                  ? "bg-[#0f1c3f] text-white font-bold"
+                  : "text-gray-700 hover:bg-slate-100"
+                  }`}
               >
                 <span className="truncate pr-1">{item.label}</span>
                 {isActive && <span className="shrink-0">&bull;</span>}
@@ -113,7 +111,7 @@ export default function FilterSidebar({
         <label className="text-xs font-bold text-gray-800 uppercase tracking-wider block">
           Color
         </label>
-        <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+        <div className="flex flex-wrap gap-1.5">
           {availableColors.map((color) => {
             const isSelected = filters.colors.includes(color);
             return (
@@ -121,11 +119,10 @@ export default function FilterSidebar({
                 key={color}
                 type="button"
                 onClick={() => toggleColor(color)}
-                className={`text-[11px] px-2.5 py-1 rounded-full border transition cursor-pointer ${
-                  isSelected
-                    ? "bg-[#0f1c3f] text-white border-[#0f1c3f] font-semibold shadow-2xs"
-                    : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
-                }`}
+                className={`text-[11px] px-2.5 py-1 rounded-full border transition cursor-pointer ${isSelected
+                  ? "bg-[#0f1c3f] text-white border-[#0f1c3f] font-semibold shadow-2xs"
+                  : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
+                  }`}
               >
                 {color}
               </button>
