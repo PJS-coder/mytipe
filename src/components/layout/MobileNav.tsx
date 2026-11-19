@@ -73,7 +73,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
           <Link href="/" onClick={onClose} className="flex items-center gap-2">
             <div className="relative w-8 h-8 shrink-0">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Mytipe Logo"
                 fill
                 sizes="32px"

@@ -43,7 +43,7 @@ export default function InitialPageLoader() {
         {/* Brand Logo */}
         <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center animate-pulse">
           <Image
-            src="/logo.png"
+            src="/logo.webp"
             alt="Mytipe Logo"
             width={80}
             height={80}

@@ -42,6 +42,7 @@ function ReelCard({ reel }: { reel: ReelItem }) {
         loop
         muted
         playsInline
+        preload="metadata"
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
       />
     </a>

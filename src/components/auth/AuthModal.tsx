@@ -79,7 +79,7 @@ export default function AuthModal() {
         <div className="flex flex-col items-center text-center space-y-2 mb-4 sm:mb-5">
           <div className="relative w-11 h-11 sm:w-13 sm:h-13 p-1.5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-2xs flex items-center justify-center">
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="Mytipe Logo"
               width={40}
               height={40}

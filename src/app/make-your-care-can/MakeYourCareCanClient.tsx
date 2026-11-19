@@ -17,7 +17,7 @@ import {
   HeartHandshake,
 } from "lucide-react";
 import { Product } from "@/types/store";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, getOptimizedImageUrl } from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
 
 interface MakeYourCareCanClientProps {
@@ -122,11 +122,12 @@ export default function MakeYourCareCanClient({ products }: MakeYourCareCanClien
       <section className="w-full bg-slate-900">
         <div className="w-full relative">
           <Image
-            src="/hero-can.png"
+            src="/hero-can.webp"
             alt="India's First Grow-Plant Sock Can"
             width={2560}
             height={900}
             priority
+            unoptimized
             sizes="100vw"
             className="w-full h-auto object-cover block"
           />
@@ -157,9 +158,10 @@ export default function MakeYourCareCanClient({ products }: MakeYourCareCanClien
                     {item ? (
                       <div className="relative w-18 h-18 sm:w-22 sm:h-22 rounded-2xl border-2 border-emerald-600 bg-white p-1 shadow-sm overflow-hidden group">
                         <Image
-                          src={item.featuredImage.url}
+                          src={getOptimizedImageUrl(item.featuredImage.url, 160)}
                           alt={item.title}
                           fill
+                          unoptimized
                           sizes="90px"
                           className="object-cover rounded-xl"
                         />
@@ -235,9 +237,11 @@ export default function MakeYourCareCanClient({ products }: MakeYourCareCanClien
                 {/* Product Image */}
                 <div className="relative aspect-square w-full bg-slate-100 overflow-hidden">
                   <Image
-                    src={product.featuredImage.url}
+                    src={getOptimizedImageUrl(product.featuredImage.url, 480)}
                     alt={product.title}
                     fill
+                    unoptimized
+                    loading="lazy"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
@@ -332,9 +336,10 @@ export default function MakeYourCareCanClient({ products }: MakeYourCareCanClien
             {/* Right Column: Official BRAVE Infographic Image */}
             <div className="relative aspect-square w-full rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 bg-red-600 group">
               <Image
-                src="/brave.png"
+                src="/brave.webp"
                 alt="MYTIPE BRAVE Sock Features Infographic"
                 fill
+                unoptimized
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover object-center transform group-hover:scale-[1.02] transition-transform duration-500"
               />

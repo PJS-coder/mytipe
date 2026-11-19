@@ -38,7 +38,8 @@ export function calculateDiscount(price: number, compareAtPrice: number): number
 /**
  * Optimizes image URLs for ultra-fast loading:
  * 1. Automatically requests Shopify CDN images at the exact display width in WebP format
- * 2. Swaps heavy local assets with lightweight WebP versions
+ * 2. Injects automatic WebP/AVIF compression & target width for Cloudinary CDN assets (f_auto,q_auto,w_...)
+ * 3. Swaps heavy local assets with lightweight WebP versions
  */
 export function getOptimizedImageUrl(url: string | undefined | null, width: number = 600): string {
   if (!url) return "/heros.webp";
@@ -56,6 +57,13 @@ export function getOptimizedImageUrl(url: string | undefined | null, width: numb
         "/foot&shoedeo.webp",
         "/carecan-hero.webp",
         "/hero-can.webp",
+        "/hero2.webp",
+        "/hero3.webp",
+        "/hero4.webp",
+        "/mobile-hero1.webp",
+        "/mobile-hero2.webp",
+        "/mobile-hero3.webp",
+        "/logo.webp",
       ].includes(webpPath)
     ) {
       return webpPath;
@@ -66,6 +74,13 @@ export function getOptimizedImageUrl(url: string | undefined | null, width: numb
   if (url.includes("cdn.shopify.com")) {
     const cleanUrl = url.split("?")[0];
     return `${cleanUrl}?width=${width}&format=webp`;
+  }
+
+  // Cloudinary CDN: inject f_auto,q_auto,w_${width} for instantaneous modern WebP/AVIF delivery
+  if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
+    if (!url.includes("/upload/f_auto") && !url.includes("/upload/w_") && !url.includes("/upload/q_")) {
+      return url.replace("/upload/", `/upload/f_auto,q_auto,w_${width}/`);
+    }
   }
 
   return url;

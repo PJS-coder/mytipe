@@ -16,22 +16,22 @@ interface HeroSlide {
 const HERO_SLIDES: HeroSlide[] = [
   {
     id: 1,
-    desktopImage: "/hero3.png",
-    mobileImage: "/mobile-hero1.png",
+    desktopImage: "/hero3.webp",
+    mobileImage: "/mobile-hero1.webp",
     alt: "Mytipe Everyday Foot Health & Comfort",
     href: "/collections/all-socks",
   },
   {
     id: 2,
-    desktopImage: "/hero2.png",
-    mobileImage: "/mobile-hero2.png",
+    desktopImage: "/hero2.webp",
+    mobileImage: "/mobile-hero2.webp",
     alt: "Mytipe Premium Socks Collection",
     href: "/collections/all-socks",
   },
   {
     id: 3,
-    desktopImage: "/hero4.png",
-    mobileImage: "/mobile-hero3.png",
+    desktopImage: "/hero4.webp",
+    mobileImage: "/mobile-hero3.webp",
     alt: "Mytipe Ergonomic Support & Performance Socks",
     href: "/collections/all-socks",
   },
@@ -212,6 +212,7 @@ export default function Hero() {
                       alt={slide.alt}
                       fill
                       priority={isInitialSlide}
+                      unoptimized
                       sizes="100vw"
                       className="object-cover object-center"
                     />
@@ -224,6 +225,7 @@ export default function Hero() {
                       alt={slide.alt}
                       fill
                       priority={isInitialSlide}
+                      unoptimized
                       sizes="100vw"
                       className="object-cover object-center transition-transform duration-700 ease-out"
                     />

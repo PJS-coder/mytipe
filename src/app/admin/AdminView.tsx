@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, useSearchParams } from "next/navigation";
 import { Product, Order } from "@/types/store";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, getOptimizedImageUrl } from "@/lib/utils";
 import AdminLoginGate from "@/components/admin/AdminLoginGate";
 import {
   Package,
@@ -761,9 +761,10 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
                                     >
                                       {img?.url && (
                                         <Image
-                                          src={img.url}
+                                          src={getOptimizedImageUrl(img.url, 96)}
                                           alt={img.altText || product.title}
                                           fill
+                                          unoptimized
                                           className="object-cover"
                                           sizes="48px"
                                         />
@@ -1382,9 +1383,10 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
                     >
                       <div className="relative aspect-square w-full">
                         <Image
-                          src={url}
+                          src={getOptimizedImageUrl(url, 300)}
                           alt={`Photo ${idx + 1}`}
                           fill
+                          unoptimized
                           className="object-cover"
                           sizes="150px"
                         />

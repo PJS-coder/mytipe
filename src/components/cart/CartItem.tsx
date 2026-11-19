@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Plus, Minus, Trash2 } from "lucide-react";
 import { CartLineItem } from "@/types/store";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, getOptimizedImageUrl } from "@/lib/utils";
 
 interface CartItemProps {
   item: CartLineItem;
@@ -29,9 +29,10 @@ export default function CartItem({
       {/* Product Image */}
       <div className="relative w-20 h-20 bg-slate-100 rounded-xl overflow-hidden shrink-0 border border-slate-200">
         <Image
-          src={item.image.url}
+          src={getOptimizedImageUrl(item.image.url, 160)}
           alt={item.image.altText || item.title}
           fill
+          unoptimized
           sizes="80px"
           className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
         />

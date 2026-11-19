@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Make Your Care Can | India's First Grow-Plant Sock Can | Mytipe",
     description:
       "Build your custom 3-pack Mytipe sock can. Pick three, pack smart, and watch the plantable seed paper grow!",
-    images: ["/hero-can.png"],
+    images: ["/hero-can.webp"],
   },
 };
 

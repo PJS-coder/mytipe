@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Order } from "@/types/store";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, getOptimizedImageUrl } from "@/lib/utils";
 import {
   CheckCircle,
   Truck,
@@ -127,9 +127,10 @@ function OrderSuccessContent() {
                   <div className="relative w-14 h-14 rounded-xl bg-gray-50 overflow-hidden shrink-0 border border-gray-100">
                     {item.image?.url && (
                       <Image
-                        src={item.image.url}
+                        src={getOptimizedImageUrl(item.image.url, 120)}
                         alt={item.title}
                         fill
+                        unoptimized
                         className="object-cover"
                         sizes="56px"
                       />

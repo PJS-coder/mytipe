@@ -8,7 +8,7 @@ import { Trash2, Plus, Minus, ArrowRight, ShieldCheck, Truck, ShoppingBag, Arrow
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import CartMilestoneBar from "@/components/cart/CartMilestoneBar";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, getOptimizedImageUrl } from "@/lib/utils";
 
 
 export default function CartPage() {
@@ -106,9 +106,10 @@ export default function CartPage() {
                     {/* Image */}
                     <div className="relative w-24 h-24 sm:w-28 sm:h-28 bg-slate-100 rounded-2xl overflow-hidden shrink-0 border border-slate-200">
                       <Image
-                        src={item.image.url}
+                        src={getOptimizedImageUrl(item.image.url, 224)}
                         alt={item.title}
                         fill
+                        unoptimized
                         sizes="112px"
                         className="object-cover object-center"
                       />

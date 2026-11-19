@@ -45,7 +45,7 @@ export default function ProductBannerSection({ product, bannerUrl }: ProductBann
           width={product.banner?.width || 2560}
           height={product.banner?.height || 900}
           priority
-          unoptimized={activeUrl.includes("cdn.shopify.com")}
+          unoptimized
           sizes="100vw"
           className="w-full h-auto block object-cover"
           onError={() => setImageError(true)}

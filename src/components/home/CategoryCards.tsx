@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 interface CategoryItem {
   title: string;
@@ -60,9 +61,10 @@ export default function CategoryCards() {
             >
               {/* Official Category Image */}
               <Image
-                src={cat.image}
+                src={getOptimizedImageUrl(cat.image, 600)}
                 alt={cat.alt}
                 fill
+                unoptimized
                 sizes="(max-width: 640px) 50vw, 25vw"
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
               />

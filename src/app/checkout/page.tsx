@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { openRazorpayCheckout } from "@/lib/razorpay/client";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, getOptimizedImageUrl } from "@/lib/utils";
 import { calculateCartMilestones, CART_MILESTONES } from "@/lib/constants/cart";
 import {
   ShieldCheck,
@@ -655,9 +655,10 @@ export default function CheckoutPage() {
                     <div className="relative w-14 h-14 rounded-lg bg-gray-50 overflow-hidden shrink-0 border border-gray-100">
                       {item.image?.url && (
                         <Image
-                          src={item.image.url}
+                          src={getOptimizedImageUrl(item.image.url, 120)}
                           alt={item.title}
                           fill
+                          unoptimized
                           className="object-cover"
                           sizes="56px"
                         />
