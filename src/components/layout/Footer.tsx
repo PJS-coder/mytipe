@@ -88,10 +88,10 @@ export default function Footer() {
           {/* Column 3: Categories */}
           <div className="space-y-4">
             <h3 className="text-base sm:text-lg font-medium text-white">Categories</h3>
-            <ul className="space-y-3 text-sm text-zinc-300">
+            <ul className="space-y-2.5 text-sm text-zinc-300">
               <li>
-                <Link href="/collections/designer-socks" className="hover:text-white transition">
-                  Designer Socks
+                <Link href="/products/pain-relief-socks" className="hover:text-white transition">
+                  Pain Relief Socks
                 </Link>
               </li>
               <li>
@@ -102,6 +102,36 @@ export default function Footer() {
               <li>
                 <Link href="/collections/office-socks" className="hover:text-white transition">
                   Office Socks
+                </Link>
+              </li>
+              <li>
+                <Link href="/collections/diabetic-socks" className="hover:text-white transition">
+                  Diabetic Socks
+                </Link>
+              </li>
+              <li>
+                <Link href="/collections/designer-socks" className="hover:text-white transition">
+                  Designer Socks
+                </Link>
+              </li>
+              <li>
+                <Link href="/collections/mytipe-foot-care-kits" className="hover:text-white transition">
+                  Mytipe Foot Care Kits
+                </Link>
+              </li>
+              <li>
+                <Link href="/make-your-care-can" className="hover:text-white transition">
+                  Make Your Care Can
+                </Link>
+              </li>
+              <li>
+                <Link href="/collections/rakhi-gift-for-brothers" className="hover:text-white transition">
+                  Rakhi Gift For Brothers
+                </Link>
+              </li>
+              <li>
+                <Link href="/collections/all-socks" className="hover:text-white transition font-semibold text-white">
+                  Shop All Categories &rarr;
                 </Link>
               </li>
             </ul>
