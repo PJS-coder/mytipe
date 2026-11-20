@@ -32,7 +32,7 @@ const CATEGORIES: CategoryItem[] = [
     alt: "Mytipe Pain Relief Toe Alignment Socks",
   },
   {
-    title: "Gym socks",
+    title: "Gym Socks",
     href: "/collections/gym-socks",
     image: "/gym-sock.webp",
     alt: "Mytipe Athletic Gym Socks",
@@ -47,17 +47,40 @@ const CATEGORIES: CategoryItem[] = [
 
 export default function CategoryCards() {
   return (
-    <section className="py-8 sm:py-14 bg-[#faf7f2]">
-      <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16">
-        {/* Category Cards Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-5 lg:gap-6">
+    <section className="py-2 sm:py-10 lg:py-14 bg-[#faf7f2] border-b border-gray-100/80">
+      <div className="max-w-[1720px] mx-auto px-2 sm:px-6 lg:px-10 xl:px-14 2xl:px-16">
+        {/* Mobile View: 2-Line Larger Category Cards (3 on top, 2 centered below) */}
+        <div className="flex flex-wrap justify-center gap-2.5 sm:hidden">
           {CATEGORIES.map((cat, idx) => (
             <Link
               key={idx}
               href={cat.href}
-              className={`group relative aspect-3/4 sm:aspect-4/5 rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block bg-slate-200 ${
-                idx === 0 ? "col-span-2 md:col-span-1 aspect-[16/9] md:aspect-4/5" : ""
-              }`}
+              className="flex flex-col items-center group cursor-pointer w-[calc(33.333%-7px)] max-w-[130px]"
+            >
+              <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-white shadow-2xs border border-gray-200/80 group-active:scale-95 transition-transform duration-200">
+                <Image
+                  src={getOptimizedImageUrl(cat.image, 300)}
+                  alt={cat.alt}
+                  fill
+                  unoptimized
+                  sizes="33vw"
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <span className="text-xs font-semibold text-gray-800 text-center mt-1.5 leading-tight line-clamp-2 px-0.5 h-[28px] flex items-center justify-center">
+                {cat.title}
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop / Tablet View: Original Category Cards with Pills */}
+        <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+          {CATEGORIES.map((cat, idx) => (
+            <Link
+              key={idx}
+              href={cat.href}
+              className="group relative aspect-4/5 rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block bg-slate-200"
             >
               {/* Official Category Image */}
               <Image

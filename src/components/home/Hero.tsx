@@ -17,21 +17,21 @@ const HERO_SLIDES: HeroSlide[] = [
   {
     id: 1,
     desktopImage: "/hero3.webp",
-    mobileImage: "/mobile-hero1.webp",
+    mobileImage: "/hero1mobile.webp",
     alt: "Mytipe Everyday Foot Health & Comfort",
     href: "/collections/all-socks",
   },
   {
     id: 2,
     desktopImage: "/hero2.webp",
-    mobileImage: "/mobile-hero2.webp",
+    mobileImage: "/hero2mobile.webp",
     alt: "Mytipe Premium Socks Collection",
     href: "/collections/all-socks",
   },
   {
     id: 3,
     desktopImage: "/hero4.webp",
-    mobileImage: "/mobile-hero3.webp",
+    mobileImage: "/hero3mobile.webp",
     alt: "Mytipe Ergonomic Support & Performance Socks",
     href: "/collections/all-socks",
   },
@@ -176,8 +176,8 @@ export default function Hero() {
       onTouchEnd={handleTouchEnd}
       aria-label="Featured promotions carousel"
     >
-      {/* Carousel Track Container - Full-width on mobile & aspect-ratio fitted on desktop */}
-      <div className="relative w-full aspect-[941/1672] max-h-[82vh] sm:max-h-[calc(100vh-102px)] sm:aspect-[1672/941] overflow-hidden">
+      {/* Carousel Track Container - Natural mobile aspect ratio for full edge-to-edge banner with zero cropping; widescreen on desktop */}
+      <div className="relative w-full aspect-[941/1440] sm:h-auto sm:aspect-[1672/941] sm:max-h-[calc(100vh-102px)] overflow-hidden">
         <div
           className={`flex h-full w-full ${withTransition
             ? "transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
@@ -205,7 +205,7 @@ export default function Hero() {
                     }
                   }}
                 >
-                  {/* Mobile View Hero Banner - 100% Full Width */}
+                  {/* Mobile View Hero Banner - Edge-to-edge full width with zero cut */}
                   <div className="block sm:hidden relative w-full h-full">
                     <Image
                       src={slide.mobileImage}
@@ -236,7 +236,7 @@ export default function Hero() {
           })}
         </div>
 
-        {/* Previous Button */}
+        {/* Previous Button - Small on mobile, full-size on PC */}
         <button
           type="button"
           onClick={(e) => {
@@ -244,13 +244,13 @@ export default function Hero() {
             e.stopPropagation();
             goToPrev();
           }}
-          className="absolute left-2.5 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-200 active:scale-95 shadow-md opacity-75 sm:opacity-0 sm:group-hover:opacity-100 cursor-pointer"
+          className="absolute left-2 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-6 h-6 sm:w-11 sm:h-11 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-200 active:scale-95 shadow-md opacity-75 sm:opacity-0 sm:group-hover:opacity-100 cursor-pointer"
           aria-label="Previous slide"
         >
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+          <ChevronLeft className="w-3.5 h-3.5 sm:w-6 sm:h-6" />
         </button>
 
-        {/* Next Button */}
+        {/* Next Button - Small on mobile, full-size on PC */}
         <button
           type="button"
           onClick={(e) => {
@@ -258,14 +258,14 @@ export default function Hero() {
             e.stopPropagation();
             goToNext();
           }}
-          className="absolute right-2.5 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-200 active:scale-95 shadow-md opacity-75 sm:opacity-0 sm:group-hover:opacity-100 cursor-pointer"
+          className="absolute right-2 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-6 h-6 sm:w-11 sm:h-11 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-200 active:scale-95 shadow-md opacity-75 sm:opacity-0 sm:group-hover:opacity-100 cursor-pointer"
           aria-label="Next slide"
         >
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+          <ChevronRight className="w-3.5 h-3.5 sm:w-6 sm:h-6" />
         </button>
 
-        {/* Indicator Dots */}
-        <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-black/35 backdrop-blur-sm border border-white/10">
+        {/* Indicator Dots - Compact & smaller on mobile, standard on PC */}
+        <div className="absolute bottom-2 sm:bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 sm:gap-2 px-2 py-0.5 sm:px-3 sm:py-1.5 rounded-full bg-black/35 backdrop-blur-sm border border-white/10">
           {HERO_SLIDES.map((slide, index) => {
             const isActive = index === activeDotIndex;
             return (
@@ -278,8 +278,8 @@ export default function Hero() {
                   goToSlide(index);
                 }}
                 className={`transition-all duration-300 rounded-full cursor-pointer ${isActive
-                  ? "w-6 sm:w-8 h-1.5 sm:h-2 bg-white shadow-sm"
-                  : "w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white/50 hover:bg-white/80"
+                  ? "w-4 sm:w-8 h-1 sm:h-2 bg-white shadow-sm"
+                  : "w-1 sm:w-2 h-1 sm:h-2 bg-white/50 hover:bg-white/80"
                   }`}
                 aria-label={`Go to slide ${index + 1}`}
                 aria-current={isActive ? "true" : undefined}

@@ -63,6 +63,9 @@ export function getOptimizedImageUrl(url: string | undefined | null, width: numb
         "/mobile-hero1.webp",
         "/mobile-hero2.webp",
         "/mobile-hero3.webp",
+        "/hero1mobile.webp",
+        "/hero2mobile.webp",
+        "/hero3mobile.webp",
         "/logo.webp",
       ].includes(webpPath)
     ) {
