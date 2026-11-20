@@ -15,17 +15,20 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* 1. Hero Section (60-64% Viewport Height) */}
+      {/* 1. Hero Section */}
       <Hero />
 
-      {/* 2. Category Cards (Visible directly below Hero on initial viewport) */}
-      <CategoryCards />
+      {/* 2. Mobile View: Category Cards directly below Hero on mobile */}
+      <CategoryCards mode="mobile" />
 
       {/* 3. Shop Mytipe Socks (Live Bestsellers & New Arrivals) */}
       <FeaturedProducts
         bestSellers={bestSellers.length > 0 ? bestSellers : products}
         newArrivals={newArrivals.length > 0 ? newArrivals : products}
       />
+
+      {/* 4. Web View: Category Cards under SHOP MYTIPE SOCKS like previous */}
+      <CategoryCards mode="desktop" />
 
       {/* 5. Best Seller Spotlight Section with pain-sock.png */}
       <StorySection />
