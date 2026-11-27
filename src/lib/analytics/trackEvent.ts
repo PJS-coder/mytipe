@@ -3,7 +3,7 @@
 import { CartLineItem, Product, ProductVariant } from "@/types/store";
 
 export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "1671422437853807";
-export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "";
+export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-TCXB3M36";
 
 declare global {
   interface Window {

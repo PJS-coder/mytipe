@@ -168,8 +168,11 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
   };
 
   useEffect(() => {
-    loadData();
-  }, []);
+    if (isAuthenticated) {
+      loadData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   // Filtered Products
   const filteredProducts = useMemo(() => {

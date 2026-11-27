@@ -1,14 +1,11 @@
 import crypto from "crypto";
 
-const DEFAULT_ADMIN_PASSWORD = "MudditmaKKar@#@*&Gyft566U^%%&^^&*YGH";
-const DEFAULT_ADMIN_SECRET = "mudditmakkaradmin2t7yfbu23@%^&YGI";
-
 export function getAdminPassword(): string {
-  return process.env.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
+  return process.env.ADMIN_PASSWORD || "";
 }
 
 export function getAdminSecret(): string {
-  return process.env.ADMIN_SECRET_KEY || DEFAULT_ADMIN_SECRET;
+  return process.env.ADMIN_SECRET_KEY || process.env.ADMIN_SECRET || "";
 }
 
 function safeDecode(val: string): string {
@@ -20,17 +17,16 @@ function safeDecode(val: string): string {
 }
 
 export function isValidAdminSecret(providedSecret?: string | null): boolean {
-  if (!providedSecret) return false;
+  const configured = getAdminSecret();
+  if (!providedSecret || !configured) return false;
   const raw = providedSecret.trim();
   const decoded = safeDecode(raw).trim();
-  const configured = getAdminSecret();
 
   // Accept configured secret, decoded or encoded variant
   const accepted = [
     configured,
     safeDecode(configured),
     encodeURIComponent(configured),
-    DEFAULT_ADMIN_SECRET,
   ];
 
   return accepted.some((candidate) => {
@@ -48,8 +44,8 @@ export function isValidAdminSecret(providedSecret?: string | null): boolean {
  * Constant-time password validation using SHA-256 hashes to prevent length-leak timing attacks
  */
 export function isValidAdminPassword(providedPassword?: string | null): boolean {
-  if (!providedPassword) return false;
   const actual = getAdminPassword();
+  if (!providedPassword || !actual) return false;
   const providedHash = crypto.createHash("sha256").update(providedPassword).digest();
   const actualHash = crypto.createHash("sha256").update(actual).digest();
   return crypto.timingSafeEqual(providedHash, actualHash);
@@ -57,6 +53,9 @@ export function isValidAdminPassword(providedPassword?: string | null): boolean 
 
 export function createAdminSessionToken(): string {
   const password = getAdminPassword();
+  if (!password) {
+    throw new Error("ADMIN_PASSWORD environment variable is not configured");
+  }
   const expiresAt = Date.now() + 7 * 24 * 60 * 60 * 1000; // 7 days
   const data = `admin_session_${expiresAt}`;
   const signature = crypto.createHmac("sha256", password).update(data).digest("hex");
@@ -72,6 +71,7 @@ export function verifyAdminSessionToken(token?: string | null): boolean {
   if (isNaN(expiresAt) || Date.now() > expiresAt) return false;
 
   const password = getAdminPassword();
+  if (!password) return false;
   const data = `admin_session_${expiresAt}`;
   const expectedSignature = crypto.createHmac("sha256", password).update(data).digest("hex");
 

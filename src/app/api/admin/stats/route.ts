@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllProducts } from "@/server/db/products";
 import { getAllCollections } from "@/server/db/collections";
-import { getAllOrders } from "@/server/db/orders";
+import { getAllOrdersAsync } from "@/server/db/orders";
 import { isRequestAuthorized } from "@/server/auth/admin";
 
 export async function GET(request: NextRequest) {
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   try {
     const products = getAllProducts();
     const collections = getAllCollections();
-    const orders = getAllOrders();
+    const orders = await getAllOrdersAsync();
 
     const inStock = products.filter((p) => p.availableForSale).length;
     const outOfStock = products.length - inStock;
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
         totalOrders: orders.length,
         totalRevenue,
       },
-      recentOrders: orders.slice(0, 5),
+      recentOrders: orders.slice(0, 50),
     });
   } catch (error) {
     console.error("GET /api/admin/stats error:", error);

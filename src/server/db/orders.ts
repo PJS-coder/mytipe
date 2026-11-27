@@ -134,3 +134,25 @@ export function updateOrderPayment(
 export function getAllOrders(): Order[] {
   return Array.from(ordersMap.values()).reverse();
 }
+
+export async function getAllOrdersAsync(): Promise<Order[]> {
+  if (isMongoConfigured) {
+    try {
+      await connectToMongoDB();
+      const docs = await OrderModel.find({}).sort({ createdAt: -1 }).limit(100).lean();
+      if (docs && docs.length > 0) {
+        const dbOrders = docs as unknown as Order[];
+        for (const o of dbOrders) {
+          if (o.id && !ordersMap.has(o.id)) {
+            ordersMap.set(o.id, o);
+          }
+        }
+        return dbOrders;
+      }
+    } catch (err) {
+      console.error("MongoDB getAllOrdersAsync error:", err);
+    }
+  }
+
+  return Array.from(ordersMap.values()).reverse();
+}
