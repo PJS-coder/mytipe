@@ -129,8 +129,20 @@ export default function ProductGallery({ images, title, badge, activeImageUrl }:
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isModalOpen, handlePrev, handleNext]);
 
-  // Desktop hover zoom coordinates
+  // Desktop hover zoom coordinates (disabled on touch/mobile devices)
+  const canHoverZoom = () =>
+    typeof window !== "undefined" &&
+    window.innerWidth >= 1024 &&
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  const handleMouseEnter = () => {
+    if (canHoverZoom()) {
+      setIsZoomed(true);
+    }
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!canHoverZoom()) return;
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
@@ -185,7 +197,7 @@ export default function ProductGallery({ images, title, badge, activeImageUrl }:
           className="relative aspect-square w-full sm:flex-1 max-w-[min(100%,54dvh)] sm:max-w-[min(100%,74dvh)] mx-auto sm:mx-0 rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-100 border border-slate-200/90 shadow-md group select-none"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          onMouseEnter={() => setIsZoomed(true)}
+          onMouseEnter={handleMouseEnter}
           onMouseLeave={() => setIsZoomed(false)}
           onMouseMove={handleMouseMove}
         >
@@ -204,7 +216,7 @@ export default function ProductGallery({ images, title, badge, activeImageUrl }:
                 unoptimized
                 sizes="(max-width: 1024px) 100vw, (max-width: 1536px) 60vw, 900px"
                 className={`object-cover object-center transition-transform duration-300 ease-out ${
-                  isZoomed ? "scale-135" : "scale-100"
+                  isZoomed ? "lg:scale-135" : "scale-100"
                 }`}
                 style={
                   isZoomed
