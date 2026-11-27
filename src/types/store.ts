@@ -181,6 +181,16 @@ export interface Order {
     paymentId?: string;
     signature?: string;
   };
+  shiprocket?: {
+    orderId?: number;
+    shipmentId?: number;
+    awbCode?: string;
+    courierName?: string;
+    status?: string;
+    trackingUrl?: string;
+    syncedAt?: string;
+    error?: string;
+  };
   createdAt: string;
   estimatedDelivery: string;
 }

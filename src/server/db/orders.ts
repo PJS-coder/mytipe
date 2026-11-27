@@ -131,6 +131,40 @@ export function updateOrderPayment(
   return order;
 }
 
+export function updateOrderShiprocket(
+  orderId: string,
+  shiprocketData: NonNullable<Order["shiprocket"]>
+): Order | undefined {
+  const order = ordersMap.get(orderId);
+  if (!order) return undefined;
+
+  order.shiprocket = {
+    ...order.shiprocket,
+    ...shiprocketData,
+  };
+  if (shiprocketData.awbCode && order.orderStatus === "placed") {
+    order.orderStatus = "shipped";
+  }
+
+  ordersMap.set(orderId, order);
+
+  if (isMongoConfigured) {
+    connectToMongoDB()
+      .then(() =>
+        OrderModel.findOneAndUpdate(
+          { id: orderId },
+          {
+            shiprocket: order.shiprocket,
+            orderStatus: order.orderStatus,
+          }
+        )
+      )
+      .catch((err) => console.error("MongoDB order shiprocket sync error:", err));
+  }
+
+  return order;
+}
+
 export function getAllOrders(): Order[] {
   return Array.from(ordersMap.values()).reverse();
 }

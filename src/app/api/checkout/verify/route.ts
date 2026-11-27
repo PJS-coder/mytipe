@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyRazorpayPaymentSignature } from "@/server/razorpay";
-import { getOrderByIdAsync, updateOrderPayment } from "@/server/db/orders";
+import { getOrderByIdAsync, updateOrderPayment, updateOrderShiprocket } from "@/server/db/orders";
 import { checkRateLimit, getClientIp } from "@/server/security/rateLimit";
+import { createShiprocketOrder, isShiprocketConfigured } from "@/server/shiprocket";
 
 export async function POST(request: NextRequest) {
   try {
@@ -53,6 +54,30 @@ export async function POST(request: NextRequest) {
       razorpayPaymentId,
       razorpaySignature,
     });
+
+    // Push Prepaid order to Shiprocket automatically (non-blocking if Shiprocket fails)
+    if (updatedOrder && isShiprocketConfigured) {
+      try {
+        const srResult = await createShiprocketOrder(updatedOrder);
+        if (srResult.success) {
+          updateOrderShiprocket(updatedOrder.id, {
+            orderId: srResult.orderId,
+            shipmentId: srResult.shipmentId,
+            awbCode: srResult.awbCode,
+            courierName: srResult.courierName,
+            status: srResult.status,
+            syncedAt: new Date().toISOString(),
+          });
+        } else if (srResult.error) {
+          updateOrderShiprocket(updatedOrder.id, {
+            error: srResult.error,
+            syncedAt: new Date().toISOString(),
+          });
+        }
+      } catch (srErr) {
+        console.warn("Shiprocket Prepaid auto-sync warning:", srErr);
+      }
+    }
 
     return NextResponse.json({
       success: true,

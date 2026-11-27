@@ -65,6 +65,16 @@ const OrderSchema = new Schema<Order>(
       paymentId: { type: String },
       signature: { type: String },
     },
+    shiprocket: {
+      orderId: { type: Number },
+      shipmentId: { type: Number },
+      awbCode: { type: String },
+      courierName: { type: String },
+      status: { type: String },
+      trackingUrl: { type: String },
+      syncedAt: { type: String },
+      error: { type: String },
+    },
     estimatedDelivery: { type: String },
   },
   {

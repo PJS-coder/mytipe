@@ -453,6 +453,46 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
   };
 
 
+  const [syncingOrderId, setSyncingOrderId] = useState<string | null>(null);
+
+  const handlePushToShiprocket = async (order: Order) => {
+    setSyncingOrderId(order.id);
+    try {
+      const res = await fetch(`/api/admin/orders/${order.id}/shiprocket`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (data.success && data.order) {
+        setOrders((prev) => prev.map((o) => (o.id === order.id ? data.order : o)));
+        showToast(data.message || "Pushed to Shiprocket! ✓");
+      } else {
+        alert(data.error || "Failed to push to Shiprocket");
+      }
+    } catch {
+      alert("Network error connecting to Shiprocket");
+    } finally {
+      setSyncingOrderId(null);
+    }
+  };
+
+  const handleSyncShiprocketTracking = async (order: Order) => {
+    setSyncingOrderId(order.id);
+    try {
+      const res = await fetch(`/api/admin/orders/${order.id}/shiprocket`);
+      const data = await res.json();
+      if (data.success && data.order) {
+        setOrders((prev) => prev.map((o) => (o.id === order.id ? data.order : o)));
+        showToast("Shiprocket tracking updated! ✓");
+      } else {
+        alert(data.error || "Tracking not available yet");
+      }
+    } catch {
+      alert("Error fetching Shiprocket tracking");
+    } finally {
+      setSyncingOrderId(null);
+    }
+  };
+
   // Toggle in-stock status
   const handleToggleStock = async (product: Product) => {
     try {
@@ -1067,6 +1107,7 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
                         <th className="py-3 px-4">Total Amount</th>
                         <th className="py-3 px-4">Payment Method</th>
                         <th className="py-3 px-4">Status</th>
+                        <th className="py-3 px-4">Shiprocket</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -1094,8 +1135,58 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
                           </td>
                           <td className="py-3 px-4">
                             <span className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-emerald-200">
-                              <Check className="w-3 h-3 text-emerald-600" /> Confirmed
+                              <Check className="w-3 h-3 text-emerald-600" /> {order.orderStatus || "Confirmed"}
                             </span>
+                          </td>
+                          <td className="py-3 px-4">
+                            {order.shiprocket?.orderId ? (
+                              <div className="space-y-1">
+                                <div className="text-[11px] font-bold text-slate-800">
+                                  SR #{order.shiprocket.orderId}
+                                  {order.shiprocket.awbCode && (
+                                    <span className="ml-1.5 font-mono text-blue-700">
+                                      ({order.shiprocket.awbCode})
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <button
+                                    type="button"
+                                    disabled={syncingOrderId === order.id}
+                                    onClick={() => handleSyncShiprocketTracking(order)}
+                                    className="text-[11px] font-bold text-blue-600 hover:underline cursor-pointer disabled:opacity-50"
+                                  >
+                                    {syncingOrderId === order.id ? "Syncing..." : "Sync Tracking"}
+                                  </button>
+                                  {order.shiprocket.trackingUrl && (
+                                    <a
+                                      href={order.shiprocket.trackingUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-[11px] font-bold text-emerald-600 hover:underline"
+                                    >
+                                      Track
+                                    </a>
+                                  )}
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="space-y-1">
+                                <button
+                                  type="button"
+                                  disabled={syncingOrderId === order.id}
+                                  onClick={() => handlePushToShiprocket(order)}
+                                  className="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-[11px] font-bold transition cursor-pointer disabled:opacity-50"
+                                >
+                                  {syncingOrderId === order.id ? "Pushing..." : "Push to Shiprocket"}
+                                </button>
+                                {order.shiprocket?.error && (
+                                  <div className="text-[10px] text-red-500 max-w-[180px] truncate" title={order.shiprocket.error}>
+                                    {order.shiprocket.error}
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </td>
                         </tr>
                       ))}

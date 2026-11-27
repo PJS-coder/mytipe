@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createOrder } from "@/server/db/orders";
+import { createOrder, updateOrderShiprocket } from "@/server/db/orders";
 import { verifyAndCalculateOrder } from "@/server/db/pricing";
 import { checkRateLimit, getClientIp } from "@/server/security/rateLimit";
+import { createShiprocketOrder, isShiprocketConfigured } from "@/server/shiprocket";
 
 export async function POST(request: NextRequest) {
   try {
@@ -38,6 +39,30 @@ export async function POST(request: NextRequest) {
       pricing,
       paymentMethod: "cod",
     });
+
+    // Push COD order to Shiprocket automatically (non-blocking if Shiprocket fails)
+    if (isShiprocketConfigured) {
+      try {
+        const srResult = await createShiprocketOrder(order);
+        if (srResult.success) {
+          updateOrderShiprocket(order.id, {
+            orderId: srResult.orderId,
+            shipmentId: srResult.shipmentId,
+            awbCode: srResult.awbCode,
+            courierName: srResult.courierName,
+            status: srResult.status,
+            syncedAt: new Date().toISOString(),
+          });
+        } else if (srResult.error) {
+          updateOrderShiprocket(order.id, {
+            error: srResult.error,
+            syncedAt: new Date().toISOString(),
+          });
+        }
+      } catch (srErr) {
+        console.warn("Shiprocket COD auto-sync warning:", srErr);
+      }
+    }
 
     return NextResponse.json({
       success: true,
