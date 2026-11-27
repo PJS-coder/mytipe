@@ -19,6 +19,7 @@ import {
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import MobileNav from "./MobileNav";
+import { trackClick, trackEvent, trackSearch } from "@/lib/analytics/trackEvent";
 
 export default function Navbar() {
   const router = useRouter();
@@ -51,9 +52,28 @@ export default function Navbar() {
     }
   };
 
+  const handleHeaderClick = (e: React.MouseEvent<HTMLElement>) => {
+    const anchor = (e.target as HTMLElement | null)?.closest("a");
+    if (!anchor) return;
+    const label =
+      anchor.getAttribute("aria-label") ||
+      anchor.textContent?.trim() ||
+      anchor.getAttribute("href") ||
+      "nav_link";
+    trackEvent("navigation_click", {
+      button_name: label,
+      button_location: "header",
+      element_type: "nav_link",
+      link_url: anchor.getAttribute("href") || "",
+    });
+  };
+
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all shadow-xs">
+      <header
+        onClick={handleHeaderClick}
+        className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all shadow-xs"
+      >
         <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16">
           <div className="relative flex items-center justify-between h-14 sm:h-16 xl:h-18">
             {/* 1. LEFT SIDE: Mobile Menu Toggle / Desktop Left Nav Links */}
@@ -142,7 +162,10 @@ export default function Navbar() {
                 {/* Shop with Dropdown */}
                 <div
                   className="relative"
-                  onMouseEnter={() => setShopDropdownOpen(true)}
+                  onMouseEnter={() => {
+                    setShopDropdownOpen(true);
+                    trackEvent("dropdown_toggle", { dropdown_name: "shop_menu", state: "open" });
+                  }}
                   onMouseLeave={() => setShopDropdownOpen(false)}
                 >
                   <Link
@@ -169,10 +192,10 @@ export default function Navbar() {
                           Gym Socks
                         </Link>
                         <Link
-                          href="/products/pain-relief-socks"
+                          href="/products/foot-alignment-socks"
                           className="block px-4 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:text-gray-950 hover:bg-slate-50 transition"
                         >
-                          Pain Relief Socks
+                          Foot Alignment Socks
                         </Link>
                         <Link
                           href="/collections/diabetic-socks"
@@ -283,7 +306,10 @@ export default function Navbar() {
                 ) : (
                   <button
                     type="button"
-                    onClick={() => openAuthModal()}
+                    onClick={() => {
+                      trackClick("Login", "header");
+                      openAuthModal();
+                    }}
                     className="flex items-center gap-1.5 px-4 py-2 bg-[#0f1c3f] hover:bg-[#1a2e66] text-white text-xs font-bold uppercase tracking-wider rounded-full transition shadow-xs cursor-pointer hover:scale-105"
                     aria-label="Sign in"
                   >
@@ -314,7 +340,13 @@ export default function Navbar() {
         {/* Expandable Search Bar Overlay */}
         {searchOpen && (
           <div className="border-t border-gray-100 bg-slate-50 py-3 px-4 animate-in slide-in-from-top-2 duration-200">
-            <form onSubmit={handleSearchSubmit} className="max-w-2xl mx-auto flex items-center gap-2">
+            <form
+              onSubmit={(e) => {
+                if (searchQuery.trim()) trackSearch(searchQuery);
+                handleSearchSubmit(e);
+              }}
+              className="max-w-2xl mx-auto flex items-center gap-2"
+            >
               <div className="relative flex-1">
                 <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
@@ -322,6 +354,7 @@ export default function Navbar() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search foot alignment socks, pain relief, colors..."
+                  aria-label="Search products"
                   className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-full text-sm focus:outline-hidden focus:ring-2 focus:ring-[#0f1c3f] focus:border-transparent shadow-xs"
                   autoFocus
                 />
@@ -336,6 +369,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => setSearchOpen(false)}
                 className="p-2 text-gray-500 hover:text-gray-800 rounded-full hover:bg-gray-200 transition cursor-pointer"
+                aria-label="Close search bar"
               >
                 <X className="w-5 h-5" />
               </button>

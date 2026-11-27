@@ -26,12 +26,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://mytipe.com";
+  const canonicalUrl = `${baseUrl}/collections/${handle}`;
+
   return {
     title: `${collection.title} | Mytipe Foot Care`,
     description: collection.description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: `${collection.title} | Mytipe`,
       description: collection.description,
+      url: canonicalUrl,
+      siteName: "Mytipe",
     },
   };
 }

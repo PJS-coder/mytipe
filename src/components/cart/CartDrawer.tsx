@@ -80,6 +80,7 @@ export default function CartDrawer() {
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity animate-in fade-in"
         onClick={closeCart}
+        aria-hidden="true"
       />
 
       {/* Slide-out Drawer */}

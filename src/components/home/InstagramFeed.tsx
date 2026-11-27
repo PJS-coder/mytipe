@@ -2,6 +2,7 @@
 
 import React, { useRef } from "react";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics/trackEvent";
 
 interface ReelItem {
   id: number;
@@ -31,6 +32,13 @@ function ReelCard({ reel }: { reel: ReelItem }) {
       href="https://www.instagram.com/mytipeofficial/"
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() =>
+        trackEvent("video_interaction", {
+          video_id: `reel_${reel.id}`,
+          video_src: reel.videoSrc,
+          button_location: "instagram_feed",
+        })
+      }
       className="group relative w-full aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-950 shadow-md border border-slate-200 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl block"
       title="View on Instagram @mytipeofficial"
     >

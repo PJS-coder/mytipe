@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { X, ArrowRight, ShieldCheck, Sparkles, Lock } from "lucide-react";
+import { trackEvent } from "@/lib/analytics/trackEvent";
 
 export default function AuthModal() {
   const { isAuthModalOpen, closeAuthModal, loginWithPhone, quickTestLogin, authModalPrompt } = useAuth();
@@ -21,10 +22,12 @@ export default function AuthModal() {
     const cleanPhone = phoneNumber.replace(/[^0-9]/g, "");
     if (cleanPhone.length < 10) {
       setError("Please enter a valid 10-digit mobile number");
+      trackEvent("form_validation_error", { form_name: "auth_otp_phone" });
       return;
     }
     setError("");
     setIsSubmitting(true);
+    trackEvent("otp_requested", { form_name: "auth_modal" });
     // Simulate SMS OTP delivery
     setTimeout(() => {
       setIsSubmitting(false);
@@ -37,11 +40,17 @@ export default function AuthModal() {
     e.preventDefault();
     if (otp.length < 4) {
       setError("Please enter the 4-digit OTP");
+      trackEvent("form_validation_error", { form_name: "auth_otp_code" });
       return;
     }
     setIsSubmitting(true);
     setTimeout(() => {
       loginWithPhone(phoneNumber, name);
+      trackEvent(
+        "login",
+        { method: "phone_otp" },
+        { metaEvent: "CompleteRegistration", metaParams: { status: true } }
+      );
       setIsSubmitting(false);
       setOtpStep(false);
       setPhoneNumber("");

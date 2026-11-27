@@ -1,43 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createOrder } from "@/server/db/orders";
-import { CartLineItem, ShippingAddress } from "@/types/store";
-import { calculateCartMilestones } from "@/lib/constants/cart";
+import { verifyAndCalculateOrder } from "@/server/db/pricing";
+import { checkRateLimit, getClientIp } from "@/server/security/rateLimit";
 
 export async function POST(request: NextRequest) {
   try {
+    const clientIp = getClientIp(request);
+    const rateLimit = checkRateLimit(`cod-order:${clientIp}`, {
+      maxRequests: 15,
+      windowSeconds: 10 * 60, // 15 orders per 10 minutes
+    });
+
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Too many order requests. Please wait a few moments before trying again.",
+        },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
-    const { customer, items, coinDiscount = 0 } = body as {
-      customer: ShippingAddress;
-      items: CartLineItem[];
-      coinDiscount?: number;
-    };
+    const { customer, items, coinDiscount = 0 } = body;
 
-    if (!items || items.length === 0) {
-      return NextResponse.json({ success: false, error: "Cart is empty" }, { status: 400 });
+    // Verify customer, items against server catalog, and calculate tamper-proof pricing
+    const verification = verifyAndCalculateOrder(customer, items, coinDiscount);
+    if (!verification.success) {
+      return NextResponse.json({ success: false, error: verification.error }, { status: 400 });
     }
 
-    if (!customer?.fullName || !customer?.phone || !customer?.addressLine1 || !customer?.pincode) {
-      return NextResponse.json({ success: false, error: "Please fill all required shipping fields" }, { status: 400 });
-    }
-
-    const subtotal = items.reduce((sum, item) => sum + parseFloat(item.price.amount) * item.quantity, 0);
-    const { tierDiscount, isCheckoutUnlocked } = calculateCartMilestones(subtotal);
-    const shippingFee = isCheckoutUnlocked ? 0 : 50;
-    const validCoinDiscount = Math.min(Math.max(0, coinDiscount), Math.max(0, subtotal - tierDiscount));
-    const total = Math.max(0, subtotal - tierDiscount - validCoinDiscount + shippingFee);
+    const { customer: verifiedCustomer, items: verifiedItems, pricing } = verification.data;
 
     const order = createOrder({
-      customer,
-      items,
-      pricing: {
-        subtotal: Math.round(subtotal),
-        discount: tierDiscount,
-        coinDiscount: validCoinDiscount,
-        shippingFee,
-        tax: 0,
-        total: Math.round(total),
-        currency: "INR",
-      },
+      customer: verifiedCustomer,
+      items: verifiedItems,
+      pricing,
       paymentMethod: "cod",
     });
 

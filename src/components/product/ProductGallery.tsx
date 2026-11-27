@@ -10,9 +10,10 @@ interface ProductGalleryProps {
   images: ProductImage[];
   title: string;
   badge?: string;
+  activeImageUrl?: string;
 }
 
-export default function ProductGallery({ images, title, badge }: ProductGalleryProps) {
+export default function ProductGallery({ images, title, badge, activeImageUrl }: ProductGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [displayedIndex, setDisplayedIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
@@ -59,31 +60,37 @@ export default function ProductGallery({ images, title, badge }: ProductGalleryP
     handleSelectImage(next);
   }, [selectedIndex, totalImages, handleSelectImage]);
 
-  // Preload adjacent (next & previous) images after first render without blocking page load
+  // Preload all gallery images immediately on mount so switching images is instant
   useEffect(() => {
-    if (!images || totalImages <= 1) return;
+    if (!images || totalImages <= 1 || typeof window === "undefined") return;
 
-    const toPreload = [
-      (selectedIndex + 1) % totalImages,
-      (selectedIndex - 1 + totalImages) % totalImages,
-    ];
+    images.forEach((item, idx) => {
+      if (loadedIndicesRef.current.has(idx)) return;
+      const preloadImg = new window.Image();
+      preloadImg.decoding = "async";
+      preloadImg.src = getOptimizedImageUrl(item.url, 900);
+      preloadImg.onload = () => {
+        loadedIndicesRef.current.add(idx);
+      };
+    });
+  }, [images, totalImages]);
 
-    const timer = setTimeout(() => {
-      toPreload.forEach((idx) => {
-        const item = images[idx];
-        if (item && typeof window !== "undefined") {
-          const preloadImg = new window.Image();
-          const targetUrl = getOptimizedImageUrl(item.url, 900);
-          preloadImg.src = targetUrl;
-          preloadImg.onload = () => {
-            loadedIndicesRef.current.add(idx);
-          };
-        }
-      });
-    }, 120);
-
-    return () => clearTimeout(timer);
-  }, [selectedIndex, images, totalImages]);
+  // Sync gallery image ONLY when activeImageUrl prop itself changes (never on thumbnail click)
+  const prevActiveImageUrlRef = useRef<string | undefined>(activeImageUrl);
+  useEffect(() => {
+    if (!activeImageUrl || activeImageUrl === prevActiveImageUrlRef.current || !images?.length) {
+      prevActiveImageUrlRef.current = activeImageUrl;
+      return;
+    }
+    prevActiveImageUrlRef.current = activeImageUrl;
+    const matchIndex = images.findIndex((img) => img.url === activeImageUrl);
+    if (matchIndex !== -1) {
+      setSelectedIndex(matchIndex);
+      if (loadedIndicesRef.current.has(matchIndex)) {
+        setDisplayedIndex(matchIndex);
+      }
+    }
+  }, [activeImageUrl, images]);
 
   // Touch swipe handling
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -140,10 +147,10 @@ export default function ProductGallery({ images, title, badge }: ProductGalleryP
 
   return (
     <>
-      <div className="lg:sticky lg:top-28 flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 xl:gap-6 items-start w-full">
+      <div className="lg:sticky lg:top-24 flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 xl:gap-6 items-center sm:items-start w-full">
         {/* ================= THUMBNAILS (LEFT ON DESKTOP, BOTTOM ON MOBILE) ================= */}
         {totalImages > 1 && (
-          <div className="flex sm:flex-col gap-2.5 sm:gap-3 xl:gap-3.5 w-full sm:w-20 md:w-24 xl:w-26 sm:shrink-0 overflow-x-auto sm:overflow-y-auto sm:max-h-[580px] xl:max-h-[680px] py-1 custom-scrollbar">
+          <div className="flex sm:flex-col gap-2.5 sm:gap-3 xl:gap-3.5 w-full sm:w-20 md:w-24 xl:w-26 sm:shrink-0 overflow-x-auto sm:overflow-y-auto sm:max-h-[74dvh] py-1 custom-scrollbar">
             {images.map((img, idx) => {
               const isSelected = selectedIndex === idx;
               return (
@@ -165,7 +172,7 @@ export default function ProductGallery({ images, title, badge }: ProductGalleryP
                     unoptimized
                     sizes="96px"
                     className="object-cover object-center"
-                    loading="lazy"
+                    loading="eager"
                   />
                 </button>
               );
@@ -175,7 +182,7 @@ export default function ProductGallery({ images, title, badge }: ProductGalleryP
 
         {/* ================= MAIN DISPLAY VIEWPORT WITH ZERO BLANK FLASH ================= */}
         <div
-          className="relative aspect-square flex-1 w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-100 border border-slate-200/90 shadow-md group select-none"
+          className="relative aspect-square w-full sm:flex-1 max-w-[min(100%,54dvh)] sm:max-w-[min(100%,74dvh)] mx-auto sm:mx-0 rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-100 border border-slate-200/90 shadow-md group select-none"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           onMouseEnter={() => setIsZoomed(true)}

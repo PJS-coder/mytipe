@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { trackEvent } from "@/lib/analytics/trackEvent";
 
 interface HeroSlide {
   id: number;
@@ -176,8 +177,8 @@ export default function Hero() {
       onTouchEnd={handleTouchEnd}
       aria-label="Featured promotions carousel"
     >
-      {/* Carousel Track Container - Natural mobile aspect ratio for full edge-to-edge banner with zero cropping; widescreen on desktop */}
-      <div className="relative w-full aspect-[941/1440] sm:h-auto sm:aspect-[1672/941] sm:max-h-[calc(100vh-102px)] overflow-hidden">
+      {/* Carousel Track Container - 80% viewport height cap on mobile with natural aspect ratio; widescreen on desktop */}
+      <div className="relative w-full aspect-[941/1440] max-h-[80dvh] sm:h-auto sm:aspect-[1672/941] sm:max-h-[calc(100vh-102px)] overflow-hidden">
         <div
           className={`flex h-full w-full ${withTransition
             ? "transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
@@ -202,7 +203,13 @@ export default function Hero() {
                   onClick={(e) => {
                     if (isSwipingRef.current) {
                       e.preventDefault();
+                      return;
                     }
+                    trackEvent("hero_banner_click", {
+                      slide_id: slide.id,
+                      button_name: slide.alt,
+                      button_location: "hero_carousel",
+                    });
                   }}
                 >
                   {/* Mobile View Hero Banner - Edge-to-edge full width with zero cut */}
@@ -212,6 +219,7 @@ export default function Hero() {
                       alt={slide.alt}
                       fill
                       priority={isInitialSlide}
+                      loading="eager"
                       unoptimized
                       sizes="100vw"
                       className="object-cover object-center"
@@ -225,6 +233,7 @@ export default function Hero() {
                       alt={slide.alt}
                       fill
                       priority={isInitialSlide}
+                      loading="eager"
                       unoptimized
                       sizes="100vw"
                       className="object-cover object-center transition-transform duration-700 ease-out"

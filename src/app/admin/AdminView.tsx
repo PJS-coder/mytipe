@@ -42,18 +42,8 @@ import {
 } from "lucide-react";
 
 function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
-  const searchParams = useSearchParams();
-  const querySecret = searchParams?.get("key") || searchParams?.get("secret");
-
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const isAuthorizedLink =
-    hasSecret ||
-    Boolean(
-      querySecret &&
-        (querySecret === "mudditmakkaradmin2t7yfbu23@%^&YGI" ||
-          querySecret === "mudditmakkaradmin2t7yfbu23" ||
-          querySecret === encodeURIComponent("mudditmakkaradmin2t7yfbu23@%^&YGI"))
-    );
+  const isAuthorizedLink = hasSecret || isAuthenticated === true;
 
   const [products, setProducts] = useState<Product[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -123,7 +113,7 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
   const [isSaving, setIsSaving] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Form State with FULL Multi-Image support
+  // Form State with FULL Multi-Image, Colors & Pairs support
   const [formData, setFormData] = useState({
     title: "",
     subtitle: "",
@@ -137,6 +127,10 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
     newImageUrl: "",
     bannerUrl: "",
     availableForSale: true,
+    colors: [] as { name: string; imageUrl: string }[],
+    newColorName: "",
+    pairs: [] as { label: string; price: string; compareAtPrice: string }[],
+    newPairLabel: "",
   });
 
   const showToast = (msg: string) => {
@@ -217,11 +211,15 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
       newImageUrl: "",
       bannerUrl: "",
       availableForSale: true,
+      colors: [],
+      newColorName: "",
+      pairs: [],
+      newPairLabel: "",
     });
     setIsModalOpen(true);
   };
 
-  // Open Edit Product Modal with ALL Images loaded
+  // Open Edit Product Modal with ALL Images, Colors & Pairs loaded
   const handleOpenEdit = (product: Product) => {
     setEditingProduct(product);
 
@@ -230,6 +228,47 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
     if (product.featuredImage?.url && !allUrls.includes(product.featuredImage.url)) {
       allUrls.unshift(product.featuredImage.url);
     }
+
+    // Extract existing Colors
+    const colorOpt = (product.options || []).find((o) =>
+      o.name.toLowerCase().includes("color") || o.name.toLowerCase().includes("colour")
+    );
+    const extractedColors = (colorOpt?.values || []).map((colorVal) => {
+      const matchingVariant = (product.variants || []).find((v) =>
+        v.selectedOptions?.some(
+          (so) =>
+            (so.name.toLowerCase().includes("color") || so.name.toLowerCase().includes("colour")) &&
+            so.value.toLowerCase() === colorVal.toLowerCase()
+        )
+      );
+      return {
+        name: colorVal,
+        imageUrl: matchingVariant?.image?.url || allUrls[0] || "",
+      };
+    });
+
+    // Extract existing Pairs / Pack Sizes
+    const packOpt = (product.options || []).find(
+      (o) => o.name.toLowerCase().includes("pack") || o.name.toLowerCase().includes("pair")
+    );
+    const extractedPairs = (packOpt?.values || []).map((packVal) => {
+      const matchingVariant = (product.variants || []).find((v) =>
+        v.selectedOptions?.some(
+          (so) =>
+            (so.name.toLowerCase().includes("pack") || so.name.toLowerCase().includes("pair")) &&
+            so.value.toLowerCase() === packVal.toLowerCase()
+        )
+      );
+      return {
+        label: packVal,
+        price: matchingVariant?.price?.amount
+          ? String(parseFloat(matchingVariant.price.amount))
+          : product.priceRange.minVariantPrice.amount,
+        compareAtPrice: matchingVariant?.compareAtPrice?.amount
+          ? String(parseFloat(matchingVariant.compareAtPrice.amount))
+          : product.compareAtPriceRange?.minVariantPrice.amount || "",
+      };
+    });
 
     setFormData({
       title: product.title,
@@ -244,6 +283,10 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
       newImageUrl: "",
       bannerUrl: product.banner?.url || "",
       availableForSale: product.availableForSale,
+      colors: extractedColors,
+      newColorName: "",
+      pairs: extractedPairs,
+      newPairLabel: "",
     });
     setIsModalOpen(true);
   };
@@ -472,6 +515,95 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
     }));
 
     const primaryImage = formattedImages[0];
+    const basePriceNum = parseFloat(formData.price || "499") || 499;
+    const baseCompareNum = formData.compareAtPrice ? parseFloat(formData.compareAtPrice) : null;
+
+    // Build dynamic options & variants from Colors and Pairs
+    const activeColors = formData.colors.filter((c) => c.name.trim());
+    const activePairs = formData.pairs.filter((p) => p.label.trim());
+
+    const builtOptions: { id: string; name: string; values: string[] }[] = [];
+    if (activeColors.length > 0) {
+      builtOptions.push({
+        id: "opt-color",
+        name: "Color",
+        values: activeColors.map((c) => c.name.trim()),
+      });
+    }
+    if (activePairs.length > 0) {
+      builtOptions.push({
+        id: "opt-pack",
+        name: "Pack Size",
+        values: activePairs.map((p) => p.label.trim()),
+      });
+    }
+
+    const builtVariants: Product["variants"] = [];
+    let variantCounter = 1;
+
+    if (activeColors.length > 0 && activePairs.length > 0) {
+      for (const color of activeColors) {
+        const imgUrl = color.imageUrl || primaryImage.url;
+        for (const pair of activePairs) {
+          const pPrice = parseFloat(pair.price || String(basePriceNum)) || basePriceNum;
+          const pCompare = pair.compareAtPrice ? parseFloat(pair.compareAtPrice) : baseCompareNum;
+          builtVariants.push({
+            id: `var-${Date.now()}-${variantCounter++}`,
+            title: `${color.name.trim()} / ${pair.label.trim()}`,
+            availableForSale: formData.availableForSale,
+            selectedOptions: [
+              { name: "Color", value: color.name.trim() },
+              { name: "Pack Size", value: pair.label.trim() },
+            ],
+            price: { amount: pPrice.toFixed(2), currencyCode: "INR" },
+            compareAtPrice: pCompare ? { amount: pCompare.toFixed(2), currencyCode: "INR" } : null,
+            image: { url: imgUrl, altText: `${formData.title} - ${color.name.trim()}` },
+          });
+        }
+      }
+    } else if (activeColors.length > 0) {
+      for (const color of activeColors) {
+        const imgUrl = color.imageUrl || primaryImage.url;
+        builtVariants.push({
+          id: `var-${Date.now()}-${variantCounter++}`,
+          title: color.name.trim(),
+          availableForSale: formData.availableForSale,
+          selectedOptions: [{ name: "Color", value: color.name.trim() }],
+          price: { amount: basePriceNum.toFixed(2), currencyCode: "INR" },
+          compareAtPrice: baseCompareNum ? { amount: baseCompareNum.toFixed(2), currencyCode: "INR" } : null,
+          image: { url: imgUrl, altText: `${formData.title} - ${color.name.trim()}` },
+        });
+      }
+    } else if (activePairs.length > 0) {
+      for (const pair of activePairs) {
+        const pPrice = parseFloat(pair.price || String(basePriceNum)) || basePriceNum;
+        const pCompare = pair.compareAtPrice ? parseFloat(pair.compareAtPrice) : baseCompareNum;
+        builtVariants.push({
+          id: `var-${Date.now()}-${variantCounter++}`,
+          title: pair.label.trim(),
+          availableForSale: formData.availableForSale,
+          selectedOptions: [{ name: "Pack Size", value: pair.label.trim() }],
+          price: { amount: pPrice.toFixed(2), currencyCode: "INR" },
+          compareAtPrice: pCompare ? { amount: pCompare.toFixed(2), currencyCode: "INR" } : null,
+          image: primaryImage,
+        });
+      }
+    }
+
+    const allPrices =
+      builtVariants.length > 0
+        ? builtVariants.map((v) => parseFloat(v.price.amount))
+        : [basePriceNum];
+    const minVariantPrice = Math.min(...allPrices);
+    const maxVariantPrice = Math.max(...allPrices);
+
+    const allComparePrices = builtVariants
+      .map((v) => (v.compareAtPrice ? parseFloat(v.compareAtPrice.amount) : null))
+      .filter((v): v is number => v !== null);
+    const minComparePrice =
+      allComparePrices.length > 0 ? Math.min(...allComparePrices) : baseCompareNum;
+    const maxComparePrice =
+      allComparePrices.length > 0 ? Math.max(...allComparePrices) : baseCompareNum;
 
     const payload: Partial<Product> & { title: string } = {
       title: formData.title,
@@ -480,17 +612,18 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
       description: formData.description,
       availableForSale: formData.availableForSale,
       priceRange: {
-        minVariantPrice: { amount: parseFloat(formData.price || "0").toFixed(2), currencyCode: "INR" },
-        maxVariantPrice: { amount: parseFloat(formData.price || "0").toFixed(2), currencyCode: "INR" },
+        minVariantPrice: { amount: minVariantPrice.toFixed(2), currencyCode: "INR" },
+        maxVariantPrice: { amount: maxVariantPrice.toFixed(2), currencyCode: "INR" },
       },
-      compareAtPriceRange: formData.compareAtPrice
+      compareAtPriceRange: minComparePrice
         ? {
-            minVariantPrice: { amount: parseFloat(formData.compareAtPrice).toFixed(2), currencyCode: "INR" },
-            maxVariantPrice: { amount: parseFloat(formData.compareAtPrice).toFixed(2), currencyCode: "INR" },
+            minVariantPrice: { amount: minComparePrice.toFixed(2), currencyCode: "INR" },
+            maxVariantPrice: { amount: (maxComparePrice || minComparePrice).toFixed(2), currencyCode: "INR" },
           }
         : undefined,
       featuredImage: primaryImage,
       images: formattedImages,
+      ...(builtOptions.length > 0 ? { options: builtOptions, variants: builtVariants } : {}),
       tags: tagArray,
       collections: [formData.category, "all-socks"],
       banner: formData.bannerUrl.trim()
@@ -1491,7 +1624,7 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
                           Full-Size Direct Banner Image (Optional)
                         </div>
                         <div className="text-[11px] text-slate-500">
-                          Displays a high-resolution, full-width promo banner on this product's page.
+                          Displays a high-resolution, full-width promo banner on this product&apos;s page.
                         </div>
                       </div>
                       {formData.bannerUrl && (
@@ -1653,6 +1786,275 @@ function AdminViewContent({ hasSecret = false }: { hasSecret?: boolean }) {
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     className="w-full bg-slate-50 border border-slate-200 px-3.5 py-2.5 rounded-xl text-slate-900 outline-none focus:bg-white focus:border-red-600 transition resize-none"
                   />
+                </div>
+
+                {/* SECTION 3: COLORS */}
+                <div className="sm:col-span-2 bg-slate-50 border border-slate-200/80 rounded-xl p-4 space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <span className="font-bold text-slate-900 block">Sock Colors (Optional)</span>
+                      <span className="text-[11px] text-slate-500">
+                        Add colors (e.g. Black, Grey, Blue) and assign a gallery photo to each color.
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {["Black", "Grey", "Blue", "White", "Skin"].map((preset) => {
+                        const already = formData.colors.some(
+                          (c) => c.name.toLowerCase() === preset.toLowerCase()
+                        );
+                        return (
+                          <button
+                            key={preset}
+                            type="button"
+                            disabled={already}
+                            onClick={() =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                colors: [
+                                  ...prev.colors,
+                                  { name: preset, imageUrl: prev.images[0] || "" },
+                                ],
+                              }))
+                            }
+                            className="px-2 py-1 rounded-lg text-[11px] font-bold bg-white border border-slate-200 hover:border-slate-400 text-slate-700 disabled:opacity-40 cursor-pointer transition"
+                          >
+                            + {preset}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={formData.newColorName}
+                      onChange={(e) => setFormData({ ...formData, newColorName: e.target.value })}
+                      placeholder="Custom color name (e.g. Navy Blue)"
+                      className="flex-1 bg-white border border-slate-200 px-3 py-2 rounded-xl text-slate-900 text-xs outline-none focus:border-red-600"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const name = formData.newColorName.trim();
+                        if (!name) return;
+                        if (formData.colors.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
+                          alert("This color is already added");
+                          return;
+                        }
+                        setFormData((prev) => ({
+                          ...prev,
+                          colors: [...prev.colors, { name, imageUrl: prev.images[0] || "" }],
+                          newColorName: "",
+                        }));
+                      }}
+                      className="px-3.5 py-2 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold cursor-pointer transition"
+                    >
+                      + Add Color
+                    </button>
+                  </div>
+
+                  {formData.colors.length > 0 && (
+                    <div className="space-y-2 pt-1">
+                      {formData.colors.map((color, cIdx) => (
+                        <div
+                          key={cIdx}
+                          className="flex flex-wrap sm:flex-nowrap items-center gap-2 bg-white border border-slate-200 p-2.5 rounded-xl"
+                        >
+                          <input
+                            type="text"
+                            value={color.name}
+                            onChange={(e) => {
+                              const next = [...formData.colors];
+                              next[cIdx] = { ...next[cIdx], name: e.target.value };
+                              setFormData({ ...formData, colors: next });
+                            }}
+                            className="w-28 sm:w-36 bg-slate-50 border border-slate-200 px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-900"
+                          />
+                          <select
+                            value={color.imageUrl}
+                            onChange={(e) => {
+                              const next = [...formData.colors];
+                              next[cIdx] = { ...next[cIdx], imageUrl: e.target.value };
+                              setFormData({ ...formData, colors: next });
+                            }}
+                            className="flex-1 min-w-0 bg-slate-50 border border-slate-200 px-2.5 py-1.5 rounded-lg text-xs text-slate-700"
+                          >
+                            <option value="">Default Primary Image</option>
+                            {formData.images.map((url, imgIdx) => (
+                              <option key={imgIdx} value={url}>
+                                Gallery Image #{imgIdx + 1}
+                              </option>
+                            ))}
+                          </select>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                colors: prev.colors.filter((_, i) => i !== cIdx),
+                              }))
+                            }
+                            className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer"
+                            title="Remove color"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* SECTION 4: PAIRS / PACK SIZES */}
+                <div className="sm:col-span-2 bg-slate-50 border border-slate-200/80 rounded-xl p-4 space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <span className="font-bold text-slate-900 block">Pairs / Pack Sizes (Optional)</span>
+                      <span className="text-[11px] text-slate-500">
+                        Add pack tiers (e.g. 1 Pair, 2 Pair, 3 Pair) with custom Selling &amp; MRP prices.
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {[
+                        { label: "1 Pair", mult: 1 },
+                        { label: "2 Pair", mult: 2 },
+                        { label: "3 Pair", mult: 3 },
+                      ].map((preset) => {
+                        const already = formData.pairs.some(
+                          (p) => p.label.toLowerCase() === preset.label.toLowerCase()
+                        );
+                        return (
+                          <button
+                            key={preset.label}
+                            type="button"
+                            disabled={already}
+                            onClick={() => {
+                              const baseP = parseFloat(formData.price || "499") || 499;
+                              const baseM = parseFloat(formData.compareAtPrice || "799") || 799;
+                              const suggestedPrice =
+                                preset.mult === 1 ? baseP : Math.round(baseP * preset.mult * 0.9);
+                              const suggestedMrp = baseM * preset.mult;
+                              setFormData((prev) => ({
+                                ...prev,
+                                pairs: [
+                                  ...prev.pairs,
+                                  {
+                                    label: preset.label,
+                                    price: String(suggestedPrice),
+                                    compareAtPrice: String(suggestedMrp),
+                                  },
+                                ],
+                              }));
+                            }}
+                            className="px-2 py-1 rounded-lg text-[11px] font-bold bg-white border border-slate-200 hover:border-slate-400 text-slate-700 disabled:opacity-40 cursor-pointer transition"
+                          >
+                            + {preset.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={formData.newPairLabel}
+                      onChange={(e) => setFormData({ ...formData, newPairLabel: e.target.value })}
+                      placeholder="Custom pack label (e.g. 4 Pair Family Pack)"
+                      className="flex-1 bg-white border border-slate-200 px-3 py-2 rounded-xl text-slate-900 text-xs outline-none focus:border-red-600"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const label = formData.newPairLabel.trim();
+                        if (!label) return;
+                        if (formData.pairs.some((p) => p.label.toLowerCase() === label.toLowerCase())) {
+                          alert("This pair option is already added");
+                          return;
+                        }
+                        setFormData((prev) => ({
+                          ...prev,
+                          pairs: [
+                            ...prev.pairs,
+                            {
+                              label,
+                              price: prev.price || "499",
+                              compareAtPrice: prev.compareAtPrice || "999",
+                            },
+                          ],
+                          newPairLabel: "",
+                        }));
+                      }}
+                      className="px-3.5 py-2 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold cursor-pointer transition"
+                    >
+                      + Add Pair
+                    </button>
+                  </div>
+
+                  {formData.pairs.length > 0 && (
+                    <div className="space-y-2 pt-1">
+                      {formData.pairs.map((pair, pIdx) => (
+                        <div
+                          key={pIdx}
+                          className="grid grid-cols-12 items-center gap-2 bg-white border border-slate-200 p-2.5 rounded-xl"
+                        >
+                          <input
+                            type="text"
+                            value={pair.label}
+                            onChange={(e) => {
+                              const next = [...formData.pairs];
+                              next[pIdx] = { ...next[pIdx], label: e.target.value };
+                              setFormData({ ...formData, pairs: next });
+                            }}
+                            placeholder="1 Pair"
+                            className="col-span-5 bg-slate-50 border border-slate-200 px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-900"
+                          />
+                          <div className="col-span-3 flex items-center gap-1">
+                            <span className="text-[11px] text-slate-400 font-bold">₹</span>
+                            <input
+                              type="number"
+                              value={pair.price}
+                              onChange={(e) => {
+                                const next = [...formData.pairs];
+                                next[pIdx] = { ...next[pIdx], price: e.target.value };
+                                setFormData({ ...formData, pairs: next });
+                              }}
+                              placeholder="Price"
+                              className="w-full bg-slate-50 border border-slate-200 px-2 py-1.5 rounded-lg text-xs font-semibold text-slate-900"
+                            />
+                          </div>
+                          <div className="col-span-3 flex items-center gap-1">
+                            <span className="text-[11px] text-slate-400">MRP</span>
+                            <input
+                              type="number"
+                              value={pair.compareAtPrice}
+                              onChange={(e) => {
+                                const next = [...formData.pairs];
+                                next[pIdx] = { ...next[pIdx], compareAtPrice: e.target.value };
+                                setFormData({ ...formData, pairs: next });
+                              }}
+                              placeholder="MRP"
+                              className="w-full bg-slate-50 border border-slate-200 px-2 py-1.5 rounded-lg text-xs text-slate-700"
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                pairs: prev.pairs.filter((_, i) => i !== pIdx),
+                              }))
+                            }
+                            className="col-span-1 p-1 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer flex justify-center"
+                            title="Remove pair"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="sm:col-span-2 flex items-center gap-2 pt-1">

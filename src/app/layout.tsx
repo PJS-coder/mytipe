@@ -4,6 +4,7 @@ import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import ScrollToTop from "@/components/common/ScrollToTop";
 import StoreLayoutWrapper from "@/components/layout/StoreLayoutWrapper";
+import AnalyticsScripts from "@/components/analytics/AnalyticsScripts";
 
 
 export const metadata: Metadata = {
@@ -48,7 +49,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://cdn.shopify.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.shopify.com" />
+      </head>
       <body className="min-h-screen flex flex-col bg-white text-gray-900 antialiased selection:bg-[#0f1c3f] selection:text-white">
+        <AnalyticsScripts />
         <ScrollToTop />
         <AuthProvider>
           <CartProvider>

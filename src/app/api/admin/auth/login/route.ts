@@ -1,8 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isValidAdminPassword, createAdminSessionToken } from "@/server/auth/admin";
+import { checkRateLimit, getClientIp } from "@/server/security/rateLimit";
 
 export async function POST(request: NextRequest) {
   try {
+    const clientIp = getClientIp(request);
+    const rateLimit = checkRateLimit(`admin-login:${clientIp}`, {
+      maxRequests: 5,
+      windowSeconds: 15 * 60, // 5 attempts per 15 minutes
+    });
+
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Too many login attempts. Please try again in ${Math.ceil(
+            rateLimit.resetSeconds / 60
+          )} minute(s).`,
+        },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { password } = body as { password?: string };
 

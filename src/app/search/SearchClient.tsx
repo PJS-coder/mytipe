@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useMemo, Suspense } from "react";
+import React, { useState, useMemo, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import { Product } from "@/types/store";
 import ProductGrid from "@/components/product/ProductGrid";
+import { trackSearch } from "@/lib/analytics/trackEvent";
 
 interface SearchClientProps {
   products: Product[];
@@ -28,6 +29,14 @@ function SearchContent({ products }: SearchClientProps) {
     );
   }, [products, query]);
 
+  useEffect(() => {
+    if (!query.trim()) return;
+    const timer = setTimeout(() => {
+      trackSearch(query, results.length);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [query, results.length]);
+
   return (
     <div className="bg-white min-h-screen py-10 sm:py-16">
       <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16">
@@ -49,7 +58,7 @@ function SearchContent({ products }: SearchClientProps) {
 
           <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-gray-500">
             <span className="font-semibold">Popular Searches:</span>
-            {["Foot & Shoe Deo", "Pain Relief", "Ankle Socks", "GripFit", "Legacy", "MetroDot"].map(
+            {["Foot & Shoe Deo", "Foot Alignment", "Ankle Socks", "GripFit", "Legacy", "MetroDot"].map(
               (term) => (
                 <button
                   key={term}

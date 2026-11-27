@@ -3,10 +3,23 @@
 import React from "react";
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { trackEvent } from "@/lib/analytics/trackEvent";
 
 export default function Footer() {
+  const handleFooterClick = (e: React.MouseEvent<HTMLElement>) => {
+    const anchor = (e.target as HTMLElement | null)?.closest("a");
+    if (!anchor) return;
+    const label = anchor.getAttribute("aria-label") || anchor.textContent?.trim() || anchor.getAttribute("href") || "footer_link";
+    trackEvent("footer_link_click", {
+      button_name: label,
+      button_location: "footer",
+      element_type: "link",
+      link_url: anchor.getAttribute("href") || "",
+    });
+  };
+
   return (
-    <footer className="bg-black text-white pt-16 pb-12 border-t border-zinc-900">
+    <footer onClick={handleFooterClick} className="bg-black text-white pt-16 pb-12 border-t border-zinc-900">
       <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Column 1: Brand & Follow The Flock */}
@@ -90,8 +103,8 @@ export default function Footer() {
             <h3 className="text-base sm:text-lg font-medium text-white">Categories</h3>
             <ul className="space-y-2.5 text-sm text-zinc-300">
               <li>
-                <Link href="/products/pain-relief-socks" className="hover:text-white transition">
-                  Pain Relief Socks
+                <Link href="/products/foot-alignment-socks" className="hover:text-white transition">
+                  Foot Alignment Socks
                 </Link>
               </li>
               <li>

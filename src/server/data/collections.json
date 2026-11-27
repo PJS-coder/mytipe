@@ -113,7 +113,7 @@
     "handle": "home",
     "title": "home",
     "description": "Explore our high quality home range designed for foot health and everyday comfort.",
-    "productsCount": 36,
+    "productsCount": 35,
     "productHandles": [
       "wear-confidence-walk-fresh",
       "gentle-comfort-complete-care",
@@ -148,7 +148,7 @@
       "start-right-stay-light",
       "better-balance-better-days",
       "foot-shoe-deo",
-      "pain-relief-socks",
+      "foot-alignment-socks",
       "men-s-legacy-ankle-socks"
     ]
   },
@@ -170,7 +170,7 @@
       "unisex-mango-grove-ankle-socks",
       "unisex-keep-going-ankle-socks",
       "health-skin-socks",
-      "pain-relief-socks",
+      "foot-alignment-socks",
       "unisex-bravemode-ankle-socks",
       "mens-legacy-ankle-socks",
       "unisex-metrodot-ankle-socks",
@@ -187,13 +187,13 @@
       "url": "https://images.unsplash.com/photo-1582965372486-6644f772e38c?w=1200&auto=format&fit=crop&q=80",
       "altText": "All Alignment Socks"
     },
-    "productsCount": 22,
+    "productsCount": 16,
     "productHandles": [
       "mens-legacy-ankle-socks",
       "health-black-socks",
       "unisex-metrodot-ankle-socks",
       "unisex-bravemode-ankle-socks",
-      "pain-relief-socks",
+      "foot-alignment-socks",
       "mens-gripfit-low-cut-socks",
       "health-skin-socks",
       "unisex-keep-going-ankle-socks",
@@ -204,13 +204,7 @@
       "unisex-playdot-ankle-socks",
       "unisex-streetfit-ankle-socks",
       "unisex-urbandot-ankle-socks",
-      "men-s-legacy-ankle-socks",
-      "grey-foot-alignment-socks",
-      "black-foot-alignment-socks",
-      "blue-foot-alignment-socks",
-      "multi-colour-foot-alignment-socks",
-      "olive-green-foot-alignment-socks",
-      "rose-pink-foot-alignment-socks"
+      "men-s-legacy-ankle-socks"
     ]
   },
   {
@@ -222,14 +216,12 @@
       "url": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=1200&auto=format&fit=crop&q=80",
       "altText": "Best Sellers"
     },
-    "productsCount": 6,
+    "productsCount": 4,
     "productHandles": [
       "foot-shoe-deo",
       "mens-legacy-ankle-socks",
       "men-s-legacy-ankle-socks",
-      "grey-foot-alignment-socks",
-      "black-foot-alignment-socks",
-      "multi-colour-foot-alignment-socks"
+      "foot-alignment-socks"
     ]
   },
   {
@@ -241,12 +233,9 @@
       "url": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&auto=format&fit=crop&q=80",
       "altText": "Foot Pain Relief"
     },
-    "productsCount": 8,
+    "productsCount": 2,
     "productHandles": [
-      "grey-foot-alignment-socks",
-      "rose-pink-foot-alignment-socks",
-      "multi-colour-foot-alignment-socks",
-      "pain-relief-socks",
+      "foot-alignment-socks",
       "health-black-socks"
     ]
   },
@@ -259,11 +248,9 @@
       "url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&auto=format&fit=crop&q=80",
       "altText": "Knee Pain Relief"
     },
-    "productsCount": 6,
+    "productsCount": 1,
     "productHandles": [
-      "blue-foot-alignment-socks",
-      "grey-foot-alignment-socks",
-      "pain-relief-socks"
+      "foot-alignment-socks"
     ]
   },
   {
@@ -275,10 +262,9 @@
       "url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1200&auto=format&fit=crop&q=80",
       "altText": "Ankle Pain Relief"
     },
-    "productsCount": 6,
+    "productsCount": 2,
     "productHandles": [
-      "black-foot-alignment-socks",
-      "olive-green-foot-alignment-socks",
+      "foot-alignment-socks",
       "mens-legacy-ankle-socks"
     ]
   },
@@ -287,7 +273,7 @@
     "handle": "body-pain",
     "title": "Shop By Concern: Body Pain",
     "description": "Realign your entire postural chain from the ground up for reduced lower back and muscular fatigue.",
-    "productsCount": 6,
+    "productsCount": 0,
     "productHandles": []
   },
   {
@@ -295,7 +281,7 @@
     "handle": "new-arrivals",
     "title": "New Arrivals",
     "description": "Fresh pastel and vibrant colorways of our clinically loved foot alignment socks.",
-    "productsCount": 6,
+    "productsCount": 0,
     "productHandles": []
   },
   {
@@ -303,7 +289,7 @@
     "handle": "foot-care-kits",
     "title": "Foot Care Kits",
     "description": "Complete everyday foot comfort and shoe freshness combos.",
-    "productsCount": 6,
+    "productsCount": 0,
     "productHandles": []
   }
 ]

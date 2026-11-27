@@ -1,63 +1,56 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createRazorpayOrder, getPublicRazorpayKey, isRazorpayConfigured } from "@/server/razorpay";
 import { createOrder } from "@/server/db/orders";
-import { CartLineItem, ShippingAddress } from "@/types/store";
-import { calculateCartMilestones } from "@/lib/constants/cart";
+import { verifyAndCalculateOrder } from "@/server/db/pricing";
+import { checkRateLimit, getClientIp } from "@/server/security/rateLimit";
 
 export async function POST(request: NextRequest) {
   try {
+    const clientIp = getClientIp(request);
+    const rateLimit = checkRateLimit(`create-order:${clientIp}`, {
+      maxRequests: 20,
+      windowSeconds: 10 * 60, // 20 requests per 10 minutes
+    });
+
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Too many checkout requests. Please wait a few moments before trying again.",
+        },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
-    const { customer, items, coinDiscount = 0 } = body as {
-      customer: ShippingAddress;
-      items: CartLineItem[];
-      coinDiscount?: number;
-    };
+    const { customer, items, coinDiscount = 0 } = body;
 
-    if (!items || items.length === 0) {
-      return NextResponse.json({ success: false, error: "Cart is empty" }, { status: 400 });
+    // Verify customer, items against server catalog, and calculate tamper-proof pricing
+    const verification = verifyAndCalculateOrder(customer, items, coinDiscount);
+    if (!verification.success) {
+      return NextResponse.json({ success: false, error: verification.error }, { status: 400 });
     }
 
-    if (!customer?.fullName || !customer?.phone || !customer?.addressLine1 || !customer?.pincode) {
-      return NextResponse.json({ success: false, error: "Please fill all required shipping fields" }, { status: 400 });
-    }
-
-    // Calculate subtotal
-    const subtotal = items.reduce((sum, item) => sum + parseFloat(item.price.amount) * item.quantity, 0);
-
-    // Calculate verified milestone discounts and shipping
-    const { tierDiscount, isCheckoutUnlocked } = calculateCartMilestones(subtotal);
-    const shippingFee = isCheckoutUnlocked ? 0 : 50;
-
-    // Apply coin discount
-    const validCoinDiscount = Math.min(Math.max(0, coinDiscount), Math.max(0, subtotal - tierDiscount));
-    const total = Math.max(0, subtotal - tierDiscount - validCoinDiscount + shippingFee);
+    const { customer: verifiedCustomer, items: verifiedItems, pricing } = verification.data;
 
     // 1. Create Razorpay Order
     const receipt = `rcpt_${Date.now().toString().slice(-8)}`;
     const rzpOrder = await createRazorpayOrder({
-      amountInRupees: total,
+      amountInRupees: pricing.total,
       receipt,
       notes: {
-        customerName: customer.fullName,
-        customerPhone: customer.phone,
-        itemsCount: items.length.toString(),
-        tierDiscount: tierDiscount.toString(),
+        customerName: verifiedCustomer.fullName,
+        customerPhone: verifiedCustomer.phone,
+        itemsCount: verifiedItems.length.toString(),
+        tierDiscount: pricing.discount.toString(),
       },
     });
 
     // 2. Create pending internal order
     const order = createOrder({
-      customer,
-      items,
-      pricing: {
-        subtotal: Math.round(subtotal),
-        discount: tierDiscount,
-        coinDiscount: validCoinDiscount,
-        shippingFee,
-        tax: 0,
-        total: Math.round(total),
-        currency: "INR",
-      },
+      customer: verifiedCustomer,
+      items: verifiedItems,
+      pricing,
       paymentMethod: "razorpay",
       razorpayOrderId: rzpOrder.id,
     });

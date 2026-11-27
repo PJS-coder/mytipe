@@ -101,6 +101,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search..."
+              aria-label="Search products"
               className="w-full pl-9 pr-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-800 placeholder-gray-400 focus:outline-hidden focus:bg-white focus:border-gray-400 transition"
             />
           </form>
@@ -191,11 +192,11 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
                   Gym Socks
                 </Link>
                 <Link
-                  href="/products/pain-relief-socks"
+                  href="/products/foot-alignment-socks"
                   onClick={onClose}
                   className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
                 >
-                  Pain Relief Socks
+                  Foot Alignment Socks
                 </Link>
                 <Link
                   href="/collections/diabetic-socks"

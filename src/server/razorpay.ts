@@ -56,7 +56,11 @@ export async function createRazorpayOrder({
     };
   }
 
-  // Graceful fallback for test/dev environments without keys configured yet
+  // Fallback for test/dev environments without keys configured
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("Razorpay credentials are not configured in production environment.");
+  }
+
   const mockOrderId = `order_test_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
   return {
     id: mockOrderId,
@@ -77,18 +81,28 @@ export function verifyRazorpayPaymentSignature({
   signature: string;
 }): boolean {
   if (!isRazorpayConfigured) {
-    // In test mode without secret configured, accept test payments
-    return true;
+    // Only allow mock signature bypass in development, NEVER in production
+    if (process.env.NODE_ENV !== "production" && signature === "mock_signature_approved") {
+      return true;
+    }
+    return false;
   }
 
   try {
     const body = `${orderId}|${paymentId}`;
     const expectedSignature = crypto
       .createHmac("sha256", key_secret)
-      .update(body.toString())
+      .update(body)
       .digest("hex");
 
-    return expectedSignature === signature;
+    const sigBuf = Buffer.from(signature, "utf-8");
+    const expBuf = Buffer.from(expectedSignature, "utf-8");
+
+    if (sigBuf.length !== expBuf.length || sigBuf.length === 0) {
+      return false;
+    }
+
+    return crypto.timingSafeEqual(sigBuf, expBuf);
   } catch (err) {
     console.error("Razorpay signature verification failed:", err);
     return false;

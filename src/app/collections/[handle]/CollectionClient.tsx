@@ -120,10 +120,12 @@ export default function CollectionClient({
               handle.includes("poweredge") ||
               title.includes("gym") ||
               title.includes("grip");
-          } else if (cat === "pain-relief-socks") {
+          } else if (cat === "pain-relief-socks" || cat === "foot-alignment-socks") {
             matches =
+              handle.includes("foot-alignment") ||
               handle.includes("pain-relief") ||
               handle.includes("health") ||
+              title.includes("foot alignment") ||
               title.includes("pain relief") ||
               title.includes("health");
           } else if (cat === "diabetic-socks") {

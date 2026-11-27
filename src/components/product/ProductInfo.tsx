@@ -7,6 +7,7 @@ import { Product, ProductVariant } from "@/types/store";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { trackClick, trackEvent } from "@/lib/analytics/trackEvent";
 
 interface ProductInfoProps {
   product: Product;
@@ -81,12 +82,28 @@ export default function ProductInfo({
 
     if (matchingVariant) {
       onSelectVariant(matchingVariant);
+      trackEvent("select_variant", {
+        product_id: product.id,
+        product_name: product.title,
+        option_name: optionName,
+        option_value: optionValue,
+        variant_id: matchingVariant.id,
+      });
     } else {
       // Fallback to first variant matching the clicked value
       const fallback = product.variants.find((v) =>
         v.selectedOptions.some((o) => o.value.toLowerCase() === optionValue.toLowerCase())
       );
-      if (fallback) onSelectVariant(fallback);
+      if (fallback) {
+        onSelectVariant(fallback);
+        trackEvent("select_variant", {
+          product_id: product.id,
+          product_name: product.title,
+          option_name: optionName,
+          option_value: optionValue,
+          variant_id: fallback.id,
+        });
+      }
     }
   };
 
@@ -99,6 +116,11 @@ export default function ProductInfo({
 
   const handleBuyNow = () => {
     const effectiveQty = hasExplicitPackOption ? quantity : quantity * customPackChoice;
+    trackClick("Buy Now", "product_detail", {
+      product_id: product.id,
+      product_name: product.title,
+      variant_id: selectedVariant.id,
+    });
     addItem(product, selectedVariant, effectiveQty);
 
     if (!isAuthenticated) {
@@ -131,11 +153,11 @@ export default function ProductInfo({
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setReviewCount(parsed.length);
-          const sum = parsed.reduce((acc: number, r: any) => acc + (r.rating || 5), 0);
+          const sum = parsed.reduce((acc: number, r: { rating?: number }) => acc + (r.rating || 5), 0);
           setAvgRating(sum / parsed.length);
         }
       }
-    } catch (e) {
+    } catch {
       // ignore
     }
   }, [product.handle]);
@@ -229,9 +251,21 @@ export default function ProductInfo({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 {opt.values.map((val, valIdx) => {
                   const isSelected = currentOptValue === val;
-                  const variantForVal = product.variants.find((v) =>
-                    v.selectedOptions.some((o) => o.value === val)
-                  );
+                  const variantForVal =
+                    product.variants.find(
+                      (v) =>
+                        v.selectedOptions.some((o) => o.value === val) &&
+                        v.selectedOptions.every((o) => {
+                          if (o.name.toLowerCase() === opt.name.toLowerCase()) return true;
+                          const curr = selectedVariant.selectedOptions.find(
+                            (so) => so.name.toLowerCase() === o.name.toLowerCase()
+                          );
+                          return !curr || o.value.toLowerCase() === curr.value.toLowerCase();
+                        })
+                    ) ||
+                    product.variants.find((v) =>
+                      v.selectedOptions.some((o) => o.value === val)
+                    );
                   const valPrice = variantForVal ? parseFloat(variantForVal.price.amount) : null;
 
                   // Find single unit base price (e.g., 1 Pair or Pack of 1)
@@ -324,6 +358,26 @@ export default function ProductInfo({
               <div className="flex flex-wrap gap-2.5">
                 {opt.values.map((val) => {
                   const isSelected = currentOptValue === val;
+                  const isColorOpt = opt.name.toLowerCase().includes("color") || opt.name.toLowerCase().includes("colour");
+                  const colorDotMap: Record<string, string> = {
+                    black: "#111827",
+                    "midnight black": "#111827",
+                    grey: "#6b7280",
+                    gray: "#6b7280",
+                    "charcoal grey": "#4b5563",
+                    blue: "#2563eb",
+                    "sky blue": "#38bdf8",
+                    "navy blue": "#1e3a8a",
+                    pink: "#ec4899",
+                    "rose pink": "#f472b6",
+                    green: "#16a34a",
+                    "olive green": "#4d7c0f",
+                    red: "#dc2626",
+                    white: "#f8fafc",
+                    skin: "#e5b89b",
+                    beige: "#d6c4a8",
+                  };
+                  const swatchHex = isColorOpt ? colorDotMap[val.toLowerCase().trim()] : undefined;
                   return (
                     <button
                       key={val}
@@ -335,6 +389,12 @@ export default function ProductInfo({
                           : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
                       }`}
                     >
+                      {swatchHex && (
+                        <span
+                          className="w-3.5 h-3.5 rounded-full border border-black/15 shrink-0"
+                          style={{ backgroundColor: swatchHex }}
+                        />
+                      )}
                       <span>{val}</span>
                     </button>
                   );

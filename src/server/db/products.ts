@@ -22,24 +22,55 @@ const cleanInitialProducts = (productsData as unknown as Product[]).filter(
     !p.title.toLowerCase().includes("raksha")
 );
 
-if (!global.__mytipe_products__ || global.__mytipe_products__.some(p => p.handle.includes("rakhi") || p.handle.includes("raksha"))) {
+const needsRefresh =
+  !global.__mytipe_products__ ||
+  global.__mytipe_products__.some((p) =>
+    ["rakhi", "raksha", "pain-relief-socks", "grey-foot-alignment-socks", "blue-foot-alignment-socks"].some((k) =>
+      p.handle.toLowerCase().includes(k)
+    )
+  ) ||
+  !global.__mytipe_products__.some(
+    (p) =>
+      p.handle === "foot-alignment-socks" &&
+      p.options?.some((o) => o.values?.includes("6 Pair"))
+  );
+
+if (needsRefresh) {
   global.__mytipe_products__ = [...cleanInitialProducts];
 }
 
-const products = global.__mytipe_products__;
+const products: Product[] = global.__mytipe_products__ ?? [...cleanInitialProducts];
 
-// Auto-seed MongoDB on first connection & clean up obsolete Rakhi products
+// Auto-seed MongoDB on first connection & clean up obsolete/merged products
 async function ensureMongoSeeded() {
   if (!isMongoConfigured) return;
   try {
     await connectToMongoDB();
-    // Clean up any Rakhi products in MongoDB
+    // Clean up any Rakhi or merged duplicate alignment/pain-relief products in MongoDB
     await ProductModel.deleteMany({
       $or: [
         { handle: { $regex: /rakhi|raksha/i } },
         { title: { $regex: /rakhi|raksha/i } },
+        {
+          handle: {
+            $in: [
+              "pain-relief-socks",
+              "grey-foot-alignment-socks",
+              "blue-foot-alignment-socks",
+            ],
+          },
+        },
       ],
     });
+
+    const unifiedFootAlignment = products.find((p) => p.handle === "foot-alignment-socks");
+    if (unifiedFootAlignment) {
+      await ProductModel.findOneAndUpdate(
+        { id: unifiedFootAlignment.id },
+        unifiedFootAlignment,
+        { upsert: true }
+      );
+    }
 
     const count = await ProductModel.countDocuments();
     if (count === 0 && products.length > 0) {
@@ -120,7 +151,17 @@ export function getAllProducts(options?: GetProductsOptions): Product[] {
 
 export function getProductByHandle(handle: string): Product | undefined {
   const normalized = handle.toLowerCase();
-  return products.find((p) => p.handle.toLowerCase() === normalized);
+  const aliasMap: Record<string, string> = {
+    "pain-relief-socks": "foot-alignment-socks",
+    "grey-foot-alignment-socks": "foot-alignment-socks",
+    "blue-foot-alignment-socks": "foot-alignment-socks",
+    "black-foot-alignment-socks": "foot-alignment-socks",
+    "multi-colour-foot-alignment-socks": "foot-alignment-socks",
+    "olive-green-foot-alignment-socks": "foot-alignment-socks",
+    "rose-pink-foot-alignment-socks": "foot-alignment-socks",
+  };
+  const target = aliasMap[normalized] || normalized;
+  return products.find((p) => p.handle.toLowerCase() === target) || products.find((p) => p.handle.toLowerCase() === normalized);
 }
 
 export function getProductById(id: string): Product | undefined {

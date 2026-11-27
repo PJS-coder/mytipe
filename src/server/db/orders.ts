@@ -74,6 +74,27 @@ export function getOrderById(orderId: string): Order | undefined {
   return ordersMap.get(orderId);
 }
 
+export async function getOrderByIdAsync(orderId: string): Promise<Order | undefined> {
+  const cached = ordersMap.get(orderId);
+  if (cached) return cached;
+
+  if (isMongoConfigured) {
+    try {
+      await connectToMongoDB();
+      const doc = await OrderModel.findOne({ id: orderId }).lean();
+      if (doc) {
+        const order = doc as unknown as Order;
+        ordersMap.set(orderId, order);
+        return order;
+      }
+    } catch (err) {
+      console.error("MongoDB getOrderByIdAsync error:", err);
+    }
+  }
+
+  return undefined;
+}
+
 export function updateOrderPayment(
   orderId: string,
   paymentDetails: { razorpayPaymentId: string; razorpaySignature: string }

@@ -1,6 +1,12 @@
 import React from "react";
 import Link from "next/link";
+import { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Mytipe Club Rewards & Perks | Mytipe",
+  description: "Join Mytipe Club for exclusive rewards, coins, free gifts, and wellness perks.",
+};
 
 export default function MytipeClubPage() {
   return (

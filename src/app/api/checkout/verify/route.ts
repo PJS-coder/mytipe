@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyRazorpayPaymentSignature } from "@/server/razorpay";
-import { getOrderById, updateOrderPayment } from "@/server/db/orders";
+import { getOrderByIdAsync, updateOrderPayment } from "@/server/db/orders";
+import { checkRateLimit, getClientIp } from "@/server/security/rateLimit";
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = getClientIp(request);
+    const rateLimit = checkRateLimit(`checkout-verify:${ip}`, { maxRequests: 30, windowSeconds: 10 * 60 });
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        { success: false, error: "Too many payment verification attempts. Please try again shortly." },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { orderId, razorpayOrderId, razorpayPaymentId, razorpaySignature } = body as {
       orderId: string;
@@ -12,19 +22,19 @@ export async function POST(request: NextRequest) {
       razorpaySignature: string;
     };
 
-    if (!orderId || !razorpayOrderId || !razorpayPaymentId) {
+    if (!orderId || !razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
       return NextResponse.json(
         { success: false, error: "Missing required payment verification parameters" },
         { status: 400 }
       );
     }
 
-    const order = getOrderById(orderId);
+    const order = await getOrderByIdAsync(orderId);
     if (!order) {
       return NextResponse.json({ success: false, error: "Order not found" }, { status: 404 });
     }
 
-    // Verify cryptographic signature
+    // Verify cryptographic signature with timing-safe comparison
     const isValid = verifyRazorpayPaymentSignature({
       orderId: razorpayOrderId,
       paymentId: razorpayPaymentId,

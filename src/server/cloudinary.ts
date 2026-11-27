@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 
 const cloud_name = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "";
 const api_key = process.env.CLOUDINARY_API_KEY || "";
@@ -24,9 +25,13 @@ export interface UploadResult {
 }
 
 /**
- * Uploads a file buffer to Cloudinary (or local fallback if credentials aren't set yet)
+ * Uploads a validated file buffer to Cloudinary (or local fallback if credentials aren't set yet)
  */
-export async function uploadImage(buffer: Buffer, originalFilename?: string): Promise<UploadResult> {
+export async function uploadImage(
+  buffer: Buffer,
+  originalFilename?: string,
+  mimeType?: string
+): Promise<UploadResult> {
   if (isCloudinaryConfigured) {
     return new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
@@ -51,13 +56,20 @@ export async function uploadImage(buffer: Buffer, originalFilename?: string): Pr
     });
   }
 
-  // Graceful Local Fallback: saves file to public/uploads/ so testing works immediately
+  // Graceful Local Fallback: saves file to public/uploads/
   const uploadsDir = path.join(process.cwd(), "public", "uploads");
   if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
 
-  const safeFilename = `${Date.now()}-${(originalFilename || "image.png").replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+  // Determine safe extension based on mimeType
+  let ext = ".jpg";
+  if (mimeType === "image/png" || originalFilename?.endsWith(".png")) ext = ".png";
+  else if (mimeType === "image/webp" || originalFilename?.endsWith(".webp")) ext = ".webp";
+  else if (mimeType === "image/avif" || originalFilename?.endsWith(".avif")) ext = ".avif";
+
+  const randomHash = crypto.randomBytes(8).toString("hex");
+  const safeFilename = `${Date.now()}-${randomHash}${ext}`;
   const filePath = path.join(uploadsDir, safeFilename);
   fs.writeFileSync(filePath, buffer);
 

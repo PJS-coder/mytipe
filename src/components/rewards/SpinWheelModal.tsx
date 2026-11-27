@@ -6,6 +6,7 @@ import { useCart } from "@/context/CartContext";
 import { WheelSlice } from "@/types/auth";
 import { X, Sparkles, ArrowRight, Coins } from "lucide-react";
 import Link from "next/link";
+import { trackEvent } from "@/lib/analytics/trackEvent";
 
 // Web Audio sound synthesizer for ticking & win fanfare
 function playTickSound() {
@@ -128,6 +129,7 @@ export default function SpinWheelModal() {
     setIsSpinning(true);
     setShowCelebration(false);
     setWonSlice(null);
+    trackEvent("spin_wheel_play", { button_name: "Spin Wheel", button_location: "spin_wheel_modal" });
 
     // Eligible winning slices (10 coins: ~54%, 20 coins: ~38%, 50 coins: ~6.5%, 100 coins: ~1.5%)
     const eligibleIndices = WHEEL_SLICES.map((s, idx) => ({ ...s, index: idx })).filter(

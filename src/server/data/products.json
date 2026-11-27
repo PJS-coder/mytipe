@@ -942,9 +942,9 @@
   },
   {
     "id": "prod-8989582065862",
-    "handle": "pain-relief-socks",
-    "title": "Pain Relief Socks",
-    "subtitle": "Ergonomic Anatomical Foot Care & Compression",
+    "handle": "foot-alignment-socks",
+    "title": "Foot Alignment Socks",
+    "subtitle": "Original Anatomical Toe Separator & Pain Relief",
     "description": "Enhanced Comfort and Relaxation than ordinary socks Gentle Toe Separation of around 2CM Helps in Reducing Stress and Tiredness More than 80% High-Quality Cotton threads",
     "descriptionHtml": "<ul>\n<li><span>Enhanced Comfort and Relaxation than ordinary socks</span></li>\n<li><span>Gentle Toe Separation of around 2CM</span></li>\n<li><span>Helps in Reducing Stress and Tiredness</span></li>\n<li><span>More than 80% High-Quality Cotton threads</span></li>\n</ul>",
     "availableForSale": true,
@@ -954,61 +954,84 @@
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "899.00",
+        "amount": "2499.00",
         "currencyCode": "INR"
       }
     },
     "featuredImage": {
       "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985463/mytipe_products/1793602212087-M10.png",
-      "altText": "Pain Relief Socks - Image 1"
+      "altText": "Foot Alignment Socks - Black"
     },
     "images": [
       {
         "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985463/mytipe_products/1793602212087-M10.png",
-        "altText": "Pain Relief Socks - Image 1"
+        "altText": "Foot Alignment Socks - Black"
+      },
+      {
+        "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985472/mytipe_products/1793615233363-ChatGPT_Image_Jul_31__2026__06_05_29_PM.png",
+        "altText": "Foot Alignment Socks - Grey"
+      },
+      {
+        "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985471/mytipe_products/1793615216478-ChatGPT_Image_Jul_31__2026__06_08_47_PM.png",
+        "altText": "Foot Alignment Socks - Blue"
       },
       {
         "url": "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/135c983f-a8e6-4320-839c-286223563098_826e483e-7dc4-4ff4-a396-18ddb1823ca9.webp?v=1786097818",
-        "altText": "Pain Relief Socks - Image 2"
+        "altText": "Foot Alignment Socks - Image 2"
       },
       {
         "url": "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/274583af-6f2a-4826-b724-fee3a1ed24b7.webp?v=1786097818",
-        "altText": "Pain Relief Socks - Image 3"
+        "altText": "Foot Alignment Socks - Image 3"
       },
       {
         "url": "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/47f1b787-1750-497f-9c00-e0c9625355df.webp?v=1786097818",
-        "altText": "Pain Relief Socks - Image 4"
+        "altText": "Foot Alignment Socks - Image 4"
       },
       {
         "url": "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/9bc075cf-a494-42b6-a462-2ed65a67cdac.webp?v=1786097817",
-        "altText": "Pain Relief Socks - Image 5"
+        "altText": "Foot Alignment Socks - Image 5"
       },
       {
         "url": "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/c270cde2-cfef-4039-8b99-c1217b1064df.webp?v=1786097817",
-        "altText": "Pain Relief Socks - Image 6"
+        "altText": "Foot Alignment Socks - Image 6"
       },
       {
         "url": "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/e4d5eb4b-de76-4c81-9e2d-306155a9f113_bea98dcb-b566-4da4-9a86-51922de32419.webp?v=1786097818",
-        "altText": "Pain Relief Socks - Image 7"
+        "altText": "Foot Alignment Socks - Image 7"
       }
     ],
     "options": [
+      {
+        "id": "opt-color",
+        "name": "Color",
+        "values": [
+          "Black",
+          "Grey",
+          "Blue"
+        ]
+      },
       {
         "id": "opt-11212545228998",
         "name": "Pack Size",
         "values": [
           "1 Pair",
-          "2 Pair"
+          "2 Pair",
+          "3 Pair",
+          "6 Pair"
         ]
       }
     ],
     "variants": [
       {
-        "id": "var-46869414740166",
-        "title": "1 Pair",
+        "id": "var-fas-black-1",
+        "title": "Black / 1 Pair",
         "sku": "",
         "availableForSale": true,
         "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Black"
+          },
           {
             "name": "Pack Size",
             "value": "1 Pair"
@@ -1023,40 +1046,324 @@
           "currencyCode": "INR"
         },
         "image": {
-          "url": "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/ChatGPT-Image-Jun-21-2026-02_45_13-AM-1.webp?v=1785136645",
-          "altText": "Pain Relief Socks",
-          "width": 1254,
-          "height": 1254
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985463/mytipe_products/1793602212087-M10.png",
+          "altText": "Foot Alignment Socks - Black"
         }
       },
       {
-        "id": "var-46869414772934",
-        "title": "2 Pair",
+        "id": "var-fas-black-2",
+        "title": "Black / 2 Pair",
         "sku": "",
         "availableForSale": true,
         "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Black"
+          },
           {
             "name": "Pack Size",
             "value": "2 Pair"
           }
         ],
         "price": {
-          "amount": "899.00",
+          "amount": "849.00",
           "currencyCode": "INR"
         },
         "compareAtPrice": {
-          "amount": "1499.00",
+          "amount": "1598.00",
           "currencyCode": "INR"
         },
         "image": {
-          "url": "https://cdn.shopify.com/s/files/1/0753/9100/8966/files/ChatGPT-Image-Jun-21-2026-02_45_13-AM-1.webp?v=1785136645",
-          "altText": "Pain Relief Socks",
-          "width": 1254,
-          "height": 1254
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985463/mytipe_products/1793602212087-M10.png",
+          "altText": "Foot Alignment Socks - Black"
+        }
+      },
+      {
+        "id": "var-fas-black-3",
+        "title": "Black / 3 Pair",
+        "sku": "",
+        "availableForSale": true,
+        "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Black"
+          },
+          {
+            "name": "Pack Size",
+            "value": "3 Pair"
+          }
+        ],
+        "price": {
+          "amount": "1299.00",
+          "currencyCode": "INR"
+        },
+        "compareAtPrice": {
+          "amount": "2397.00",
+          "currencyCode": "INR"
+        },
+        "image": {
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985463/mytipe_products/1793602212087-M10.png",
+          "altText": "Foot Alignment Socks - Black"
+        }
+      },
+      {
+        "id": "var-fas-black-4",
+        "title": "Black / 6 Pair",
+        "sku": "",
+        "availableForSale": true,
+        "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Black"
+          },
+          {
+            "name": "Pack Size",
+            "value": "6 Pair"
+          }
+        ],
+        "price": {
+          "amount": "2499.00",
+          "currencyCode": "INR"
+        },
+        "compareAtPrice": {
+          "amount": "4794.00",
+          "currencyCode": "INR"
+        },
+        "image": {
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985463/mytipe_products/1793602212087-M10.png",
+          "altText": "Foot Alignment Socks - Black"
+        }
+      },
+      {
+        "id": "var-fas-grey-5",
+        "title": "Grey / 1 Pair",
+        "sku": "",
+        "availableForSale": true,
+        "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Grey"
+          },
+          {
+            "name": "Pack Size",
+            "value": "1 Pair"
+          }
+        ],
+        "price": {
+          "amount": "499.00",
+          "currencyCode": "INR"
+        },
+        "compareAtPrice": {
+          "amount": "799.00",
+          "currencyCode": "INR"
+        },
+        "image": {
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985472/mytipe_products/1793615233363-ChatGPT_Image_Jul_31__2026__06_05_29_PM.png",
+          "altText": "Foot Alignment Socks - Grey"
+        }
+      },
+      {
+        "id": "var-fas-grey-6",
+        "title": "Grey / 2 Pair",
+        "sku": "",
+        "availableForSale": true,
+        "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Grey"
+          },
+          {
+            "name": "Pack Size",
+            "value": "2 Pair"
+          }
+        ],
+        "price": {
+          "amount": "849.00",
+          "currencyCode": "INR"
+        },
+        "compareAtPrice": {
+          "amount": "1598.00",
+          "currencyCode": "INR"
+        },
+        "image": {
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985472/mytipe_products/1793615233363-ChatGPT_Image_Jul_31__2026__06_05_29_PM.png",
+          "altText": "Foot Alignment Socks - Grey"
+        }
+      },
+      {
+        "id": "var-fas-grey-7",
+        "title": "Grey / 3 Pair",
+        "sku": "",
+        "availableForSale": true,
+        "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Grey"
+          },
+          {
+            "name": "Pack Size",
+            "value": "3 Pair"
+          }
+        ],
+        "price": {
+          "amount": "1299.00",
+          "currencyCode": "INR"
+        },
+        "compareAtPrice": {
+          "amount": "2397.00",
+          "currencyCode": "INR"
+        },
+        "image": {
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985472/mytipe_products/1793615233363-ChatGPT_Image_Jul_31__2026__06_05_29_PM.png",
+          "altText": "Foot Alignment Socks - Grey"
+        }
+      },
+      {
+        "id": "var-fas-grey-8",
+        "title": "Grey / 6 Pair",
+        "sku": "",
+        "availableForSale": true,
+        "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Grey"
+          },
+          {
+            "name": "Pack Size",
+            "value": "6 Pair"
+          }
+        ],
+        "price": {
+          "amount": "2499.00",
+          "currencyCode": "INR"
+        },
+        "compareAtPrice": {
+          "amount": "4794.00",
+          "currencyCode": "INR"
+        },
+        "image": {
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985472/mytipe_products/1793615233363-ChatGPT_Image_Jul_31__2026__06_05_29_PM.png",
+          "altText": "Foot Alignment Socks - Grey"
+        }
+      },
+      {
+        "id": "var-fas-blue-9",
+        "title": "Blue / 1 Pair",
+        "sku": "",
+        "availableForSale": true,
+        "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Blue"
+          },
+          {
+            "name": "Pack Size",
+            "value": "1 Pair"
+          }
+        ],
+        "price": {
+          "amount": "499.00",
+          "currencyCode": "INR"
+        },
+        "compareAtPrice": {
+          "amount": "799.00",
+          "currencyCode": "INR"
+        },
+        "image": {
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985471/mytipe_products/1793615216478-ChatGPT_Image_Jul_31__2026__06_08_47_PM.png",
+          "altText": "Foot Alignment Socks - Blue"
+        }
+      },
+      {
+        "id": "var-fas-blue-10",
+        "title": "Blue / 2 Pair",
+        "sku": "",
+        "availableForSale": true,
+        "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Blue"
+          },
+          {
+            "name": "Pack Size",
+            "value": "2 Pair"
+          }
+        ],
+        "price": {
+          "amount": "849.00",
+          "currencyCode": "INR"
+        },
+        "compareAtPrice": {
+          "amount": "1598.00",
+          "currencyCode": "INR"
+        },
+        "image": {
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985471/mytipe_products/1793615216478-ChatGPT_Image_Jul_31__2026__06_08_47_PM.png",
+          "altText": "Foot Alignment Socks - Blue"
+        }
+      },
+      {
+        "id": "var-fas-blue-11",
+        "title": "Blue / 3 Pair",
+        "sku": "",
+        "availableForSale": true,
+        "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Blue"
+          },
+          {
+            "name": "Pack Size",
+            "value": "3 Pair"
+          }
+        ],
+        "price": {
+          "amount": "1299.00",
+          "currencyCode": "INR"
+        },
+        "compareAtPrice": {
+          "amount": "2397.00",
+          "currencyCode": "INR"
+        },
+        "image": {
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985471/mytipe_products/1793615216478-ChatGPT_Image_Jul_31__2026__06_08_47_PM.png",
+          "altText": "Foot Alignment Socks - Blue"
+        }
+      },
+      {
+        "id": "var-fas-blue-12",
+        "title": "Blue / 6 Pair",
+        "sku": "",
+        "availableForSale": true,
+        "selectedOptions": [
+          {
+            "name": "Color",
+            "value": "Blue"
+          },
+          {
+            "name": "Pack Size",
+            "value": "6 Pair"
+          }
+        ],
+        "price": {
+          "amount": "2499.00",
+          "currencyCode": "INR"
+        },
+        "compareAtPrice": {
+          "amount": "4794.00",
+          "currencyCode": "INR"
+        },
+        "image": {
+          "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985471/mytipe_products/1793615216478-ChatGPT_Image_Jul_31__2026__06_08_47_PM.png",
+          "altText": "Foot Alignment Socks - Blue"
         }
       }
     ],
-    "tags": [],
+    "tags": [
+      "foot-alignment-socks",
+      "alignment-socks",
+      "pain-relief"
+    ],
     "collections": [
       "home",
       "all-socks"
@@ -1167,7 +1474,7 @@
     ],
     "banner": {
       "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985449/mytipe_products/1793123839049-ChatGPT_Image_Oct_27__2026__11_26_50_PM.png",
-      "altText": "Pain Relief Socks Full Promotional Banner"
+      "altText": "Foot Alignment Socks Full Promotional Banner"
     },
     "compareAtPriceRange": {
       "minVariantPrice": {
@@ -1175,7 +1482,7 @@
         "currencyCode": "INR"
       },
       "maxVariantPrice": {
-        "amount": "1499.00",
+        "amount": "4794.00",
         "currencyCode": "INR"
       }
     }
@@ -5920,339 +6227,6 @@
       {
         "question": "What shoe sizes do these socks fit?",
         "answer": "Our flexible 4-way stretch knit comfortably fits men and women from UK/India shoe sizes 6 to 11."
-      }
-    ]
-  },
-  {
-    "id": "prod-1001",
-    "handle": "grey-foot-alignment-socks",
-    "title": "Grey Foot Alignment Socks",
-    "subtitle": "Original Anatomical Toe Separator & Pain Relief Socks",
-    "description": "The Mytipe Foot Alignment Socks are specifically designed with plush separator dividers to gently stretch, separate, and realign your toes. Relieve foot pain, bunions, plantar fasciitis, hammer toes, and general soreness from standing or walking all day.",
-    "descriptionHtml": "<p>The Mytipe Foot Alignment Socks are specifically designed with plush separator dividers to gently stretch, separate, and realign your toes. Relieve foot pain, bunions, plantar fasciitis, hammer toes, and general soreness from standing or walking all day.</p>",
-    "availableForSale": true,
-    "priceRange": {
-      "minVariantPrice": {
-        "amount": "499.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "499.00",
-        "currencyCode": "INR"
-      }
-    },
-    "compareAtPriceRange": {
-      "minVariantPrice": {
-        "amount": "999.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "999.00",
-        "currencyCode": "INR"
-      }
-    },
-    "featuredImage": {
-      "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985472/mytipe_products/1793615233363-ChatGPT_Image_Jul_31__2026__06_05_29_PM.png",
-      "altText": "Grey Foot Alignment Socks - Image 1"
-    },
-    "images": [
-      {
-        "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985472/mytipe_products/1793615233363-ChatGPT_Image_Jul_31__2026__06_05_29_PM.png",
-        "altText": "Grey Foot Alignment Socks - Image 1"
-      }
-    ],
-    "options": [
-      {
-        "id": "opt-color",
-        "name": "Color",
-        "values": [
-          "Charcoal Grey",
-          "Midnight Black",
-          "Sky Blue",
-          "Multi Colour",
-          "Olive Green",
-          "Rose Pink"
-        ]
-      },
-      {
-        "id": "opt-size",
-        "name": "Size",
-        "values": [
-          "Free Size (Fits All)"
-        ]
-      }
-    ],
-    "variants": [
-      {
-        "id": "var-2001",
-        "title": "Charcoal Grey / Free Size",
-        "availableForSale": true,
-        "selectedOptions": [
-          {
-            "name": "Color",
-            "value": "Charcoal Grey"
-          },
-          {
-            "name": "Size",
-            "value": "Free Size (Fits All)"
-          }
-        ],
-        "price": {
-          "amount": "499.00",
-          "currencyCode": "INR"
-        },
-        "compareAtPrice": {
-          "amount": "999.00",
-          "currencyCode": "INR"
-        },
-        "image": {
-          "url": "https://images.unsplash.com/photo-1582965372486-6644f772e38c?w=800&auto=format&fit=crop&q=80",
-          "altText": "Charcoal Grey Socks"
-        }
-      },
-      {
-        "id": "var-2002",
-        "title": "Midnight Black / Free Size",
-        "availableForSale": true,
-        "selectedOptions": [
-          {
-            "name": "Color",
-            "value": "Midnight Black"
-          },
-          {
-            "name": "Size",
-            "value": "Free Size (Fits All)"
-          }
-        ],
-        "price": {
-          "amount": "499.00",
-          "currencyCode": "INR"
-        },
-        "compareAtPrice": {
-          "amount": "999.00",
-          "currencyCode": "INR"
-        },
-        "image": {
-          "url": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80",
-          "altText": "Midnight Black Socks"
-        }
-      },
-      {
-        "id": "var-2003",
-        "title": "Sky Blue / Free Size",
-        "availableForSale": true,
-        "selectedOptions": [
-          {
-            "name": "Color",
-            "value": "Sky Blue"
-          },
-          {
-            "name": "Size",
-            "value": "Free Size (Fits All)"
-          }
-        ],
-        "price": {
-          "amount": "499.00",
-          "currencyCode": "INR"
-        },
-        "compareAtPrice": {
-          "amount": "999.00",
-          "currencyCode": "INR"
-        },
-        "image": {
-          "url": "https://images.unsplash.com/photo-1582965372486-6644f772e38c?w=800&auto=format&fit=crop&q=80",
-          "altText": "Sky Blue Socks"
-        }
-      },
-      {
-        "id": "var-2004",
-        "title": "Multi Colour / Free Size",
-        "availableForSale": true,
-        "selectedOptions": [
-          {
-            "name": "Color",
-            "value": "Multi Colour"
-          },
-          {
-            "name": "Size",
-            "value": "Free Size (Fits All)"
-          }
-        ],
-        "price": {
-          "amount": "499.00",
-          "currencyCode": "INR"
-        },
-        "compareAtPrice": {
-          "amount": "999.00",
-          "currencyCode": "INR"
-        },
-        "image": {
-          "url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&auto=format&fit=crop&q=80",
-          "altText": "Multi Colour Socks"
-        }
-      }
-    ],
-    "tags": [
-      "best-seller",
-      "foot-pain",
-      "toe-alignment",
-      "socks",
-      "featured"
-    ],
-    "collections": [
-      "best-sellers",
-      "all-socks"
-    ],
-    "rating": {
-      "average": 4.9,
-      "count": 2702
-    },
-    "highlights": [
-      "Natural non-invasive alignment for crooked and crowded toes",
-      "Instant relief from Plantar Fasciitis, Bunions & Heel Spurs",
-      "Increases micro-circulation & reduces fluid retention swelling",
-      "Plush 90% combed cotton blend with breathable stretch",
-      "Wear while resting, watching TV, reading, or sleeping"
-    ],
-    "faq": [
-      {
-        "question": "How long should I wear Mytipe Alignment Socks each day?",
-        "answer": "Start with 15\u201330 minutes per day while resting or sitting. As your toes and foot muscles naturally adjust, gradually increase wear time to 1\u20132 hours or overnight while sleeping."
-      },
-      {
-        "question": "Can I wear these alignment socks inside regular shoes?",
-        "answer": "No. These therapeutic toe-separator socks are designed with padded toe dividers to gently stretch and realign your toes. They are intended for barefoot use at home while resting, relaxing on the couch, sleeping, or during yoga."
-      },
-      {
-        "question": "How do these socks help relieve bunions, plantar fasciitis, and foot pain?",
-        "answer": "The soft cushioned dividers gently separate overlapping toes, decompressing joint stress, stretching tight tendons, and restoring natural arch alignment to relieve heel, arch, and ball-of-foot pressure."
-      },
-      {
-        "question": "Will it feel uncomfortable when I first start wearing them?",
-        "answer": "It is normal to feel a gentle stretching sensation initially as compressed toes adjust. If it feels too tight, wear them for just 10\u201315 minutes at first and build up duration gradually."
-      },
-      {
-        "question": "How should I wash and care for my alignment socks?",
-        "answer": "Hand wash or machine wash in cold water on a delicate cycle using mild detergent. Air dry flat in shade to keep the plush toe separators in optimal shape."
-      }
-    ]
-  },
-  {
-    "id": "prod-1003",
-    "handle": "blue-foot-alignment-socks",
-    "title": "Blue Foot Alignment Socks",
-    "subtitle": "Cool Breeze Refreshing Foot Alignment Therapy",
-    "description": "A calming sky-blue toe alignment sock. Perfect for winding down after long athletic training, high-heel fatigue, or extended desk hours.",
-    "availableForSale": true,
-    "priceRange": {
-      "minVariantPrice": {
-        "amount": "499.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "499.00",
-        "currencyCode": "INR"
-      }
-    },
-    "compareAtPriceRange": {
-      "minVariantPrice": {
-        "amount": "999.00",
-        "currencyCode": "INR"
-      },
-      "maxVariantPrice": {
-        "amount": "999.00",
-        "currencyCode": "INR"
-      }
-    },
-    "featuredImage": {
-      "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985471/mytipe_products/1793615216478-ChatGPT_Image_Jul_31__2026__06_08_47_PM.png",
-      "altText": "Blue Foot Alignment Socks - Image 1"
-    },
-    "images": [
-      {
-        "url": "https://res.cloudinary.com/pjdh0da6/image/upload/v1794985471/mytipe_products/1793615216478-ChatGPT_Image_Jul_31__2026__06_08_47_PM.png",
-        "altText": "Blue Foot Alignment Socks - Image 1"
-      }
-    ],
-    "options": [
-      {
-        "id": "opt-color",
-        "name": "Color",
-        "values": [
-          "Sky Blue"
-        ]
-      },
-      {
-        "id": "opt-size",
-        "name": "Size",
-        "values": [
-          "Free Size (Fits All)"
-        ]
-      }
-    ],
-    "variants": [
-      {
-        "id": "var-2006",
-        "title": "Sky Blue / Free Size",
-        "availableForSale": true,
-        "selectedOptions": [
-          {
-            "name": "Color",
-            "value": "Sky Blue"
-          },
-          {
-            "name": "Size",
-            "value": "Free Size (Fits All)"
-          }
-        ],
-        "price": {
-          "amount": "499.00",
-          "currencyCode": "INR"
-        },
-        "compareAtPrice": {
-          "amount": "999.00",
-          "currencyCode": "INR"
-        }
-      }
-    ],
-    "tags": [
-      "knee-pain",
-      "toe-alignment",
-      "socks"
-    ],
-    "collections": [
-      "knee-pain",
-      "all-socks"
-    ],
-    "rating": {
-      "average": 4.9,
-      "count": 940
-    },
-    "highlights": [
-      "Refreshing Sky Blue aesthetic",
-      "Restores balance from foot to knee",
-      "Soft anti-chafing knit"
-    ],
-    "faq": [
-      {
-        "question": "How long should I wear Mytipe Alignment Socks each day?",
-        "answer": "Start with 15\u201330 minutes per day while resting or sitting. As your toes and foot muscles naturally adjust, gradually increase wear time to 1\u20132 hours or overnight while sleeping."
-      },
-      {
-        "question": "Can I wear these alignment socks inside regular shoes?",
-        "answer": "No. These therapeutic toe-separator socks are designed with padded toe dividers to gently stretch and realign your toes. They are intended for barefoot use at home while resting, relaxing on the couch, sleeping, or during yoga."
-      },
-      {
-        "question": "How do these socks help relieve bunions, plantar fasciitis, and foot pain?",
-        "answer": "The soft cushioned dividers gently separate overlapping toes, decompressing joint stress, stretching tight tendons, and restoring natural arch alignment to relieve heel, arch, and ball-of-foot pressure."
-      },
-      {
-        "question": "Will it feel uncomfortable when I first start wearing them?",
-        "answer": "It is normal to feel a gentle stretching sensation initially as compressed toes adjust. If it feels too tight, wear them for just 10\u201315 minutes at first and build up duration gradually."
-      },
-      {
-        "question": "How should I wash and care for my alignment socks?",
-        "answer": "Hand wash or machine wash in cold water on a delicate cycle using mild detergent. Air dry flat in shade to keep the plush toe separators in optimal shape."
       }
     ]
   }

@@ -14,8 +14,12 @@ interface FilterState {
 const CATEGORY_ITEMS = [
   { label: "All Categories", handle: "all-socks", href: "/collections/all-socks" },
   { label: "Combos", handle: "combos", href: "/collections/combos" },
+  { label: "Pair of 1", handle: "pair-1", href: "/products/foot-alignment-socks?pack=1" },
+  { label: "Pair of 2", handle: "pair-2", href: "/products/foot-alignment-socks?pack=2" },
+  { label: "Pair of 3", handle: "pair-3", href: "/products/foot-alignment-socks?pack=3" },
+  { label: "Pair of 6", handle: "pair-6", href: "/products/foot-alignment-socks?pack=6" },
   { label: "Gym Socks", handle: "gym-socks", href: "/collections/gym-socks" },
-  { label: "Pain Relief Socks", handle: "pain-relief-socks", href: "/products/pain-relief-socks" },
+  { label: "Foot Alignment Socks", handle: "foot-alignment-socks", href: "/products/foot-alignment-socks" },
   { label: "Diabetic Socks", handle: "diabetic-socks", href: "/collections/diabetic-socks" },
   { label: "Office Socks", handle: "office-socks", href: "/collections/office-socks" },
   { label: "Designer Socks", handle: "designer-socks", href: "/collections/designer-socks" },

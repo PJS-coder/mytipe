@@ -25,22 +25,34 @@ export function isValidAdminSecret(providedSecret?: string | null): boolean {
   const decoded = safeDecode(raw).trim();
   const configured = getAdminSecret();
 
+  // Accept configured secret, decoded or encoded variant
   const accepted = [
     configured,
-    DEFAULT_ADMIN_SECRET,
-    "mudditmakkaradmin2t7yfbu23",
     safeDecode(configured),
     encodeURIComponent(configured),
+    DEFAULT_ADMIN_SECRET,
   ];
 
-  return accepted.includes(decoded) || accepted.includes(raw);
+  return accepted.some((candidate) => {
+    const candHash = crypto.createHash("sha256").update(candidate).digest();
+    const rawHash = crypto.createHash("sha256").update(raw).digest();
+    const decHash = crypto.createHash("sha256").update(decoded).digest();
+    return (
+      crypto.timingSafeEqual(candHash, rawHash) ||
+      crypto.timingSafeEqual(candHash, decHash)
+    );
+  });
 }
 
+/**
+ * Constant-time password validation using SHA-256 hashes to prevent length-leak timing attacks
+ */
 export function isValidAdminPassword(providedPassword?: string | null): boolean {
   if (!providedPassword) return false;
   const actual = getAdminPassword();
-  if (providedPassword.length !== actual.length) return false;
-  return crypto.timingSafeEqual(Buffer.from(providedPassword), Buffer.from(actual));
+  const providedHash = crypto.createHash("sha256").update(providedPassword).digest();
+  const actualHash = crypto.createHash("sha256").update(actual).digest();
+  return crypto.timingSafeEqual(providedHash, actualHash);
 }
 
 export function createAdminSessionToken(): string {
@@ -63,8 +75,11 @@ export function verifyAdminSessionToken(token?: string | null): boolean {
   const data = `admin_session_${expiresAt}`;
   const expectedSignature = crypto.createHmac("sha256", password).update(data).digest("hex");
 
-  if (signature.length !== expectedSignature.length) return false;
-  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature));
+  const sigBuffer = Buffer.from(signature, "hex");
+  const expBuffer = Buffer.from(expectedSignature, "hex");
+
+  if (sigBuffer.length !== expBuffer.length || sigBuffer.length === 0) return false;
+  return crypto.timingSafeEqual(sigBuffer, expBuffer);
 }
 
 export function isRequestAuthorized(request: { cookies: { get: (name: string) => { value: string } | undefined } }): boolean {

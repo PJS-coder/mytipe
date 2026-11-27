@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { CartLineItem, Product, ProductVariant, ProductBundleTier } from "@/types/store";
 import { calculateCartMilestones, CART_MILESTONES } from "@/lib/constants/cart";
+import { trackAddToCart, trackRemoveFromCart, trackViewCart } from "@/lib/analytics/trackEvent";
 
 interface CartContextType {
   items: CartLineItem[];
@@ -65,7 +66,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [items, isInitialized]);
 
-  const openCart = () => setIsOpen(true);
+  const openCart = () => {
+    setIsOpen(true);
+    const sub = items.reduce(
+      (sum, item) => sum + parseFloat(item.price.amount) * item.quantity,
+      0
+    );
+    trackViewCart(items, sub);
+  };
   const closeCart = () => setIsOpen(false);
   const toggleCart = () => setIsOpen((prev) => !prev);
 
@@ -75,6 +83,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     quantity = 1,
     bundleTier?: ProductBundleTier
   ) => {
+    const effectiveQtyForTracking = bundleTier ? bundleTier.pairs * quantity : quantity;
+    trackAddToCart(product, variant, effectiveQtyForTracking);
+
     setItems((prevItems) => {
       // Calculate effective price based on bundle if provided
       const unitPrice = bundleTier
@@ -127,6 +138,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const removeItem = (itemId: string) => {
+    const removed = items.find((i) => i.id === itemId);
+    if (removed) {
+      trackRemoveFromCart(removed);
+    }
     setItems((prev) => prev.filter((item) => item.id !== itemId));
   };
 

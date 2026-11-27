@@ -10,25 +10,69 @@ import { fetchLiveProducts } from "@/lib/store/fetcher";
 
 export default async function HomePage() {
   const products = await fetchLiveProducts();
-  const bestSellers = products.filter((p) => p.tags.includes("best-seller") || p.handle.includes("sock") || p.handle.includes("deo"));
+  const bestSellers = products.filter(
+    (p) => p.tags.includes("best-seller") || p.handle.includes("sock") || p.handle.includes("deo")
+  );
   const newArrivals = products.slice().reverse();
+
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://mytipe.com";
+
+  // Google Search Structured Data (Organization + Sitelinks Searchbox)
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${baseUrl}/#organization`,
+        name: "Mytipe",
+        url: baseUrl,
+        logo: `${baseUrl}/logo.png`,
+        description:
+          "Original anatomical Foot Alignment Socks for natural toe separation, plantar fasciitis relief, and everyday comfort.",
+        sameAs: ["https://www.instagram.com/mytipeofficial/"],
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: "+91-9876543210",
+          contactType: "customer service",
+          areaServed: "IN",
+          availableLanguage: ["English", "Hindi"],
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${baseUrl}/#website`,
+        url: baseUrl,
+        name: "Mytipe",
+        publisher: {
+          "@id": `${baseUrl}/#organization`,
+        },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${baseUrl}/search?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
+      },
+    ],
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+
       {/* 1. Hero Section */}
       <Hero />
 
-      {/* 2. Mobile View: Category Cards directly below Hero on mobile */}
-      <CategoryCards mode="mobile" />
-
-      {/* 3. Shop Mytipe Socks (Live Bestsellers & New Arrivals) */}
+      {/* 2. Shop Mytipe Socks (Live Bestsellers & New Arrivals) */}
       <FeaturedProducts
         bestSellers={bestSellers.length > 0 ? bestSellers : products}
         newArrivals={newArrivals.length > 0 ? newArrivals : products}
       />
 
-      {/* 4. Web View: Category Cards under SHOP MYTIPE SOCKS like previous */}
-      <CategoryCards mode="desktop" />
+      {/* 3. Category Cards under SHOP MYTIPE SOCKS */}
+      <CategoryCards />
 
       {/* 5. Best Seller Spotlight Section with pain-sock.png */}
       <StorySection />

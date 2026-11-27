@@ -123,15 +123,15 @@ export default function AboutPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Card 1: Pain Relief Socks */}
+          {/* Card 1: Foot Alignment Socks */}
           <Link
-            href="/products/pain-relief-socks"
+            href="/products/foot-alignment-socks"
             className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 block"
           >
             <div className="relative aspect-square bg-slate-50 overflow-hidden">
               <Image
                 src="/pain-sock.webp"
-                alt="Pain Relief Toe Alignment Socks"
+                alt="Foot Alignment Socks"
                 fill
                 sizes="(max-width: 640px) 100vw, 300px"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -139,7 +139,7 @@ export default function AboutPage() {
             </div>
             <div className="p-4 space-y-1">
               <h3 className="font-bold text-slate-900 text-sm group-hover:text-[#2b76a6] transition">
-                Pain Relief Alignment Socks
+                Foot Alignment Socks
               </h3>
               <p className="text-xs text-slate-500 line-clamp-2">
                 5-toe separation designed to reduce bunions and arch pressure.
