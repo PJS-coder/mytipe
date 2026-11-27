@@ -27,10 +27,10 @@ const CATEGORIES: CategoryItem[] = [
     alt: "Mytipe Foot & Shoe Freshener Deo",
   },
   {
-    title: "Foot Alignment Socks",
+    title: "Pain Relief Socks",
     href: "/products/foot-alignment-socks",
     image: "/pain-sock.webp",
-    alt: "Mytipe Foot Alignment Socks",
+    alt: "Mytipe Pain Relief Socks",
   },
   {
     title: "Gym Socks",

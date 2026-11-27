@@ -19,22 +19,22 @@ const HERO_SLIDES: HeroSlide[] = [
     id: 1,
     desktopImage: "/hero3.webp",
     mobileImage: "/hero1mobile.webp",
-    alt: "Mytipe Everyday Foot Health & Comfort",
-    href: "/collections/all-socks",
+    alt: "Mytipe Pain Relief Socks",
+    href: "/products/foot-alignment-socks",
   },
   {
     id: 2,
     desktopImage: "/hero2.webp",
     mobileImage: "/hero2mobile.webp",
-    alt: "Mytipe Premium Socks Collection",
-    href: "/collections/all-socks",
+    alt: "Mytipe Foot & Shoe Deo",
+    href: "/products/foot-shoe-deo",
   },
   {
     id: 3,
     desktopImage: "/hero4.webp",
     mobileImage: "/hero3mobile.webp",
-    alt: "Mytipe Ergonomic Support & Performance Socks",
-    href: "/collections/all-socks",
+    alt: "Mytipe Health Black Socks",
+    href: "/products/health-black-socks",
   },
 ];
 
@@ -177,8 +177,8 @@ export default function Hero() {
       onTouchEnd={handleTouchEnd}
       aria-label="Featured promotions carousel"
     >
-      {/* Carousel Track Container - 80% viewport height cap on mobile with natural aspect ratio; widescreen on desktop */}
-      <div className="relative w-full aspect-[941/1440] max-h-[80dvh] sm:h-auto sm:aspect-[1672/941] sm:max-h-[calc(100vh-102px)] overflow-hidden">
+      {/* Carousel Track Container - Natural aspect ratio with zero cropping on mobile & desktop */}
+      <div className="relative w-full aspect-[941/1440] sm:h-auto sm:aspect-[1672/941] overflow-hidden">
         <div
           className={`flex h-full w-full ${withTransition
             ? "transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
@@ -212,7 +212,7 @@ export default function Hero() {
                     });
                   }}
                 >
-                  {/* Mobile View Hero Banner - Edge-to-edge full width with zero cut */}
+                  {/* Mobile View Hero Banner - Full image visible with zero cut */}
                   <div className="block sm:hidden relative w-full h-full">
                     <Image
                       src={slide.mobileImage}
@@ -222,7 +222,7 @@ export default function Hero() {
                       loading="eager"
                       unoptimized
                       sizes="100vw"
-                      className="object-cover object-center"
+                      className="object-contain object-center"
                     />
                   </div>
 
@@ -236,7 +236,7 @@ export default function Hero() {
                       loading="eager"
                       unoptimized
                       sizes="100vw"
-                      className="object-cover object-center transition-transform duration-700 ease-out"
+                      className="object-contain object-center transition-transform duration-700 ease-out"
                     />
                   </div>
                 </Link>

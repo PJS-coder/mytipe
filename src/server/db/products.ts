@@ -32,6 +32,7 @@ const needsRefresh =
   !global.__mytipe_products__.some(
     (p) =>
       p.handle === "foot-alignment-socks" &&
+      p.title === "Pain Relief Socks" &&
       p.options?.some((o) => o.values?.includes("6 Pair"))
   );
 

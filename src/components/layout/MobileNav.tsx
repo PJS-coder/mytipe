@@ -196,7 +196,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
                   onClick={onClose}
                   className="block px-2.5 py-1.5 rounded-md hover:text-gray-950 hover:bg-gray-50 transition"
                 >
-                  Foot Alignment Socks
+                  Pain Relief Socks
                 </Link>
                 <Link
                   href="/collections/diabetic-socks"

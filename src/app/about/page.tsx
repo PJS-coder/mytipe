@@ -139,7 +139,7 @@ export default function AboutPage() {
             </div>
             <div className="p-4 space-y-1">
               <h3 className="font-bold text-slate-900 text-sm group-hover:text-[#2b76a6] transition">
-                Foot Alignment Socks
+                Pain Relief Socks
               </h3>
               <p className="text-xs text-slate-500 line-clamp-2">
                 5-toe separation designed to reduce bunions and arch pressure.

@@ -104,7 +104,7 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm text-zinc-300">
               <li>
                 <Link href="/products/foot-alignment-socks" className="hover:text-white transition">
-                  Foot Alignment Socks
+                  Pain Relief Socks
                 </Link>
               </li>
               <li>

@@ -195,7 +195,7 @@ export default function Navbar() {
                           href="/products/foot-alignment-socks"
                           className="block px-4 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:text-gray-950 hover:bg-slate-50 transition"
                         >
-                          Foot Alignment Socks
+                          Pain Relief Socks
                         </Link>
                         <Link
                           href="/collections/diabetic-socks"
